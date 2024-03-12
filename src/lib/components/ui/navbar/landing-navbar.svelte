@@ -1,12 +1,38 @@
 <script>
 	import * as Sheet from '$lib/components/ui/sheet';
+	import { onMount } from 'svelte';
 	import Button from '../button/button.svelte';
 	import ThemeToggle from '../toggle/theme-toggle.svelte';
+	import { cn } from '@/utils';
 	export let className = '';
+
+	// States
+	let scrolled = false;
+
+	// Constants
+	const scrolledStyle = 'shadow-sm bg-opacity-10 backdrop-blur-xl';
+	const defaultStyle = 'bg-opacity-0';
+
+	// If the scroll position is greater than 0, add a shadow to the navbar in svelte
+	onMount(() => {
+		scrolled = window.scrollY > 0;
+		const updateScroll = () => {
+			scrolled = window.scrollY > 0;
+		};
+		window.addEventListener('scroll', updateScroll);
+		return () => {
+			window.removeEventListener('scroll', updateScroll);
+		};
+	});
 </script>
 
 <Sheet.Root>
-	<nav class={`shadow-sm ${className.toString()}`}>
+	<nav
+		class={cn(
+			`fixed z-[1000] w-screen bg-slate-900 shadow-sm transition-all duration-200 ease-in ${className.toString()}`,
+			scrolled ? scrolledStyle : defaultStyle
+		)}
+	>
 		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 			<div class="flex h-16 items-center justify-between">
 				<div class="flex w-48 items-center">
