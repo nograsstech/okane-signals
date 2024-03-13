@@ -24,8 +24,9 @@ export function addNode(
 		...nodes,
 		{
 			id: String(nodes.length + 1),
-			position: { x: pageX, y: pageY },
+			position: { x: pageX, y: pageY - 120 },
 			data: { label: 'new' },
+			type: 'interactive-node',
 			...nodeDefaults
 		}
 	];

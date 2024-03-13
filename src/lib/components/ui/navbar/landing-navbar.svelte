@@ -29,7 +29,7 @@
 <Sheet.Root>
 	<nav
 		class={cn(
-			`fixed z-[1000] w-screen bg-slate-900 shadow-sm transition-all duration-200 ease-in ${className.toString()}`,
+			`fixed  w-screen bg-slate-900 shadow-sm transition-all duration-200 ease-in ${className.toString()}`,
 			scrolled ? scrolledStyle : defaultStyle
 		)}
 	>
