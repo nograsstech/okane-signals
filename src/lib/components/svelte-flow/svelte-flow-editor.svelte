@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { writable } from 'svelte/store';
 	import {
 		SvelteFlow,
 		Background,
@@ -8,55 +7,43 @@
 		useEdges,
 		MiniMap,
 		Position,
-		type Node,
-		type Edge,
-
 		type NodeTypes
-
 	} from '@xyflow/svelte';
 	import '@xyflow/svelte/dist/style.css';
 	import ColorPickerNode from '@/components/svelte-flow/ColorPickerNode.svelte';
 	import * as ContextMenu from '$lib/components/ui/context-menu';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import '@xyflow/svelte/dist/style.css';
-	import { addNode } from './svelteFlowUtils/nodeManipulation';
+	import { addNode, deleteNode } from './svelteFlowConfig/nodeManipulation';
 	import PlusIcon from 'lucide-svelte/icons/plus';
-	import {
-		SAMPLE_SVELTE_FLOW_DATA,
-		SAMPLE_SVELTE_FLOW_EDGE_DATA
-	} from '@/constants/sampleSvelteFlowData';
 	import { debounce } from '@/utils/debounce';
 	import InteractiveNode from './InteractiveNode.svelte';
+	import { nodes, edges, selectedContext, nodeContext } from '../../../store/ContextStore';
+	import { ContextMenuContext } from '@/enums/contextMenu';
+	import TickerNode from './TickerNode.svelte';
+	import type { OkaneNodeType } from '@/enums/nodeTypes';
+	import { nodeDefaults, nodeTypes } from './svelteFlowConfig/defaults';
+	import { OkaneNodeOptions } from './svelteFlowConfig/nodeOptions';
 
-	// Node types
-	const nodeTypes = {
-		'color-picker': ColorPickerNode,
-		'interactive-node': InteractiveNode
-	} as unknown as NodeTypes;
-
-	const nodeDefaults = {
-		sourcePosition: Position.Right,
-		targetPosition: Position.Left
+	const defaultEdgeOptions = {
+		animated: true
 	};
 
 	// States
 	let pageX = 0;
 	let pageY = 0;
 
-	const nodes = writable<Node[]>(
-		(JSON.parse(window.localStorage.getItem('editor-nodes') ?? '[]') as Node[]) ??
-			SAMPLE_SVELTE_FLOW_DATA
-	);
-	const edges = writable(
-		(JSON.parse(window.localStorage.getItem('editor-edges') ?? '[]') as Edge[]) ??
-			SAMPLE_SVELTE_FLOW_EDGE_DATA
-	);
 	const nodeData = useNodesData($nodes?.map((node) => node.id));
 	const edgesData = useEdges();
 
 	// Modify the nodes and edges
-	function onAddNode(e: MouseEvent) {
-		$nodes = addNode(e, $nodes, nodeDefaults, pageX, pageY);
+	function handleAddNode(type: string | OkaneNodeType) {
+		addNode(type, $nodes, {
+			...nodeDefaults,
+			data: {
+				dateCreated: new Date().toISOString()
+			}
+		}, pageX, pageY);
 	}
 
 	$: {
@@ -66,29 +53,52 @@
 			window.localStorage.setItem('editor-edges', JSON.stringify($edges));
 		}, 300);
 	}
+
+	function handleDeleteNode() {
+		deleteNode($nodeContext.id, $nodes);
+	}
+
+	function clickButton() {
+		selectedContext.set('canvas');
+	}
 </script>
 
 <svelte:window on:mousemove={(e) => ({ pageX, pageY } = e)} />
 <ContextMenu.Root>
 	<Sheet.Root>
 		<!-- SvelteFlow Editor Area -->
-		<ContextMenu.Trigger>
-			<main class="h-screen pt-16 text-black">
-				<SvelteFlow {nodes} {edges} {nodeTypes}>
-					<Background />
-					<Controls />
-					<MiniMap nodeStrokeWidth={3} />
-				</SvelteFlow>
-			</main>
-		</ContextMenu.Trigger>
+		<div role="button" tabindex={0} on:keyup={null} on:contextmenu={clickButton}>
+			<ContextMenu.Trigger>
+				<ContextMenu.Root>
+					<main class="h-screen pt-16 text-black">
+						<SvelteFlow {nodes} {edges} {nodeTypes} {defaultEdgeOptions}>
+							<Background />
+							<Controls />
+							<MiniMap nodeStrokeWidth={3} />
+						</SvelteFlow>
+					</main>
 
-		<!-- Context Menu -->
-		<ContextMenu.Content>
-			<ContextMenu.Item on:click={onAddNode}>
-				<PlusIcon />
-				Add Node
-			</ContextMenu.Item>
-		</ContextMenu.Content>
+					<!-- SvelteFlow Node Context Menu -->
+					{#if $selectedContext === ContextMenuContext.NODE}
+						<ContextMenu.Content>
+							<ContextMenu.Item on:click={handleDeleteNode}>Delete</ContextMenu.Item>
+						</ContextMenu.Content>
+					{/if}
+				</ContextMenu.Root>
+			</ContextMenu.Trigger>
+		</div>
+
+		<!-- SvelteFlow Canvas Context Menu -->
+		{#if $selectedContext === ContextMenuContext.CANVAS}
+			<ContextMenu.Content>
+				{#each OkaneNodeOptions as option}
+					<ContextMenu.Item on:click={() => handleAddNode(option.nodeType)}>
+						<svelte:component this={option.icon} class="h-4 w-4 mr-3" />
+						{option.label}</ContextMenu.Item
+					>
+				{/each}
+			</ContextMenu.Content>
+		{/if}
 
 		<!-- Sheets Content -->
 		<Sheet.Content>
@@ -99,7 +109,13 @@
 					data from our servers.
 				</Sheet.Description>
 			</Sheet.Header>
+			{#if $nodeContext && $nodeContext.data}
+				<div class="flex w-full justify-start">
+					<div class="w-full text-start">
+						{JSON.stringify($nodeContext.data).trim()}
+					</div>
+				</div>
+			{/if}
 		</Sheet.Content>
-
 	</Sheet.Root>
 </ContextMenu.Root>

@@ -1,4 +1,5 @@
 import type { Node, Position } from '@xyflow/svelte';
+import { nodes as nodesList } from '$lib/../store/ContextStore';
 
 /**
  * Adds a new node at the current mouse position.
@@ -11,23 +12,30 @@ import type { Node, Position } from '@xyflow/svelte';
  * @returns The new list of nodes.
  */
 export function addNode(
-	e: MouseEvent,
+	type: string,
 	nodes: Node[],
 	nodeDefaults: {
 		sourcePosition: Position;
 		targetPosition: Position;
+		data: { [label: string]: string };
 	},
 	pageX: number,
 	pageY: number
 ) {
-	return [
+	const result = [
 		...nodes,
 		{
 			id: String(nodes.length + 1),
 			position: { x: pageX, y: pageY - 120 },
-			data: { label: 'new' },
-			type: 'interactive-node',
+			type: type ?? 'interactive-node',
 			...nodeDefaults
 		}
 	];
+	nodesList.set(result)
+}
+
+export function deleteNode(nodeId: string, nodes: Node[]) {
+	const result = nodes.filter((node) => node.id !== nodeId);
+	nodesList.set(result)
+	return result
 }
