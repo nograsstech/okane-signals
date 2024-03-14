@@ -1,0 +1,33 @@
+/* SvelteFlow Custom Nodes */
+
+@keyframes Gradient {
+  0% {
+    background-position: 200% 0%;
+  }
+  25% {
+    background-position: 100% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.svelte-flow .ticker-node-source-handle {
+  background: linear-gradient(-90deg, green, black);
+  background-size: 200% 200%;
+  animation: Gradient 2s ease infinite;
+  height: 32px;
+  width: 12px;
+  border-radius: 6px;
+  border-width: 2px;
+}
+
+.svelte-flow .strategy-node-source-handle {
+  background: linear-gradient(-90deg, cyan, black);
+  background-size: 200% 200%;
+  animation: Gradient 2s ease infinite;
+  height: 32px;
+  width: 12px;
+  border-radius: 6px;
+  border-width: 2px;
+}

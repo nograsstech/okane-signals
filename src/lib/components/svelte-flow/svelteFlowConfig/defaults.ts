@@ -1,8 +1,9 @@
-import { Position, type NodeTypes } from '@xyflow/svelte';
-import ColorPickerNode from '../ColorPickerNode.svelte';
-import InteractiveNode from '../InteractiveNode.svelte';
-import TickerNode from '../TickerNode.svelte';
-import StrategyNode from '../StrategyNode.svelte';
+import { Position, type NodeTypes, type EdgeTypes } from '@xyflow/svelte';
+import ColorPickerNode from '../nodes/ColorPickerNode.svelte';
+import InteractiveNode from '../nodes/InteractiveNode.svelte';
+import TickerNode from '../nodes/TickerNode.svelte';
+import StrategyNode from '../nodes/StrategyNode.svelte';
+import SimpleFloatingEdge from '../edges/SimpleFloatingEdge.svelte';
 
 export const nodeTypes = {
 	'color-picker': ColorPickerNode,
@@ -10,6 +11,10 @@ export const nodeTypes = {
 	'ticker-node': TickerNode,
 	'strategy-node': StrategyNode
 } as unknown as NodeTypes;
+
+export const edgeTypes = {
+	floating: SimpleFloatingEdge
+} as unknown as EdgeTypes;
 
 export const nodeDefaults = {
 	sourcePosition: Position.Right,

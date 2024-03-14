@@ -1,3 +1,5 @@
+@import './lib/styles/svelteFlowNodeCustomization.pcss';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -117,4 +119,10 @@
 }
 .animate-gradient {
   animation: gradient-animation 20s ease infinite;
+}
+
+@layer base {
+  :root, .light {
+    background: #fff;
+  }
 }

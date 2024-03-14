@@ -5,7 +5,7 @@
 	import InteractiveNode from './InteractiveNode.svelte';
 
 	import * as Sheet from '$lib/components/ui/sheet';
-	import Button from '../ui/button/button.svelte';
+	import Button from '../../ui/button/button.svelte';
 
 	type $$Props = NodeProps;
 
@@ -40,9 +40,9 @@
 </script>
 
 <InteractiveNode {...$$props}>
-	<Handle type="target" position={Position.Left} class="h-8 w-2 rounded-sm  border-2" />
-	<div class="flex h-fit w-fit flex-col rounded-sm border border-black bg-slate-200 p-2">
-		<div>Ticker Node</div>
+	<Handle type="target" position={Position.Left} class="strategy-node-source-handle h-8 w-2 rounded-sm  border-2" />
+	<div class="flex justify-start items-start h-fit w-fit flex-col rounded-sm border border-black bg-slate-200 p-2">
+		<div>Strategy Node</div>
 		<Sheet.Trigger class="h-fit w-fit">
 			<Button variant="ghost" class="mt-2">View Details</Button>
 		</Sheet.Trigger>

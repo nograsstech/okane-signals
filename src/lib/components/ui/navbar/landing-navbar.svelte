@@ -10,7 +10,7 @@
 	let scrolled = false;
 
 	// Constants
-	const scrolledStyle = 'shadow-sm bg-opacity-10 backdrop-blur-xl';
+	const scrolledStyle = 'shadow-sm bg-opacity-40 backdrop-blur-2xl';
 	const defaultStyle = 'bg-opacity-0';
 
 	// If the scroll position is greater than 0, add a shadow to the navbar in svelte
@@ -29,7 +29,7 @@
 <Sheet.Root>
 	<nav
 		class={cn(
-			`fixed  w-screen bg-slate-900 shadow-sm transition-all duration-200 ease-in ${className.toString()}`,
+			`fixed w-screen bg-black shadow-sm transition-all duration-200 ease-in ${className.toString()}`,
 			scrolled ? scrolledStyle : defaultStyle
 		)}
 	>

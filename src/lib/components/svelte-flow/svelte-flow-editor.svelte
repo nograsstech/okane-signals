@@ -10,23 +10,25 @@
 		type NodeTypes
 	} from '@xyflow/svelte';
 	import '@xyflow/svelte/dist/style.css';
-	import ColorPickerNode from '@/components/svelte-flow/ColorPickerNode.svelte';
+	import ColorPickerNode from '@/components/svelte-flow/nodes/ColorPickerNode.svelte';
 	import * as ContextMenu from '$lib/components/ui/context-menu';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import '@xyflow/svelte/dist/style.css';
 	import { addNode, deleteNode } from './svelteFlowConfig/nodeManipulation';
 	import PlusIcon from 'lucide-svelte/icons/plus';
 	import { debounce } from '@/utils/debounce';
-	import InteractiveNode from './InteractiveNode.svelte';
+	import InteractiveNode from './nodes/InteractiveNode.svelte';
 	import { nodes, edges, selectedContext, nodeContext } from '../../../store/ContextStore';
 	import { ContextMenuContext } from '@/enums/contextMenu';
-	import TickerNode from './TickerNode.svelte';
+	import TickerNode from './nodes/TickerNode.svelte';
 	import type { OkaneNodeType } from '@/enums/nodeTypes';
-	import { nodeDefaults, nodeTypes } from './svelteFlowConfig/defaults';
+	import { nodeDefaults, nodeTypes, edgeTypes } from './svelteFlowConfig/defaults';
 	import { OkaneNodeOptions } from './svelteFlowConfig/nodeOptions';
+	import SimpleFloatingEdge from './edges/SimpleFloatingEdge.svelte';
 
 	const defaultEdgeOptions = {
-		animated: true
+		animated: true,
+		floating: SimpleFloatingEdge
 	};
 
 	// States
@@ -71,7 +73,7 @@
 			<ContextMenu.Trigger>
 				<ContextMenu.Root>
 					<main class="h-screen pt-16 text-black">
-						<SvelteFlow {nodes} {edges} {nodeTypes} {defaultEdgeOptions}>
+						<SvelteFlow {nodes} {edges} {nodeTypes} {edgeTypes} {defaultEdgeOptions}>
 							<Background />
 							<Controls />
 							<MiniMap nodeStrokeWidth={3} />
@@ -112,7 +114,7 @@
 			{#if $nodeContext && $nodeContext.data}
 				<div class="flex w-full justify-start">
 					<div class="w-full text-start">
-						{JSON.stringify($nodeContext.data).trim()}
+						{JSON.stringify($nodeContext).trim()}
 					</div>
 				</div>
 			{/if}

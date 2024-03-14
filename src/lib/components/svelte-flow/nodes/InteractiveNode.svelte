@@ -2,8 +2,8 @@
 	import { Handle, Position, type NodeProps, type Node } from '@xyflow/svelte';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import * as ContextMenu from '$lib/components/ui/context-menu';
-	import Button from '../ui/button/button.svelte';
-	import { nodeContext, selectedContext } from '../../../store/ContextStore';
+	import Button from '../../ui/button/button.svelte';
+	import { nodeContext, selectedContext } from '../../../../store/ContextStore';
 	import { cn } from '@/utils';
 
 	// Supress unknown props warnings
@@ -54,7 +54,7 @@
 </script>
 
 <div
-	class={cn('rounded-md border-2 border-opacity-0', selected && 'border-black border-opacity-100')}
+	class={cn('node rounded-md border-2 border-opacity-0', selected && 'border-black border-opacity-100')}
 >
 	<button
 		bind:this={buttonElement}
@@ -66,3 +66,14 @@
 		</ContextMenu.Trigger>
 	</button>
 </div>
+
+<style>
+  /* handing down scoped styles to child components not possible :(  */
+  /* https://github.com/sveltejs/svelte/issues/6972 */
+  /* :global(.svelte-flow .handle) {
+    background-color: #aaa;
+		height: 32px;
+		width: 8px;
+		border-radius: 4px;
+  } */
+</style>

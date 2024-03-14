@@ -41,10 +41,12 @@
   },
   "type": "module",
   "dependencies": {
+    "@rollup/plugin-json": "^6.1.0",
     "@sveltejs/adapter-cloudflare": "^4.1.0",
     "@xyflow/svelte": "^0.0.38",
-    "bits-ui": "^0.19.6",
+    "bits-ui": "^0.19.7",
     "clsx": "^2.1.0",
+    "cmdk-sv": "^0.0.15",
     "lodash": "^4.17.21",
     "lucide-svelte": "^0.353.0",
     "mode-watcher": "^0.2.2",

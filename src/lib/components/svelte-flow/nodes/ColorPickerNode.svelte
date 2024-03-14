@@ -3,7 +3,7 @@
 	import { Handle, Position, useSvelteFlow, type NodeProps } from '@xyflow/svelte';
 	import type { Writable } from 'svelte/store';
 	import * as Sheet from '$lib/components/ui/sheet';
-	import Button from '../ui/button/button.svelte';
+	import Button from '../../ui/button/button.svelte';
 
 	export let data: { color: Writable<string> };
 	export let id: $$Props['id'];
@@ -27,7 +27,7 @@
 </script>
 
 <div class="colorpicker">
-	<Handle type="target" position={Position.Left} />
+	<Handle type="source" position={Position.Left} />
 	<div class="h-fit w-fit flex flex-col rounded-sm border border-black bg-slate-200 p-2">
 		color: <strong>{$color}</strong>
 		<input class="nodrag" type="color" on:input={handleInput} value={$color} />
