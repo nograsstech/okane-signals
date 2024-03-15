@@ -54,7 +54,7 @@
 </script>
 
 <div
-	class={cn('node rounded-md border-2 border-opacity-0', selected && 'border-black border-opacity-100')}
+	class={cn('node rounded-sm overflow-hidden', selected && 'shadow-lg shadow-slate-500')}
 >
 	<button
 		bind:this={buttonElement}
@@ -66,14 +66,3 @@
 		</ContextMenu.Trigger>
 	</button>
 </div>
-
-<style>
-  /* handing down scoped styles to child components not possible :(  */
-  /* https://github.com/sveltejs/svelte/issues/6972 */
-  /* :global(.svelte-flow .handle) {
-    background-color: #aaa;
-		height: 32px;
-		width: 8px;
-		border-radius: 4px;
-  } */
-</style>
