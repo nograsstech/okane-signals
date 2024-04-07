@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { BacktestStats } from './BacktestStats';
+import {
+    BacktestStatsFromJSON,
+    BacktestStatsFromJSONTyped,
+    BacktestStatsToJSON,
+} from './BacktestStats';
+
 /**
  * 
  * @export
@@ -33,10 +40,10 @@ export interface BacktestResponseDTO {
     message: string;
     /**
      * 
-     * @type {object}
+     * @type {BacktestStats}
      * @memberof BacktestResponseDTO
      */
-    data?: object;
+    data: BacktestStats;
 }
 
 /**
@@ -45,6 +52,7 @@ export interface BacktestResponseDTO {
 export function instanceOfBacktestResponseDTO(value: object): boolean {
     if (!('status' in value)) return false;
     if (!('message' in value)) return false;
+    if (!('data' in value)) return false;
     return true;
 }
 
@@ -60,7 +68,7 @@ export function BacktestResponseDTOFromJSONTyped(json: any, ignoreDiscriminator:
         
         'status': json['status'],
         'message': json['message'],
-        'data': json['data'] == null ? undefined : json['data'],
+        'data': BacktestStatsFromJSON(json['data']),
     };
 }
 
@@ -72,7 +80,7 @@ export function BacktestResponseDTOToJSON(value?: BacktestResponseDTO | null): a
         
         'status': value['status'],
         'message': value['message'],
-        'data': value['data'],
+        'data': BacktestStatsToJSON(value['data']),
     };
 }
 

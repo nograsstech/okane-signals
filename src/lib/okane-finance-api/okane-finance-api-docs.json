@@ -315,11 +315,136 @@
 				"properties": {
 					"status": { "type": "integer", "title": "Status" },
 					"message": { "type": "string", "title": "Message" },
-					"data": { "type": "object", "title": "Data" }
+					"data": { "$ref": "#/components/schemas/BacktestStats" }
 				},
 				"type": "object",
-				"required": ["status", "message"],
+				"required": ["status", "message", "data"],
 				"title": "BacktestResponseDTO"
+			},
+			"BacktestStats": {
+				"properties": {
+					"ticker": { "anyOf": [{}, { "type": "null" }], "title": "Ticker" },
+					"max_drawdown_percentage": {
+						"anyOf": [{ "type": "number" }, { "type": "null" }],
+						"title": "Max Drawdown Percentage"
+					},
+					"start": { "anyOf": [{}, { "type": "null" }], "title": "Start" },
+					"end": { "anyOf": [{}, { "type": "null" }], "title": "End" },
+					"duration": { "anyOf": [{}, { "type": "null" }], "title": "Duration" },
+					"exposure_time_percentage": {
+						"anyOf": [{ "type": "number" }, { "type": "null" }],
+						"title": "Exposure Time Percentage"
+					},
+					"final_equity": {
+						"anyOf": [{ "type": "number" }, { "type": "null" }],
+						"title": "Final Equity"
+					},
+					"peak_equity": {
+						"anyOf": [{ "type": "number" }, { "type": "null" }],
+						"title": "Peak Equity"
+					},
+					"return_percentage": {
+						"anyOf": [{ "type": "number" }, { "type": "null" }],
+						"title": "Return Percentage"
+					},
+					"buy_and_hold_return": {
+						"anyOf": [{ "type": "number" }, { "type": "null" }],
+						"title": "Buy And Hold Return"
+					},
+					"return_annualized": {
+						"anyOf": [{ "type": "number" }, { "type": "null" }],
+						"title": "Return Annualized"
+					},
+					"volatility_annualized": {
+						"anyOf": [{ "type": "number" }, { "type": "null" }],
+						"title": "Volatility Annualized"
+					},
+					"sharpe_ratio": {
+						"anyOf": [{ "type": "number" }, { "type": "null" }],
+						"title": "Sharpe Ratio"
+					},
+					"sortino_ratio": {
+						"anyOf": [{ "type": "number" }, { "type": "null" }],
+						"title": "Sortino Ratio"
+					},
+					"calmar_ratio": {
+						"anyOf": [{ "type": "number" }, { "type": "null" }],
+						"title": "Calmar Ratio"
+					},
+					"average_drawdown_percentage": {
+						"anyOf": [{ "type": "number" }, { "type": "null" }],
+						"title": "Average Drawdown Percentage"
+					},
+					"max_drawdown_duration": {
+						"anyOf": [{}, { "type": "null" }],
+						"title": "Max Drawdown Duration"
+					},
+					"average_drawdown_duration": {
+						"anyOf": [{}, { "type": "null" }],
+						"title": "Average Drawdown Duration"
+					},
+					"trade_count": {
+						"anyOf": [{ "type": "integer" }, { "type": "null" }],
+						"title": "Trade Count"
+					},
+					"win_rate": { "anyOf": [{ "type": "number" }, { "type": "null" }], "title": "Win Rate" },
+					"best_trade": {
+						"anyOf": [{ "type": "number" }, { "type": "null" }],
+						"title": "Best Trade"
+					},
+					"worst_trade": {
+						"anyOf": [{ "type": "number" }, { "type": "null" }],
+						"title": "Worst Trade"
+					},
+					"avg_trade": {
+						"anyOf": [{ "type": "number" }, { "type": "null" }],
+						"title": "Avg Trade"
+					},
+					"max_trade_duration": {
+						"anyOf": [{}, { "type": "null" }],
+						"title": "Max Trade Duration"
+					},
+					"average_trade_duration": {
+						"anyOf": [{}, { "type": "null" }],
+						"title": "Average Trade Duration"
+					},
+					"profit_factor": {
+						"anyOf": [{ "type": "number" }, { "type": "null" }],
+						"title": "Profit Factor"
+					},
+					"html": { "anyOf": [{}, { "type": "null" }], "title": "Html" }
+				},
+				"type": "object",
+				"required": [
+					"ticker",
+					"max_drawdown_percentage",
+					"start",
+					"end",
+					"duration",
+					"exposure_time_percentage",
+					"final_equity",
+					"peak_equity",
+					"return_percentage",
+					"buy_and_hold_return",
+					"return_annualized",
+					"volatility_annualized",
+					"sharpe_ratio",
+					"sortino_ratio",
+					"calmar_ratio",
+					"average_drawdown_percentage",
+					"max_drawdown_duration",
+					"average_drawdown_duration",
+					"trade_count",
+					"win_rate",
+					"best_trade",
+					"worst_trade",
+					"avg_trade",
+					"max_trade_duration",
+					"average_trade_duration",
+					"profit_factor",
+					"html"
+				],
+				"title": "BacktestStats"
 			},
 			"HTTPValidationError": {
 				"properties": {
