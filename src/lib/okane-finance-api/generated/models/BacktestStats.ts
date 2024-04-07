@@ -13,169 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { AverageDrawdownDuration } from './AverageDrawdownDuration';
-import {
-    AverageDrawdownDurationFromJSON,
-    AverageDrawdownDurationFromJSONTyped,
-    AverageDrawdownDurationToJSON,
-} from './AverageDrawdownDuration';
-import type { AverageDrawdownPercentage } from './AverageDrawdownPercentage';
-import {
-    AverageDrawdownPercentageFromJSON,
-    AverageDrawdownPercentageFromJSONTyped,
-    AverageDrawdownPercentageToJSON,
-} from './AverageDrawdownPercentage';
-import type { AverageTradeDuration } from './AverageTradeDuration';
-import {
-    AverageTradeDurationFromJSON,
-    AverageTradeDurationFromJSONTyped,
-    AverageTradeDurationToJSON,
-} from './AverageTradeDuration';
-import type { AvgTrade } from './AvgTrade';
-import {
-    AvgTradeFromJSON,
-    AvgTradeFromJSONTyped,
-    AvgTradeToJSON,
-} from './AvgTrade';
-import type { BestTrade } from './BestTrade';
-import {
-    BestTradeFromJSON,
-    BestTradeFromJSONTyped,
-    BestTradeToJSON,
-} from './BestTrade';
-import type { BuyAndHoldReturn } from './BuyAndHoldReturn';
-import {
-    BuyAndHoldReturnFromJSON,
-    BuyAndHoldReturnFromJSONTyped,
-    BuyAndHoldReturnToJSON,
-} from './BuyAndHoldReturn';
-import type { CalmarRatio } from './CalmarRatio';
-import {
-    CalmarRatioFromJSON,
-    CalmarRatioFromJSONTyped,
-    CalmarRatioToJSON,
-} from './CalmarRatio';
-import type { Duration } from './Duration';
-import {
-    DurationFromJSON,
-    DurationFromJSONTyped,
-    DurationToJSON,
-} from './Duration';
-import type { End1 } from './End1';
-import {
-    End1FromJSON,
-    End1FromJSONTyped,
-    End1ToJSON,
-} from './End1';
-import type { ExposureTimePercentage } from './ExposureTimePercentage';
-import {
-    ExposureTimePercentageFromJSON,
-    ExposureTimePercentageFromJSONTyped,
-    ExposureTimePercentageToJSON,
-} from './ExposureTimePercentage';
-import type { FinalEquity } from './FinalEquity';
-import {
-    FinalEquityFromJSON,
-    FinalEquityFromJSONTyped,
-    FinalEquityToJSON,
-} from './FinalEquity';
-import type { Html } from './Html';
-import {
-    HtmlFromJSON,
-    HtmlFromJSONTyped,
-    HtmlToJSON,
-} from './Html';
-import type { MaxDrawdownDuration } from './MaxDrawdownDuration';
-import {
-    MaxDrawdownDurationFromJSON,
-    MaxDrawdownDurationFromJSONTyped,
-    MaxDrawdownDurationToJSON,
-} from './MaxDrawdownDuration';
-import type { MaxDrawdownPercentage } from './MaxDrawdownPercentage';
-import {
-    MaxDrawdownPercentageFromJSON,
-    MaxDrawdownPercentageFromJSONTyped,
-    MaxDrawdownPercentageToJSON,
-} from './MaxDrawdownPercentage';
-import type { MaxTradeDuration } from './MaxTradeDuration';
-import {
-    MaxTradeDurationFromJSON,
-    MaxTradeDurationFromJSONTyped,
-    MaxTradeDurationToJSON,
-} from './MaxTradeDuration';
-import type { PeakEquity } from './PeakEquity';
-import {
-    PeakEquityFromJSON,
-    PeakEquityFromJSONTyped,
-    PeakEquityToJSON,
-} from './PeakEquity';
-import type { ProfitFactor } from './ProfitFactor';
-import {
-    ProfitFactorFromJSON,
-    ProfitFactorFromJSONTyped,
-    ProfitFactorToJSON,
-} from './ProfitFactor';
-import type { ReturnAnnualized } from './ReturnAnnualized';
-import {
-    ReturnAnnualizedFromJSON,
-    ReturnAnnualizedFromJSONTyped,
-    ReturnAnnualizedToJSON,
-} from './ReturnAnnualized';
-import type { ReturnPercentage } from './ReturnPercentage';
-import {
-    ReturnPercentageFromJSON,
-    ReturnPercentageFromJSONTyped,
-    ReturnPercentageToJSON,
-} from './ReturnPercentage';
-import type { SharpeRatio } from './SharpeRatio';
-import {
-    SharpeRatioFromJSON,
-    SharpeRatioFromJSONTyped,
-    SharpeRatioToJSON,
-} from './SharpeRatio';
-import type { SortinoRatio } from './SortinoRatio';
-import {
-    SortinoRatioFromJSON,
-    SortinoRatioFromJSONTyped,
-    SortinoRatioToJSON,
-} from './SortinoRatio';
-import type { Start1 } from './Start1';
-import {
-    Start1FromJSON,
-    Start1FromJSONTyped,
-    Start1ToJSON,
-} from './Start1';
-import type { Ticker } from './Ticker';
-import {
-    TickerFromJSON,
-    TickerFromJSONTyped,
-    TickerToJSON,
-} from './Ticker';
-import type { TradeCount } from './TradeCount';
-import {
-    TradeCountFromJSON,
-    TradeCountFromJSONTyped,
-    TradeCountToJSON,
-} from './TradeCount';
-import type { VolatilityAnnualized } from './VolatilityAnnualized';
-import {
-    VolatilityAnnualizedFromJSON,
-    VolatilityAnnualizedFromJSONTyped,
-    VolatilityAnnualizedToJSON,
-} from './VolatilityAnnualized';
-import type { WinRate } from './WinRate';
-import {
-    WinRateFromJSON,
-    WinRateFromJSONTyped,
-    WinRateToJSON,
-} from './WinRate';
-import type { WorstTrade } from './WorstTrade';
-import {
-    WorstTradeFromJSON,
-    WorstTradeFromJSONTyped,
-    WorstTradeToJSON,
-} from './WorstTrade';
-
 /**
  * 
  * @export
@@ -184,166 +21,166 @@ import {
 export interface BacktestStats {
     /**
      * 
-     * @type {Ticker}
+     * @type {any}
      * @memberof BacktestStats
      */
-    ticker: Ticker;
+    ticker: any | null;
     /**
      * 
-     * @type {MaxDrawdownPercentage}
+     * @type {number}
      * @memberof BacktestStats
      */
-    maxDrawdownPercentage: MaxDrawdownPercentage;
+    maxDrawdownPercentage: number;
     /**
      * 
-     * @type {Start1}
+     * @type {any}
      * @memberof BacktestStats
      */
-    start: Start1;
+    start: any | null;
     /**
      * 
-     * @type {End1}
+     * @type {any}
      * @memberof BacktestStats
      */
-    end: End1;
+    end: any | null;
     /**
      * 
-     * @type {Duration}
+     * @type {any}
      * @memberof BacktestStats
      */
-    duration: Duration;
+    duration: any | null;
     /**
      * 
-     * @type {ExposureTimePercentage}
+     * @type {number}
      * @memberof BacktestStats
      */
-    exposureTimePercentage: ExposureTimePercentage;
+    exposureTimePercentage: number;
     /**
      * 
-     * @type {FinalEquity}
+     * @type {number}
      * @memberof BacktestStats
      */
-    finalEquity: FinalEquity;
+    finalEquity: number;
     /**
      * 
-     * @type {PeakEquity}
+     * @type {number}
      * @memberof BacktestStats
      */
-    peakEquity: PeakEquity;
+    peakEquity: number;
     /**
      * 
-     * @type {ReturnPercentage}
+     * @type {number}
      * @memberof BacktestStats
      */
-    returnPercentage: ReturnPercentage;
+    returnPercentage: number;
     /**
      * 
-     * @type {BuyAndHoldReturn}
+     * @type {number}
      * @memberof BacktestStats
      */
-    buyAndHoldReturn: BuyAndHoldReturn;
+    buyAndHoldReturn: number;
     /**
      * 
-     * @type {ReturnAnnualized}
+     * @type {number}
      * @memberof BacktestStats
      */
-    returnAnnualized: ReturnAnnualized;
+    returnAnnualized: number;
     /**
      * 
-     * @type {VolatilityAnnualized}
+     * @type {number}
      * @memberof BacktestStats
      */
-    volatilityAnnualized: VolatilityAnnualized;
+    volatilityAnnualized: number;
     /**
      * 
-     * @type {SharpeRatio}
+     * @type {number}
      * @memberof BacktestStats
      */
-    sharpeRatio: SharpeRatio;
+    sharpeRatio: number;
     /**
      * 
-     * @type {SortinoRatio}
+     * @type {number}
      * @memberof BacktestStats
      */
-    sortinoRatio: SortinoRatio;
+    sortinoRatio: number;
     /**
      * 
-     * @type {CalmarRatio}
+     * @type {number}
      * @memberof BacktestStats
      */
-    calmarRatio: CalmarRatio;
+    calmarRatio: number;
     /**
      * 
-     * @type {AverageDrawdownPercentage}
+     * @type {number}
      * @memberof BacktestStats
      */
-    averageDrawdownPercentage: AverageDrawdownPercentage;
+    averageDrawdownPercentage: number;
     /**
      * 
-     * @type {MaxDrawdownDuration}
+     * @type {any}
      * @memberof BacktestStats
      */
-    maxDrawdownDuration: MaxDrawdownDuration;
+    maxDrawdownDuration: any | null;
     /**
      * 
-     * @type {AverageDrawdownDuration}
+     * @type {any}
      * @memberof BacktestStats
      */
-    averageDrawdownDuration: AverageDrawdownDuration;
+    averageDrawdownDuration: any | null;
     /**
      * 
-     * @type {TradeCount}
+     * @type {number}
      * @memberof BacktestStats
      */
-    tradeCount: TradeCount;
+    tradeCount: number;
     /**
      * 
-     * @type {WinRate}
+     * @type {number}
      * @memberof BacktestStats
      */
-    winRate: WinRate;
+    winRate: number;
     /**
      * 
-     * @type {BestTrade}
+     * @type {number}
      * @memberof BacktestStats
      */
-    bestTrade: BestTrade;
+    bestTrade: number;
     /**
      * 
-     * @type {WorstTrade}
+     * @type {number}
      * @memberof BacktestStats
      */
-    worstTrade: WorstTrade;
+    worstTrade: number;
     /**
      * 
-     * @type {AvgTrade}
+     * @type {number}
      * @memberof BacktestStats
      */
-    avgTrade: AvgTrade;
+    avgTrade: number;
     /**
      * 
-     * @type {MaxTradeDuration}
+     * @type {any}
      * @memberof BacktestStats
      */
-    maxTradeDuration: MaxTradeDuration;
+    maxTradeDuration: any | null;
     /**
      * 
-     * @type {AverageTradeDuration}
+     * @type {any}
      * @memberof BacktestStats
      */
-    averageTradeDuration: AverageTradeDuration;
+    averageTradeDuration: any | null;
     /**
      * 
-     * @type {ProfitFactor}
+     * @type {number}
      * @memberof BacktestStats
      */
-    profitFactor: ProfitFactor;
+    profitFactor: number;
     /**
      * 
-     * @type {Html}
+     * @type {any}
      * @memberof BacktestStats
      */
-    html: Html;
+    html: any | null;
 }
 
 /**
@@ -390,33 +227,33 @@ export function BacktestStatsFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'ticker': TickerFromJSON(json['ticker']),
-        'maxDrawdownPercentage': MaxDrawdownPercentageFromJSON(json['max_drawdown_percentage']),
-        'start': Start1FromJSON(json['start']),
-        'end': End1FromJSON(json['end']),
-        'duration': DurationFromJSON(json['duration']),
-        'exposureTimePercentage': ExposureTimePercentageFromJSON(json['exposure_time_percentage']),
-        'finalEquity': FinalEquityFromJSON(json['final_equity']),
-        'peakEquity': PeakEquityFromJSON(json['peak_equity']),
-        'returnPercentage': ReturnPercentageFromJSON(json['return_percentage']),
-        'buyAndHoldReturn': BuyAndHoldReturnFromJSON(json['buy_and_hold_return']),
-        'returnAnnualized': ReturnAnnualizedFromJSON(json['return_annualized']),
-        'volatilityAnnualized': VolatilityAnnualizedFromJSON(json['volatility_annualized']),
-        'sharpeRatio': SharpeRatioFromJSON(json['sharpe_ratio']),
-        'sortinoRatio': SortinoRatioFromJSON(json['sortino_ratio']),
-        'calmarRatio': CalmarRatioFromJSON(json['calmar_ratio']),
-        'averageDrawdownPercentage': AverageDrawdownPercentageFromJSON(json['average_drawdown_percentage']),
-        'maxDrawdownDuration': MaxDrawdownDurationFromJSON(json['max_drawdown_duration']),
-        'averageDrawdownDuration': AverageDrawdownDurationFromJSON(json['average_drawdown_duration']),
-        'tradeCount': TradeCountFromJSON(json['trade_count']),
-        'winRate': WinRateFromJSON(json['win_rate']),
-        'bestTrade': BestTradeFromJSON(json['best_trade']),
-        'worstTrade': WorstTradeFromJSON(json['worst_trade']),
-        'avgTrade': AvgTradeFromJSON(json['avg_trade']),
-        'maxTradeDuration': MaxTradeDurationFromJSON(json['max_trade_duration']),
-        'averageTradeDuration': AverageTradeDurationFromJSON(json['average_trade_duration']),
-        'profitFactor': ProfitFactorFromJSON(json['profit_factor']),
-        'html': HtmlFromJSON(json['html']),
+        'ticker': json['ticker'],
+        'maxDrawdownPercentage': json['max_drawdown_percentage'],
+        'start': json['start'],
+        'end': json['end'],
+        'duration': json['duration'],
+        'exposureTimePercentage': json['exposure_time_percentage'],
+        'finalEquity': json['final_equity'],
+        'peakEquity': json['peak_equity'],
+        'returnPercentage': json['return_percentage'],
+        'buyAndHoldReturn': json['buy_and_hold_return'],
+        'returnAnnualized': json['return_annualized'],
+        'volatilityAnnualized': json['volatility_annualized'],
+        'sharpeRatio': json['sharpe_ratio'],
+        'sortinoRatio': json['sortino_ratio'],
+        'calmarRatio': json['calmar_ratio'],
+        'averageDrawdownPercentage': json['average_drawdown_percentage'],
+        'maxDrawdownDuration': json['max_drawdown_duration'],
+        'averageDrawdownDuration': json['average_drawdown_duration'],
+        'tradeCount': json['trade_count'],
+        'winRate': json['win_rate'],
+        'bestTrade': json['best_trade'],
+        'worstTrade': json['worst_trade'],
+        'avgTrade': json['avg_trade'],
+        'maxTradeDuration': json['max_trade_duration'],
+        'averageTradeDuration': json['average_trade_duration'],
+        'profitFactor': json['profit_factor'],
+        'html': json['html'],
     };
 }
 
@@ -426,33 +263,33 @@ export function BacktestStatsToJSON(value?: BacktestStats | null): any {
     }
     return {
         
-        'ticker': TickerToJSON(value['ticker']),
-        'max_drawdown_percentage': MaxDrawdownPercentageToJSON(value['maxDrawdownPercentage']),
-        'start': Start1ToJSON(value['start']),
-        'end': End1ToJSON(value['end']),
-        'duration': DurationToJSON(value['duration']),
-        'exposure_time_percentage': ExposureTimePercentageToJSON(value['exposureTimePercentage']),
-        'final_equity': FinalEquityToJSON(value['finalEquity']),
-        'peak_equity': PeakEquityToJSON(value['peakEquity']),
-        'return_percentage': ReturnPercentageToJSON(value['returnPercentage']),
-        'buy_and_hold_return': BuyAndHoldReturnToJSON(value['buyAndHoldReturn']),
-        'return_annualized': ReturnAnnualizedToJSON(value['returnAnnualized']),
-        'volatility_annualized': VolatilityAnnualizedToJSON(value['volatilityAnnualized']),
-        'sharpe_ratio': SharpeRatioToJSON(value['sharpeRatio']),
-        'sortino_ratio': SortinoRatioToJSON(value['sortinoRatio']),
-        'calmar_ratio': CalmarRatioToJSON(value['calmarRatio']),
-        'average_drawdown_percentage': AverageDrawdownPercentageToJSON(value['averageDrawdownPercentage']),
-        'max_drawdown_duration': MaxDrawdownDurationToJSON(value['maxDrawdownDuration']),
-        'average_drawdown_duration': AverageDrawdownDurationToJSON(value['averageDrawdownDuration']),
-        'trade_count': TradeCountToJSON(value['tradeCount']),
-        'win_rate': WinRateToJSON(value['winRate']),
-        'best_trade': BestTradeToJSON(value['bestTrade']),
-        'worst_trade': WorstTradeToJSON(value['worstTrade']),
-        'avg_trade': AvgTradeToJSON(value['avgTrade']),
-        'max_trade_duration': MaxTradeDurationToJSON(value['maxTradeDuration']),
-        'average_trade_duration': AverageTradeDurationToJSON(value['averageTradeDuration']),
-        'profit_factor': ProfitFactorToJSON(value['profitFactor']),
-        'html': HtmlToJSON(value['html']),
+        'ticker': value['ticker'],
+        'max_drawdown_percentage': value['maxDrawdownPercentage'],
+        'start': value['start'],
+        'end': value['end'],
+        'duration': value['duration'],
+        'exposure_time_percentage': value['exposureTimePercentage'],
+        'final_equity': value['finalEquity'],
+        'peak_equity': value['peakEquity'],
+        'return_percentage': value['returnPercentage'],
+        'buy_and_hold_return': value['buyAndHoldReturn'],
+        'return_annualized': value['returnAnnualized'],
+        'volatility_annualized': value['volatilityAnnualized'],
+        'sharpe_ratio': value['sharpeRatio'],
+        'sortino_ratio': value['sortinoRatio'],
+        'calmar_ratio': value['calmarRatio'],
+        'average_drawdown_percentage': value['averageDrawdownPercentage'],
+        'max_drawdown_duration': value['maxDrawdownDuration'],
+        'average_drawdown_duration': value['averageDrawdownDuration'],
+        'trade_count': value['tradeCount'],
+        'win_rate': value['winRate'],
+        'best_trade': value['bestTrade'],
+        'worst_trade': value['worstTrade'],
+        'avg_trade': value['avgTrade'],
+        'max_trade_duration': value['maxTradeDuration'],
+        'average_trade_duration': value['averageTradeDuration'],
+        'profit_factor': value['profitFactor'],
+        'html': value['html'],
     };
 }
 

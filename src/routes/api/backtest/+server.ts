@@ -1,6 +1,7 @@
 import { error } from '@sveltejs/kit';
 import { okaneClient } from '@/okane-finance-api/oakne-client.js';
 import { supabase } from '@/supabase/supabaseClient.js';
+import type { BacktestResponseDTO, BacktestStats } from '@/okane-finance-api/generated/index.js';
 
 /** @type {import('./$types').RequestHandler} */
 /**
@@ -19,7 +20,7 @@ export async function GET({ url }) {
 		error(400, 'Bad Request');
 	}
 
-	const backtest_data = await okaneClient.backtestSignalsBacktestGet({
+	const backtest_data: BacktestResponseDTO = await okaneClient.backtestSignalsBacktestGet({
 		ticker,
 		period,
 		interval,
@@ -27,20 +28,13 @@ export async function GET({ url }) {
 	});
 
 	try {
-		const { data, error: supabaseError } = await supabase
-			.from('okane_finance_backtest')
-			.upsert({
-				backtest_id: `${ticker}-${strategy}-${new Date().toLocaleDateString()}`,
-				ticker,
-				period,
-				interval,
-				strategy,
-				...backtest_data?.data?.stats
-			})
-			.select();
-			console.log({
-				data, supabaseError
-			})
+		const data = {
+			backtest_id: `${ticker}-${strategy}-${new Date().toLocaleDateString()}`,
+			period,
+			interval,
+			strategy,
+			...backtest_data.data
+		};
 	} catch (e) {
 		error(400, `Unable to save backtest data. Error: ${e}`);
 	}
