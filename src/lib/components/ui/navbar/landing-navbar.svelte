@@ -10,8 +10,8 @@
 	let scrolled = false;
 
 	// Constants
-	const scrolledStyle = 'shadow-sm bg-opacity-40 backdrop-blur-2xl';
-	const defaultStyle = 'bg-opacity-0';
+	const scrolledStyle = 'shadow-sm bg-opacity-80 backdrop-blur-xl';
+	const defaultStyle = 'bg-opacity-90';
 
 	// If the scroll position is greater than 0, add a shadow to the navbar in svelte
 	onMount(() => {
@@ -29,7 +29,7 @@
 <Sheet.Root>
 	<nav
 		class={cn(
-			`fixed w-screen bg-black shadow-sm transition-all duration-200 ease-in ${className.toString()}`,
+			`fixed w-screen bg-black shadow-sm transition-all duration-200 ease-in z-50 ${className.toString()}`,
 			scrolled ? scrolledStyle : defaultStyle
 		)}
 	>
@@ -42,6 +42,7 @@
 				</div>
 				<div class="hidden content-center items-center justify-center lg:flex lg:space-x-8">
 					<Button href="/examples/dashboard" variant="ghost">Overview</Button>
+					<Button href="/strategy" variant="ghost">Strategy</Button>
 					<Button href="/editor" variant="ghost">Editor</Button>
 					<Button href="/examples/dashboard" variant="ghost">Settings</Button>
 				</div>
@@ -91,6 +92,7 @@
 			</Sheet.Header>
 			<div class="space-y-1 px-2 pb-3 pt-2">
 				<Button href="/examples/dashboard" variant="ghost" class="w-full">Overview</Button>
+				<Button href="/strategy" variant="ghost" class="w-full">Strategy</Button>
 				<Button href="/editor" variant="ghost" class="w-full">Editor</Button>
 				<Button href="/examples/dashboard" variant="ghost" class="w-full">Settings</Button>
 			</div>
