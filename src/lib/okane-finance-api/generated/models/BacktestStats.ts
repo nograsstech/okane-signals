@@ -36,13 +36,13 @@ export interface BacktestStats {
      * @type {any}
      * @memberof BacktestStats
      */
-    start: any | null;
+    startTime: any | null;
     /**
      * 
      * @type {any}
      * @memberof BacktestStats
      */
-    end: any | null;
+    endTime: any | null;
     /**
      * 
      * @type {any}
@@ -189,8 +189,8 @@ export interface BacktestStats {
 export function instanceOfBacktestStats(value: object): boolean {
     if (!('ticker' in value)) return false;
     if (!('maxDrawdownPercentage' in value)) return false;
-    if (!('start' in value)) return false;
-    if (!('end' in value)) return false;
+    if (!('startTime' in value)) return false;
+    if (!('endTime' in value)) return false;
     if (!('duration' in value)) return false;
     if (!('exposureTimePercentage' in value)) return false;
     if (!('finalEquity' in value)) return false;
@@ -229,8 +229,8 @@ export function BacktestStatsFromJSONTyped(json: any, ignoreDiscriminator: boole
         
         'ticker': json['ticker'],
         'maxDrawdownPercentage': json['max_drawdown_percentage'],
-        'start': json['start'],
-        'end': json['end'],
+        'startTime': json['start_time'],
+        'endTime': json['end_time'],
         'duration': json['duration'],
         'exposureTimePercentage': json['exposure_time_percentage'],
         'finalEquity': json['final_equity'],
@@ -265,8 +265,8 @@ export function BacktestStatsToJSON(value?: BacktestStats | null): any {
         
         'ticker': value['ticker'],
         'max_drawdown_percentage': value['maxDrawdownPercentage'],
-        'start': value['start'],
-        'end': value['end'],
+        'start_time': value['startTime'],
+        'end_time': value['endTime'],
         'duration': value['duration'],
         'exposure_time_percentage': value['exposureTimePercentage'],
         'final_equity': value['finalEquity'],

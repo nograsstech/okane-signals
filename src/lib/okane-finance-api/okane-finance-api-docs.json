@@ -325,8 +325,8 @@
 				"properties": {
 					"ticker": { "title": "Ticker" },
 					"max_drawdown_percentage": { "type": "number", "title": "Max Drawdown Percentage" },
-					"start": { "title": "Start" },
-					"end": { "title": "End" },
+					"start_time": { "title": "Start Time" },
+					"end_time": { "title": "End Time" },
 					"duration": { "title": "Duration" },
 					"exposure_time_percentage": { "type": "number", "title": "Exposure Time Percentage" },
 					"final_equity": { "type": "number", "title": "Final Equity" },
@@ -358,8 +358,8 @@
 				"required": [
 					"ticker",
 					"max_drawdown_percentage",
-					"start",
-					"end",
+					"start_time",
+					"end_time",
 					"duration",
 					"exposure_time_percentage",
 					"final_equity",
