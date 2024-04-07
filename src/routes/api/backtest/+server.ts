@@ -1,7 +1,8 @@
 import { error } from '@sveltejs/kit';
 import { okaneClient } from '@/okane-finance-api/oakne-client.js';
-import { supabase } from '@/supabase/supabaseClient.js';
-import type { BacktestResponseDTO, BacktestStats } from '@/okane-finance-api/generated/index.js';
+import type { BacktestResponseDTO } from '@/okane-finance-api/generated/index.js';
+import { db } from '@/drizzle/db.js';
+import { backtestStats } from '@/drizzle/schema.js';
 
 /** @type {import('./$types').RequestHandler} */
 /**
@@ -29,19 +30,23 @@ export async function GET({ url }) {
 
 	try {
 		const data = {
-			backtest_id: `${ticker}-${strategy}-${new Date().toLocaleDateString()}`,
+			...backtest_data.data,
+			ticker: backtest_data.data.ticker,
+			strategy,
 			period,
 			interval,
-			strategy,
-			...backtest_data.data
-		};
+			start_time: backtest_data.data.startTime,
+			end_time: backtest_data.data.endTime,
+		} as unknown as typeof backtestStats.$inferInsert;
+
+		const result = await db.insert(backtestStats).values(data).returning();
+
+		if (!backtest_data) {
+			error(400, 'Bad Request');
+		}
+
+		return new Response(JSON.stringify(result));
 	} catch (e) {
 		error(400, `Unable to save backtest data. Error: ${e}`);
 	}
-
-	if (!backtest_data) {
-		error(400, 'Bad Request');
-	}
-
-	return new Response(JSON.stringify(backtest_data));
 }

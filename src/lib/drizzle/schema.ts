@@ -8,9 +8,12 @@ export const users = pgTable('users', {
 
 export const backtestStats = pgTable('backtest_stats', {
   ticker: text('ticker'),
+  strategy: text('strategy'),
+  period: text('period'),
+  interval: text('interval'),
   maxDrawdownPercentage: numeric('max_drawdown_percentage'),
-  start_time: text('start'),
-  end_time: text('end'),
+  start_time: text('start_time'),
+  end_time: text('end_time'),
   duration: text('duration'),
   exposureTimePercentage: numeric('exposure_time_percentage'),
   finalEquity: numeric('final_equity'),
