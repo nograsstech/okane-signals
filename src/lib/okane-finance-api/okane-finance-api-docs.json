@@ -1,0 +1,379 @@
+{
+	"openapi": "3.1.0",
+	"info": { "title": "FastAPI", "version": "0.1.0" },
+	"paths": {
+		"/news/": {
+			"get": {
+				"tags": ["news"],
+				"summary": "Archive Ticker News",
+				"operationId": "archive_ticker_news_news__get",
+				"parameters": [
+					{
+						"name": "from_date",
+						"in": "query",
+						"required": true,
+						"schema": { "type": "string", "title": "From Date" }
+					},
+					{
+						"name": "to_date",
+						"in": "query",
+						"required": true,
+						"schema": { "type": "string", "title": "To Date" }
+					},
+					{
+						"name": "tickers",
+						"in": "query",
+						"required": false,
+						"schema": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Tickers" }
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"anyOf": [{ "type": "integer" }, { "type": "null" }],
+							"default": 1000,
+							"title": "Limit"
+						}
+					},
+					{
+						"name": "sort",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"anyOf": [{ "type": "string" }, { "type": "null" }],
+							"default": "RELEVANCE",
+							"title": "Sort"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/AlphaVantageNewsResponseDTO" }
+							}
+						}
+					},
+					"404": { "description": "Not found" },
+					"422": {
+						"description": "Validation Error",
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+							}
+						}
+					}
+				}
+			}
+		},
+		"/news/6h": {
+			"get": {
+				"tags": ["news"],
+				"summary": "Archive Ticker News",
+				"operationId": "archive_ticker_news_news_6h_get",
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"content": { "application/json": { "schema": {} } }
+					},
+					"404": { "description": "Not found" }
+				}
+			}
+		},
+		"/tickers/history": {
+			"get": {
+				"tags": ["tickers"],
+				"summary": "Archieve Ticker Price History",
+				"operationId": "archieve_ticker_price_history_tickers_history_get",
+				"parameters": [
+					{
+						"name": "ticker",
+						"in": "query",
+						"required": true,
+						"schema": { "type": "string", "title": "Ticker" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"content": {
+							"application/json": { "schema": { "$ref": "#/components/schemas/TickerResponseDTO" } }
+						}
+					},
+					"404": { "description": "Not found" },
+					"422": {
+						"description": "Validation Error",
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+							}
+						}
+					}
+				}
+			}
+		},
+		"/tickers/info": {
+			"get": {
+				"tags": ["tickers"],
+				"summary": "Achieve Ticker Info",
+				"operationId": "achieve_ticker_info_tickers_info_get",
+				"parameters": [
+					{
+						"name": "ticker",
+						"in": "query",
+						"required": true,
+						"schema": { "type": "string", "title": "Ticker" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"content": {
+							"application/json": { "schema": { "$ref": "#/components/schemas/TickerResponseDTO" } }
+						}
+					},
+					"404": { "description": "Not found" },
+					"422": {
+						"description": "Validation Error",
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+							}
+						}
+					}
+				}
+			}
+		},
+		"/signals/": {
+			"get": {
+				"tags": ["signals"],
+				"summary": "Get Signals",
+				"operationId": "get_signals_signals__get",
+				"security": [{ "HTTPBasic": [] }],
+				"parameters": [
+					{
+						"name": "ticker",
+						"in": "query",
+						"required": true,
+						"schema": { "type": "string", "title": "Ticker" }
+					},
+					{
+						"name": "period",
+						"in": "query",
+						"required": false,
+						"schema": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Period" }
+					},
+					{
+						"name": "interval",
+						"in": "query",
+						"required": true,
+						"schema": { "type": "string", "title": "Interval" }
+					},
+					{
+						"name": "strategy",
+						"in": "query",
+						"required": false,
+						"schema": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Strategy" }
+					},
+					{
+						"name": "parameters",
+						"in": "query",
+						"required": false,
+						"schema": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Parameters" }
+					},
+					{
+						"name": "start",
+						"in": "query",
+						"required": false,
+						"schema": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Start" }
+					},
+					{
+						"name": "end",
+						"in": "query",
+						"required": false,
+						"schema": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "End" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"content": {
+							"application/json": { "schema": { "$ref": "#/components/schemas/SignalResponseDTO" } }
+						}
+					},
+					"404": { "description": "Not found" },
+					"422": {
+						"description": "Validation Error",
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+							}
+						}
+					}
+				}
+			}
+		},
+		"/signals/backtest": {
+			"get": {
+				"tags": ["signals"],
+				"summary": "Backtest",
+				"operationId": "backtest_signals_backtest_get",
+				"parameters": [
+					{
+						"name": "ticker",
+						"in": "query",
+						"required": true,
+						"schema": { "type": "string", "title": "Ticker" }
+					},
+					{
+						"name": "period",
+						"in": "query",
+						"required": false,
+						"schema": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Period" }
+					},
+					{
+						"name": "interval",
+						"in": "query",
+						"required": true,
+						"schema": { "type": "string", "title": "Interval" }
+					},
+					{
+						"name": "strategy",
+						"in": "query",
+						"required": false,
+						"schema": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Strategy" }
+					},
+					{
+						"name": "parameters",
+						"in": "query",
+						"required": false,
+						"schema": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Parameters" }
+					},
+					{
+						"name": "start",
+						"in": "query",
+						"required": false,
+						"schema": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Start" }
+					},
+					{
+						"name": "end",
+						"in": "query",
+						"required": false,
+						"schema": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "End" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/BacktestResponseDTO" }
+							}
+						}
+					},
+					"404": { "description": "Not found" },
+					"422": {
+						"description": "Validation Error",
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+							}
+						}
+					}
+				}
+			}
+		},
+		"/": {
+			"get": {
+				"summary": "Read Root",
+				"operationId": "read_root__get",
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"content": {
+							"application/json": { "schema": { "$ref": "#/components/schemas/RootResponse" } }
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"AlphaVantageNewsResponseDTO": {
+				"properties": {
+					"status": { "type": "integer", "title": "Status" },
+					"message": { "type": "string", "title": "Message" }
+				},
+				"type": "object",
+				"required": ["status", "message"],
+				"title": "AlphaVantageNewsResponseDTO"
+			},
+			"BacktestResponseDTO": {
+				"properties": {
+					"status": { "type": "integer", "title": "Status" },
+					"message": { "type": "string", "title": "Message" },
+					"data": { "type": "object", "title": "Data" }
+				},
+				"type": "object",
+				"required": ["status", "message"],
+				"title": "BacktestResponseDTO"
+			},
+			"HTTPValidationError": {
+				"properties": {
+					"detail": {
+						"items": { "$ref": "#/components/schemas/ValidationError" },
+						"type": "array",
+						"title": "Detail"
+					}
+				},
+				"type": "object",
+				"title": "HTTPValidationError"
+			},
+			"RootResponse": {
+				"properties": {
+					"status": { "type": "integer", "title": "Status" },
+					"message": { "type": "string", "title": "Message" }
+				},
+				"type": "object",
+				"required": ["status", "message"],
+				"title": "RootResponse"
+			},
+			"SignalResponseDTO": {
+				"properties": {
+					"status": { "type": "integer", "title": "Status" },
+					"message": { "type": "string", "title": "Message" }
+				},
+				"type": "object",
+				"required": ["status", "message"],
+				"title": "SignalResponseDTO"
+			},
+			"TickerResponseDTO": {
+				"properties": {
+					"status": { "type": "integer", "title": "Status" },
+					"message": { "type": "string", "title": "Message" }
+				},
+				"type": "object",
+				"required": ["status", "message"],
+				"title": "TickerResponseDTO"
+			},
+			"ValidationError": {
+				"properties": {
+					"loc": {
+						"items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+						"type": "array",
+						"title": "Location"
+					},
+					"msg": { "type": "string", "title": "Message" },
+					"type": { "type": "string", "title": "Error Type" }
+				},
+				"type": "object",
+				"required": ["loc", "msg", "type"],
+				"title": "ValidationError"
+			}
+		},
+		"securitySchemes": { "HTTPBasic": { "type": "http", "scheme": "basic" } }
+	}
+}

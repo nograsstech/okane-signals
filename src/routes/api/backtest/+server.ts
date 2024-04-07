@@ -1,9 +1,5 @@
 import { error } from '@sveltejs/kit';
-import {
-	VITE_OKANE_FINANCE_API_URL,
-	VITE_OKANE_FINANCE_API_USER,
-	VITE_OKANE_FINANCE_API_PASSWORD
-} from '$env/static/private';
+import { okaneClient } from '@/okane-finance-api/oakne-client.js';
 
 /** @type {import('./$types').RequestHandler} */
 /**
@@ -22,27 +18,12 @@ export async function GET({ url }) {
 		error(400, 'Bad Request');
 	}
 
-	const okaneBaseURL = `${VITE_OKANE_FINANCE_API_URL}`;
-	const okaneUser = `${VITE_OKANE_FINANCE_API_USER}`;
-	const okanePassword = `${VITE_OKANE_FINANCE_API_PASSWORD}`;
-
-	const fetchURL =
-		`${okaneBaseURL}/signals/backtest?` +
-		new URLSearchParams({
-			ticker,
-			period,
-			interval,
-			strategy
-		});
-	console.log(fetchURL)
-	const backtest = await fetch(fetchURL, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: 'Basic ' + btoa(`${okaneUser}:${okanePassword}`)
-		}
+	const backtest_data = await okaneClient.backtestSignalsBacktestGet({
+		ticker,
+		period,
+		interval,
+		strategy
 	});
-	const backtest_data = await backtest.json();
 
 	if (!backtest_data) {
 		error(400, 'Bad Request');
