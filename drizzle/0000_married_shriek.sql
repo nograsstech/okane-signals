@@ -1,0 +1,40 @@
+CREATE TABLE IF NOT EXISTS "backtest_stats" (
+	"ticker" text,
+	"strategy" text,
+	"period" text,
+	"interval" text,
+	"max_drawdown_percentage" numeric,
+	"start_time" text,
+	"end_time" text,
+	"duration" text,
+	"exposure_time_percentage" numeric,
+	"final_equity" numeric,
+	"peak_equity" numeric,
+	"return_percentage" numeric,
+	"buy_and_hold_return" numeric,
+	"return_annualized" numeric,
+	"volatility_annualized" numeric,
+	"sharpe_ratio" numeric,
+	"sortino_ratio" numeric,
+	"calmar_ratio" numeric,
+	"average_drawdown_percentage" numeric,
+	"max_drawdown_duration" text,
+	"average_drawdown_duration" text,
+	"trade_count" numeric,
+	"win_rate" numeric,
+	"best_trade" numeric,
+	"worst_trade" numeric,
+	"avg_trade" numeric,
+	"max_trade_duration" text,
+	"average_trade_duration" text,
+	"profit_factor" numeric,
+	"html" text,
+	"created_at" timestamp,
+	"test" text
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "users" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"full_name" text,
+	"phone" varchar(256)
+);

@@ -1,8 +1,9 @@
-import { error } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
 import { okaneClient } from '@/okane-finance-api/oakne-client.js';
 import type { BacktestResponseDTO } from '@/okane-finance-api/generated/index.js';
 import { db } from '@/drizzle/db.js';
 import { backtestStats } from '@/drizzle/schema.js';
+import { and, desc, eq } from 'drizzle-orm';
 
 /** @type {import('./$types').RequestHandler} */
 /**
@@ -21,14 +22,42 @@ export async function GET({ url }) {
 		error(400, 'Bad Request');
 	}
 
-	const backtest_data: BacktestResponseDTO = await okaneClient.backtestSignalsBacktestGet({
-		ticker,
-		period,
-		interval,
-		strategy
-	});
+	// Fetch for existing backtest data using ticker, strategy, period, and interval
+	const existingBacktestData = await db
+		.select()
+		.from(backtestStats)
+		.where(
+			and(
+				eq(backtestStats.ticker, ticker),
+				eq(backtestStats.period, period),
+				eq(backtestStats.interval, interval),
+				eq(backtestStats.strategy, strategy)
+			)
+		)
+		.orderBy(desc(backtestStats.created_at))
+		.limit(1);
+
+	const today = new Date();
+	today.setHours(0, 0, 0, 0); // set the time to 00:00:00
+
+	const createdAt = existingBacktestData[0]?.created_at;
+	if (createdAt) {
+		createdAt.setHours(0, 0, 0, 0); // set the time to 00:00:00
+	}
+
+	if (existingBacktestData.length && createdAt && +createdAt === +today) {
+		return json(existingBacktestData);
+	}
 
 	try {
+		const backtest_data: BacktestResponseDTO = await okaneClient.backtestSignalsBacktestGet({
+			ticker,
+			period,
+			interval,
+			strategy
+		});
+
+		// Save the backtest data to the database
 		const data = {
 			...backtest_data.data,
 			ticker: backtest_data.data.ticker,
@@ -36,7 +65,7 @@ export async function GET({ url }) {
 			period,
 			interval,
 			start_time: backtest_data.data.startTime,
-			end_time: backtest_data.data.endTime,
+			end_time: backtest_data.data.endTime
 		} as unknown as typeof backtestStats.$inferInsert;
 
 		const result = await db.insert(backtestStats).values(data).returning();

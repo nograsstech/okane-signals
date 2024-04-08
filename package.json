@@ -12,7 +12,10 @@
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
     "test:integration": "playwright test",
-    "test:unit": "vitest"
+    "test:unit": "vitest",
+    "db:studio": "drizzle-kit studio --config drizzle.config.ts",
+    "db:generate": "drizzle-kit generate:pg --config drizzle.config.ts",
+    "db:migrate": "drizzle-kit push:pg --config drizzle.config.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.28.1",
@@ -34,6 +37,7 @@
     "prettier-plugin-tailwindcss": "^0.5.9",
     "svelte": "^4.2.7",
     "svelte-check": "^3.6.0",
+    "svelte-headless-table": "^0.18.2",
     "tailwindcss": "^3.3.6",
     "tslib": "^2.4.1",
     "typescript": "^5.0.0",
@@ -49,6 +53,7 @@
     "bits-ui": "^0.19.7",
     "clsx": "^2.1.0",
     "cmdk-sv": "^0.0.15",
+    "dotenv": "^16.4.5",
     "drizzle-orm": "^0.30.7",
     "lodash": "^4.17.21",
     "lucide-svelte": "^0.353.0",

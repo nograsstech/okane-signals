@@ -1,0 +1,1 @@
+ALTER TABLE "backtest_stats" ALTER COLUMN "created_at" SET DEFAULT now();

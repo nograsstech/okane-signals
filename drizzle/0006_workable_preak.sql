@@ -1,0 +1,1 @@
+ALTER TABLE "backtest_stats" ADD COLUMN "test" text;
