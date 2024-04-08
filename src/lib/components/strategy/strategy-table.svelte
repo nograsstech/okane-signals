@@ -1,3 +1,4 @@
+<!-- MARK: Script -->
 <script lang="ts">
 	import { createTable, Render, Subscribe } from 'svelte-headless-table';
 	import { addPagination, addSortBy, addTableFilter } from 'svelte-headless-table/plugins';
@@ -5,126 +6,61 @@
 	import * as Table from '$lib/components/ui/table';
 	import { Button } from '$lib/components/ui/button';
 	import ArrowUpDown from 'lucide-svelte/icons/arrow-up-down';
-  import { Input } from "$lib/components/ui/input";
+	import { Input } from '$lib/components/ui/input';
+	import type { KeyStrategyBacktestStats } from '@/interfaces/strategy';
 
-
-	type Payment = {
-		id: string;
-		amount: number;
-		status: 'pending' | 'processing' | 'success' | 'failed';
-		email: string;
-	};
-
-	const data: Payment[] = [
-		{
-			id: 'm5gr84i9',
-			amount: 316,
-			status: 'success',
-			email: 'ken99@yahoo.com'
-		},
-		{
-			id: 'a8hj76k2',
-			amount: 512,
-			status: 'success',
-			email: 'john.doe@example.com'
-		},
-		{
-			id: 'b3nm45p7',
-			amount: 128,
-			status: 'failed',
-			email: 'jane.smith@example.com'
-		},
-		{
-			id: 'z9xy12w3',
-			amount: 256,
-			status: 'processing',
-			email: 'test@example.com'
-		},
-		{
-			id: 'z9xy12w3',
-			amount: 256,
-			status: 'processing',
-			email: 'test@example.com'
-		},
-		{
-			id: 'z9xy12w3',
-			amount: 256,
-			status: 'processing',
-			email: 'test@example.com'
-		},
-		{
-			id: 'z9xy12w3',
-			amount: 256,
-			status: 'processing',
-			email: 'test@example.com'
-		},
-		{
-			id: 'z9xy12w3',
-			amount: 256,
-			status: 'processing',
-			email: 'test@example.com'
-		},
-		{
-			id: 'z9xy12w3',
-			amount: 256,
-			status: 'processing',
-			email: 'test@example.com'
-		},
-		{
-			id: 'z9xy12w3',
-			amount: 256,
-			status: 'processing',
-			email: 'test@example.com'
-		},
-		{
-			id: 'z9xy12w3',
-			amount: 256,
-			status: 'processing',
-			email: 'test@example.com'
-		},
-		{
-			id: 'q7we89r4',
-			amount: 64,
-			status: 'pending',
-			email: 'user@example.com'
-		}
-	];
+	export let data: KeyStrategyBacktestStats[];
 
 	const table = createTable(readable(data), {
 		page: addPagination(),
 		sort: addSortBy(),
 		filter: addTableFilter({
-      fn: ({ filterValue, value }) =>
-        value.toLowerCase().includes(filterValue.toLowerCase()),
-    }),
-
+			fn: ({ filterValue, value }) => value.toLowerCase().includes(filterValue.toLowerCase())
+		})
 	});
 
 	const columns = table.createColumns([
 		table.column({
-			accessor: 'id',
-			header: 'ID'
-			// plugins: {
-			// 	sort: {
-			// 		disable: true
-			// 	}
-			// }
+			accessor: 'strategy',
+			header: 'Strategy'
 		}),
 		table.column({
-			accessor: 'status',
-			header: 'Status'
+			accessor: 'ticker',
+			header: 'Ticker'
 		}),
 		table.column({
-			accessor: 'email',
-			header: 'Email'
+			accessor: 'period',
+			header: 'Period'
 		}),
 		table.column({
-			accessor: 'amount',
-			header: 'Amount',
+			accessor: 'interval',
+			header: 'Interval'
+		}),
+		table.column({
+			accessor: 'returnPercentage',
+			header: 'Return %',
 			plugins: {
 				filter: {
-          exclude: true,
-        },
+					exclude: true
+				}
+			}
+		}),
+		table.column({
+			accessor: 'averageDrawdownPercentage',
+			header: 'Avg. Drawdown %',
+			plugins: {
+				filter: {
+					exclude: true
+				}
+			}
+		}),
+		table.column({
+			accessor: 'sharpeRatio',
+			header: 'Share Ratio',
+			plugins: {
+				filter: {
+					exclude: true
+				}
 			}
 		})
 	]);
@@ -133,20 +69,14 @@
 		table.createViewModel(columns);
 	const { pageSize, pageIndex, pageCount, hasPreviousPage, hasNextPage } = pluginStates.page;
 	const { filterValue } = pluginStates.filter;
-
 </script>
 
 <!-- MARK: Template -->
 <div class="mt-8">
 	<h2 class="text-4xl">Trading Strategies</h2>
 	<div class="flex items-center py-4">
-    <Input
-      class="max-w-sm"
-      placeholder="Filter emails..."
-      type="text"
-      bind:value={$filterValue}
-    />
-  </div>
+		<Input class="max-w-sm" placeholder="Filter emails..." type="text" bind:value={$filterValue} />
+	</div>
 	<div class="rounded-md border">
 		<Table.Root {...$tableAttrs}>
 			<Table.Header>
