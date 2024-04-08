@@ -29,7 +29,7 @@
 <Sheet.Root>
 	<nav
 		class={cn(
-			`fixed w-screen bg-black shadow-sm transition-all duration-200 ease-in z-50 ${className.toString()}`,
+			`fixed w-screen bg-primary-foreground shadow-sm transition-all duration-200 ease-in z-50 ${className.toString()}`,
 			scrolled ? scrolledStyle : defaultStyle
 		)}
 	>
@@ -41,10 +41,8 @@
 					</a>
 				</div>
 				<div class="hidden content-center items-center justify-center lg:flex lg:space-x-8">
-					<Button href="/examples/dashboard" variant="ghost">Overview</Button>
 					<Button href="/strategy" variant="ghost">Strategy</Button>
 					<Button href="/editor" variant="ghost">Editor</Button>
-					<Button href="/examples/dashboard" variant="ghost">Settings</Button>
 				</div>
 				<div class="flex w-48 items-center justify-end gap-4">
 					<ThemeToggle />
@@ -91,10 +89,8 @@
 				</Sheet.Description>
 			</Sheet.Header>
 			<div class="space-y-1 px-2 pb-3 pt-2">
-				<Button href="/examples/dashboard" variant="ghost" class="w-full">Overview</Button>
 				<Button href="/strategy" variant="ghost" class="w-full">Strategy</Button>
 				<Button href="/editor" variant="ghost" class="w-full">Editor</Button>
-				<Button href="/examples/dashboard" variant="ghost" class="w-full">Settings</Button>
 			</div>
 		</Sheet.Content>
 	</nav>
