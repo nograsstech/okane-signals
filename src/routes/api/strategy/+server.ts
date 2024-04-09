@@ -17,6 +17,24 @@ export async function GET({ url }) {
 	const period = url.searchParams.get('period') ?? '';
 	const interval = url.searchParams.get('interval') ?? '';
 	const strategy = url.searchParams.get('strategy') ?? '';
+	const strategyID = url.searchParams.get('id') ?? '';
+
+	if (strategyID) {
+		const strategy = await db
+			.select()
+			.from(backtestStats)
+			.where(and(
+				eq(backtestStats.id, Number(strategyID)) // Convert strategyID to number
+			))
+			.limit(1);
+
+		if (!strategy.length) {
+			error(404, 'Not Found');
+		}
+
+		return json(strategy);
+	
+	}
 
 	if (!ticker || !period || !interval || !strategy) {
 		error(400, 'Bad Request');

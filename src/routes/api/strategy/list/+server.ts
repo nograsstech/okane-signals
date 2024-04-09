@@ -5,6 +5,7 @@ import { json } from '@sveltejs/kit';
 export async function GET() {
 	const strategyList = await db
 		.selectDistinct({
+			id: backtestStats.id,
 			ticker: backtestStats.ticker,
 			strategy: backtestStats.strategy,
 			period: backtestStats.period,

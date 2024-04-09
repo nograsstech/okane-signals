@@ -1,6 +1,6 @@
 <!-- MARK: Script -->
 <script lang="ts">
-	import { createTable, Render, Subscribe } from 'svelte-headless-table';
+	import { BodyRow, createTable, DataBodyRow, Render, Subscribe } from 'svelte-headless-table';
 	import { addPagination, addSortBy, addTableFilter } from 'svelte-headless-table/plugins';
 	import { readable } from 'svelte/store';
 	import * as Table from '$lib/components/ui/table';
@@ -8,6 +8,7 @@
 	import ArrowUpDown from 'lucide-svelte/icons/arrow-up-down';
 	import { Input } from '$lib/components/ui/input';
 	import type { KeyStrategyBacktestStats } from '@/interfaces/strategy';
+	import { goto } from '$app/navigation';
 
 	export let data: KeyStrategyBacktestStats[];
 
@@ -69,6 +70,12 @@
 		table.createViewModel(columns);
 	const { pageSize, pageIndex, pageCount, hasPreviousPage, hasNextPage } = pluginStates.page;
 	const { filterValue } = pluginStates.filter;
+
+	const handleClick = (row: any) => {
+		row = row as DataBodyRow<KeyStrategyBacktestStats>;
+
+			window.open(`/strategy/${row.original.id}`, "_blank");
+	};
 </script>
 
 <!-- MARK: Template -->
@@ -100,9 +107,9 @@
 			<Table.Body {...$tableBodyAttrs}>
 				{#each $pageRows as row (row.id)}
 					<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-						<Table.Row {...rowAttrs}>
+						<Table.Row {...rowAttrs} on:click={() => handleClick(row)}>
 							{#each row.cells as cell (cell.id)}
-								<Subscribe attrs={cell.attrs()} let:attrs>
+								<Subscribe attrs={cell.attrs()} let:attrs >
 									<Table.Cell {...attrs} class="">
 										<div class="pl-4">
 											<Render of={cell.render()} />

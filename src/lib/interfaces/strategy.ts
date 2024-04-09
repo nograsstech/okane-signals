@@ -10,8 +10,10 @@ type BacktestStatPicked = Pick<
 	| 'sharpeRatio'
 	| 'sortinoRatio'
 	| 'calmarRatio'
+	| 'html'
 >;
 export interface KeyStrategyBacktestStats extends BacktestStatPicked {
+	id: string;
 	strategy: string;
 	period: string;
 	interval: string;
