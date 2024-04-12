@@ -38,5 +38,6 @@ export const backtestStats = pgTable('backtest_stats', {
 	averageTradeDuration: text('average_trade_duration'),
 	profitFactor: numeric('profit_factor'),
 	html: text('html'),
-	created_at: timestamp('created_at').defaultNow()
+	created_at: timestamp('created_at').defaultNow(),
+	ref_id: text('ref_id')
 });

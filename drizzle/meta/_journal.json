@@ -64,6 +64,13 @@
       "when": 1712591812608,
       "tag": "0008_reflective_gunslinger",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1712936789559,
+      "tag": "0009_open_wild_child",
+      "breakpoints": true
     }
   ]
 }

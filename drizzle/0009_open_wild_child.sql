@@ -1,0 +1,1 @@
+ALTER TABLE "backtest_stats" ADD COLUMN "ref_id" text;

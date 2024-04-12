@@ -1,0 +1,252 @@
+{
+  "id": "5eca4bfe-ec26-4b64-8b8d-deb71071c9e1",
+  "prevId": "85c29fea-d755-401f-a407-c6bab9f3e29f",
+  "version": "5",
+  "dialect": "pg",
+  "tables": {
+    "backtest_stats": {
+      "name": "backtest_stats",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "ticker": {
+          "name": "ticker",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "strategy": {
+          "name": "strategy",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "period": {
+          "name": "period",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "interval": {
+          "name": "interval",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "max_drawdown_percentage": {
+          "name": "max_drawdown_percentage",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "start_time": {
+          "name": "start_time",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "end_time": {
+          "name": "end_time",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "duration": {
+          "name": "duration",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "exposure_time_percentage": {
+          "name": "exposure_time_percentage",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "final_equity": {
+          "name": "final_equity",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "peak_equity": {
+          "name": "peak_equity",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "return_percentage": {
+          "name": "return_percentage",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "buy_and_hold_return": {
+          "name": "buy_and_hold_return",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "return_annualized": {
+          "name": "return_annualized",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "volatility_annualized": {
+          "name": "volatility_annualized",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sharpe_ratio": {
+          "name": "sharpe_ratio",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sortino_ratio": {
+          "name": "sortino_ratio",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "calmar_ratio": {
+          "name": "calmar_ratio",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "average_drawdown_percentage": {
+          "name": "average_drawdown_percentage",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "max_drawdown_duration": {
+          "name": "max_drawdown_duration",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "average_drawdown_duration": {
+          "name": "average_drawdown_duration",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "trade_count": {
+          "name": "trade_count",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "win_rate": {
+          "name": "win_rate",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "best_trade": {
+          "name": "best_trade",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "worst_trade": {
+          "name": "worst_trade",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "avg_trade": {
+          "name": "avg_trade",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "max_trade_duration": {
+          "name": "max_trade_duration",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "average_trade_duration": {
+          "name": "average_trade_duration",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "profit_factor": {
+          "name": "profit_factor",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "html": {
+          "name": "html",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "ref_id": {
+          "name": "ref_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "full_name": {
+          "name": "full_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phone": {
+          "name": "phone",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
