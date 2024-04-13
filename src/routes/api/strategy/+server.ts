@@ -2,7 +2,7 @@ import { error, json } from '@sveltejs/kit';
 import { okaneClient } from '@/okane-finance-api/oakne-client.js';
 import type { BacktestResponseDTO } from '@/okane-finance-api/generated/index.js';
 import { db } from '@/drizzle/db.js';
-import { backtestStats } from '@/drizzle/schema.js';
+import { backtestStats } from '@/drizzle/schemas/backtestStats';
 import { and, desc, eq } from 'drizzle-orm';
 
 /** @type {import('./$types').RequestHandler} */

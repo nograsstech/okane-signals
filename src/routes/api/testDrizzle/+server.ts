@@ -1,4 +1,4 @@
-import { users } from '@/drizzle/schema.js';
+import { users } from '@/drizzle/schemas/users';
 import { db } from '@/drizzle/db';
 
 export async function GET() {

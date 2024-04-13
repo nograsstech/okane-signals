@@ -47,6 +47,9 @@
   },
   "type": "module",
   "dependencies": {
+    "@auth/core": "^0.29.0",
+    "@auth/drizzle-adapter": "^0.9.0",
+    "@auth/sveltekit": "^0.15.0",
     "@rollup/plugin-json": "^6.1.0",
     "@supabase/supabase-js": "^2.42.0",
     "@sveltejs/adapter-cloudflare": "^4.1.0",
@@ -55,7 +58,7 @@
     "clsx": "^2.1.0",
     "cmdk-sv": "^0.0.15",
     "dotenv": "^16.4.5",
-    "drizzle-orm": "^0.30.7",
+    "drizzle-orm": "^0.30.8",
     "lodash": "^4.17.21",
     "lucide-svelte": "^0.353.0",
     "mode-watcher": "^0.2.2",

@@ -1,5 +1,5 @@
 import { db } from '@/drizzle/db.js';
-import { backtestStats } from '@/drizzle/schema.js';
+import { backtestStats } from '@/drizzle/schemas/backtestStats';
 import { json } from '@sveltejs/kit';
 
 export async function GET() {
