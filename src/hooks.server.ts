@@ -5,13 +5,13 @@ import { sequence } from '@sveltejs/kit/hooks';
 async function authorizationHandle({ event, resolve }) {
   // Protect any routes under /authenticated
 
-  const protectedRoutesConditions = event.url.pathname.startsWith('/api/strategy')
+  const protectedRoutesConditions = false // event.url.pathname.startsWith('/api/strategy')
 
   if (protectedRoutesConditions) {
     const session = await event.locals.auth();
     if (!session) {
       // Redirect to the signin page
-      throw redirect(303, '/auth/signin');
+      throw redirect(303, '/signin');
     }
   }
  

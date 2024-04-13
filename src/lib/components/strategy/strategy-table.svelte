@@ -82,7 +82,7 @@
 <div class="mt-8">
 	<h2 class="text-4xl">Trading Strategies</h2>
 	<div class="flex items-center py-4">
-		<Input class="max-w-sm" placeholder="Filter emails..." type="text" bind:value={$filterValue} />
+		<Input class="max-w-sm" placeholder="Filter Okane Signals..." type="text" bind:value={$filterValue} />
 	</div>
 	<div class="rounded-md border">
 		<Table.Root {...$tableAttrs}>

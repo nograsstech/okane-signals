@@ -7,6 +7,8 @@
 	import { page } from '$app/stores';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { navigating } from '$app/stores';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+	import { SignOut } from "@auth/sveltekit/components"
 
 	export let className = '';
 
@@ -62,14 +64,30 @@
 					{/if}
 					{#if $page?.data?.session}
 						{#if $page.data.session.user?.image}
-							<Avatar.Root>
-								<Avatar.Image src={$page.data.session.user.image} alt="Profile Image" />
-								<Avatar.Fallback>CN</Avatar.Fallback>
-							</Avatar.Root>
+							<DropdownMenu.Root>
+								<DropdownMenu.Trigger>
+									<Avatar.Root>
+										<Avatar.Image src={$page.data.session.user.image} alt="Profile Image" />
+										<Avatar.Fallback>CN</Avatar.Fallback>
+									</Avatar.Root>
+								</DropdownMenu.Trigger>
+								<DropdownMenu.Content>
+									<DropdownMenu.Group>
+										<DropdownMenu.Label>My Okane Account</DropdownMenu.Label>
+										<DropdownMenu.Separator />
+										<DropdownMenu.Item>Profile</DropdownMenu.Item>
+										<DropdownMenu.Item>Preferences</DropdownMenu.Item>
+										<DropdownMenu.Separator />
+										<SignOut>
+											<DropdownMenu.Item slot="submitButton" class="text-red-900 w-[200px]">Sign Out</DropdownMenu.Item>
+										</SignOut>
+									</DropdownMenu.Group>
+								</DropdownMenu.Content>
+							</DropdownMenu.Root>
 						{/if}
 					{:else}
 						<Button
-							href="/login"
+							href="/signin"
 							variant="outline"
 							class="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium "
 						>

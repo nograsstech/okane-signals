@@ -11,6 +11,6 @@ export async function load({ fetch }) {
 		};
 	} catch (error) {
 		// redirect
-		redirect(307, 'auth/signin');
+		redirect(307, '/signin');
 	}
 }
