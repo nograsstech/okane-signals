@@ -4,10 +4,17 @@
 	import Button from '../button/button.svelte';
 	import ThemeToggle from '../toggle/theme-toggle.svelte';
 	import { cn } from '@/utils';
+	import { page } from '$app/stores';
+	import * as Avatar from '$lib/components/ui/avatar';
+	import { navigating } from '$app/stores';
+
 	export let className = '';
 
 	// States
 	let scrolled = false;
+
+	let open = false;
+	$: if ($navigating) open = false;
 
 	// Constants
 	const scrolledStyle = 'shadow-sm bg-opacity-80 backdrop-blur-xl';
@@ -24,12 +31,17 @@
 			window.removeEventListener('scroll', updateScroll);
 		};
 	});
+
+	// disable dynamic navbar
+	const disableNavbarRegex = /^\/strategy\/\d+$/;
+	const pathname = $page.url.pathname;
+	const disableNavbar = disableNavbarRegex.test(pathname);
 </script>
 
-<Sheet.Root>
+<Sheet.Root bind:open>
 	<nav
 		class={cn(
-			`fixed w-screen bg-primary-foreground shadow-sm transition-all duration-200 ease-in z-50 ${className.toString()}`,
+			`fixed z-50 w-screen bg-primary-foreground shadow-sm transition-all duration-200 ease-in ${className.toString()}`,
 			scrolled ? scrolledStyle : defaultStyle
 		)}
 	>
@@ -45,15 +57,26 @@
 					<Button href="/editor" variant="ghost">Editor</Button>
 				</div>
 				<div class="flex w-48 items-center justify-end gap-4">
-					<ThemeToggle />
-					<Button
-						href="/login"
-						variant="outline"
-						class="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium "
-					>
-						Log in
-					</Button>
-					<div class="ml-4 lg:hidden">
+					{#if !disableNavbar}
+						<ThemeToggle />
+					{/if}
+					{#if $page?.data?.session}
+						{#if $page.data.session.user?.image}
+							<Avatar.Root>
+								<Avatar.Image src={$page.data.session.user.image} alt="Profile Image" />
+								<Avatar.Fallback>CN</Avatar.Fallback>
+							</Avatar.Root>
+						{/if}
+					{:else}
+						<Button
+							href="/login"
+							variant="outline"
+							class="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium "
+						>
+							Log in
+						</Button>
+					{/if}
+					<div class="lg:hidden">
 						<div
 							class="flex h-9 w-9 justify-center rounded-sm bg-opacity-50 transition-all hover:bg-slate-500"
 						>
@@ -82,14 +105,13 @@
 
 		<Sheet.Content>
 			<Sheet.Header>
-				<Sheet.Title>Are you sure absolutely sure?</Sheet.Title>
-				<Sheet.Description>
-					This action cannot be undone. This will permanently delete your account and remove your
-					data from our servers.
-				</Sheet.Description>
+				<Sheet.Title>Okene Signals</Sheet.Title>
+				<Sheet.Description></Sheet.Description>
 			</Sheet.Header>
 			<div class="space-y-1 px-2 pb-3 pt-2">
-				<Button href="/strategy" variant="ghost" class="w-full">Strategy</Button>
+				<Sheet.Trigger asChild>
+					<Button href="/strategy" variant="ghost" class="w-full">Strategy</Button>
+				</Sheet.Trigger>
 				<Button href="/editor" variant="ghost" class="w-full">Editor</Button>
 			</div>
 		</Sheet.Content>
