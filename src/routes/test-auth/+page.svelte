@@ -17,6 +17,9 @@
       <small>Signed in as</small><br />
       <strong>{$page.data.session.user?.name ?? "User"}</strong>
     </span>
+    <pre>
+      {JSON.stringify($page.data.session, null, 2)}
+    </pre>
     <SignOut>
       <div slot="submitButton" class="buttonPrimary">Sign out</div>
     </SignOut>
