@@ -35,7 +35,7 @@
 	});
 
 	// disable dynamic navbar
-	const disableNavbarRegex = /^\/strategy\/\d+$/;
+	const disableNavbarRegex = /^\/strategy\/\d+\/backtest$/;
 	const pathname = $page.url.pathname;
 	const disableNavbar = disableNavbarRegex.test(pathname);
 </script>
@@ -61,38 +61,38 @@
 				<div class="flex w-48 items-center justify-end gap-4">
 					{#if !disableNavbar}
 						<ThemeToggle />
-					{/if}
-					{#if $page?.data?.session}
-						{#if $page.data.session.user?.image}
-							<DropdownMenu.Root>
-								<DropdownMenu.Trigger>
-									<Avatar.Root>
-										<Avatar.Image src={$page.data.session.user.image} alt="Profile Image" />
-										<Avatar.Fallback>CN</Avatar.Fallback>
-									</Avatar.Root>
-								</DropdownMenu.Trigger>
-								<DropdownMenu.Content>
-									<DropdownMenu.Group>
-										<DropdownMenu.Label>My Okane Account</DropdownMenu.Label>
-										<DropdownMenu.Separator />
-										<DropdownMenu.Item>Profile</DropdownMenu.Item>
-										<DropdownMenu.Item>Preferences</DropdownMenu.Item>
-										<DropdownMenu.Separator />
-										<SignOut>
-											<DropdownMenu.Item slot="submitButton" class="text-red-900 w-[200px]">Sign Out</DropdownMenu.Item>
-										</SignOut>
-									</DropdownMenu.Group>
-								</DropdownMenu.Content>
-							</DropdownMenu.Root>
+						{#if $page?.data?.session}
+							{#if $page.data.session.user?.image}
+								<DropdownMenu.Root>
+									<DropdownMenu.Trigger>
+										<Avatar.Root>
+											<Avatar.Image src={$page.data.session.user.image} alt="Profile Image" />
+											<Avatar.Fallback>CN</Avatar.Fallback>
+										</Avatar.Root>
+									</DropdownMenu.Trigger>
+									<DropdownMenu.Content>
+										<DropdownMenu.Group>
+											<DropdownMenu.Label>My Okane Account</DropdownMenu.Label>
+											<DropdownMenu.Separator />
+											<DropdownMenu.Item>Profile</DropdownMenu.Item>
+											<DropdownMenu.Item>Preferences</DropdownMenu.Item>
+											<DropdownMenu.Separator />
+											<SignOut>
+												<DropdownMenu.Item slot="submitButton" class="text-red-900 w-[200px]">Sign Out</DropdownMenu.Item>
+											</SignOut>
+										</DropdownMenu.Group>
+									</DropdownMenu.Content>
+								</DropdownMenu.Root>
+							{/if}
+						{:else}
+							<Button
+								href="/signin"
+								variant="outline"
+								class="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium "
+							>
+								Log in
+							</Button>
 						{/if}
-					{:else}
-						<Button
-							href="/signin"
-							variant="outline"
-							class="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium "
-						>
-							Log in
-						</Button>
 					{/if}
 					<div class="lg:hidden">
 						<div

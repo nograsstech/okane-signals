@@ -3,7 +3,7 @@ import { okaneClient } from '@/okane-finance-api/oakne-client.js';
 import type { BacktestResponseDTO } from '@/okane-finance-api/generated/index.js';
 import { db } from '@/drizzle/db.js';
 import { backtestStats } from '@/drizzle/schemas/backtestStats';
-import { and, desc, eq } from 'drizzle-orm';
+import { and, desc, eq, getTableColumns } from 'drizzle-orm';
 
 /** @type {import('./$types').RequestHandler} */
 /**
@@ -18,10 +18,15 @@ export async function GET({ url }) {
 	const interval = url.searchParams.get('interval') ?? '';
 	const strategy = url.searchParams.get('strategy') ?? '';
 	const strategyID = url.searchParams.get('id') ?? '';
+	const withHTML = url.searchParams.get('html') ?? '';
 
 	if (strategyID) {
+		const { html, ...rest } = getTableColumns(backtestStats);
+		const selectParam = withHTML ? { html, ...rest } : rest;
+
+		
 		const strategy = await db
-			.select()
+			.select(selectParam)
 			.from(backtestStats)
 			.where(and(
 				eq(backtestStats.id, Number(strategyID)) // Convert strategyID to number
@@ -31,7 +36,7 @@ export async function GET({ url }) {
 		if (!strategy.length) {
 			error(404, 'Not Found');
 		}
-
+		console.log(strategy)
 		return json(strategy);
 	
 	}
@@ -62,6 +67,8 @@ export async function GET({ url }) {
 	if (createdAt) {
 		createdAt.setHours(0, 0, 0, 0); // set the time to 00:00:00
 	}
+
+	console.log(existingBacktestData)
 
 	if (existingBacktestData.length && createdAt && +createdAt === +today) {
 		return json(existingBacktestData);
