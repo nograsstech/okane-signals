@@ -9,6 +9,7 @@
 	import { Input } from '$lib/components/ui/input';
 	import type { KeyStrategyBacktestStats } from '@/interfaces/strategy';
 	import { goto } from '$app/navigation';
+	import type { error } from '@sveltejs/kit';
 
 	export let data: KeyStrategyBacktestStats[];
 
@@ -19,6 +20,12 @@
 			fn: ({ filterValue, value }) => value.toLowerCase().includes(filterValue.toLowerCase())
 		})
 	});
+
+	const NUMBER_SORTING = {
+		compareFn: (leftValue: number, rightValue: number) => {
+			return leftValue - rightValue;
+		}
+	};
 
 	const columns = table.createColumns([
 		table.column({
@@ -43,7 +50,8 @@
 			plugins: {
 				filter: {
 					exclude: true
-				}
+				},
+				sort: NUMBER_SORTING
 			}
 		}),
 		table.column({
@@ -52,7 +60,8 @@
 			plugins: {
 				filter: {
 					exclude: true
-				}
+				},
+				sort: NUMBER_SORTING
 			}
 		}),
 		table.column({
@@ -61,7 +70,8 @@
 			plugins: {
 				filter: {
 					exclude: true
-				}
+				},
+				sort: NUMBER_SORTING
 			}
 		})
 	]);
@@ -74,7 +84,7 @@
 	const handleClick = (row: any) => {
 		row = row as DataBodyRow<KeyStrategyBacktestStats>;
 
-			window.open(`/strategy/${row.original.id}`, "_blank");
+		goto(`/strategy/${row.original.id}`);
 	};
 </script>
 
@@ -82,7 +92,12 @@
 <div class="mt-8">
 	<h2 class="text-4xl">Trading Strategies</h2>
 	<div class="flex items-center py-4">
-		<Input class="max-w-sm" placeholder="Filter Okane Signals..." type="text" bind:value={$filterValue} />
+		<Input
+			class="max-w-sm"
+			placeholder="Filter Okane Signals..."
+			type="text"
+			bind:value={$filterValue}
+		/>
 	</div>
 	<div class="rounded-md border">
 		<Table.Root {...$tableAttrs}>
@@ -109,7 +124,7 @@
 					<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
 						<Table.Row {...rowAttrs} on:click={() => handleClick(row)}>
 							{#each row.cells as cell (cell.id)}
-								<Subscribe attrs={cell.attrs()} let:attrs >
+								<Subscribe attrs={cell.attrs()} let:attrs>
 									<Table.Cell {...attrs} class="">
 										<div class="pl-4">
 											<Render of={cell.render()} />
