@@ -6,17 +6,25 @@ export async function GET() {
 	const strategyList = await db
 		.selectDistinct({
 			id: backtestStats.id,
+			start_time: backtestStats.startTime,
+			end_time: backtestStats.endTime,
 			ticker: backtestStats.ticker,
 			strategy: backtestStats.strategy,
 			period: backtestStats.period,
 			interval: backtestStats.interval,
 			averageDrawdownPercentage: backtestStats.averageDrawdownPercentage,
+			maxDrawdownDuration: backtestStats.maxDrawdownDuration,
 			duration: backtestStats.duration,
 			returnPercentage: backtestStats.returnPercentage,
+			returnAnnualized: backtestStats.returnAnnualized,
 			buyAndHoldReturn: backtestStats.buyAndHoldReturn,
 			sharpeRatio: backtestStats.sharpeRatio,
 			sortinoRatio: backtestStats.sortinoRatio,
 			calmarRatio: backtestStats.calmarRatio,
+			winRate: backtestStats.winRate,
+			avgTrade: backtestStats.avgTrade,
+			worstTrade: backtestStats.worstTrade,
+			bestTrade: backtestStats.calmarRatio,
 			created_at: backtestStats.created_at
 		})
 		.from(backtestStats);

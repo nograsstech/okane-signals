@@ -47,7 +47,10 @@ const config = {
 				card: {
 					DEFAULT: "hsl(var(--card) / <alpha-value>)",
 					foreground: "hsl(var(--card-foreground) / <alpha-value>)"
-				}
+				},
+				positive: "hsl(var(--positive))",
+				negative: "hsl(var(--negative))",
+
 			},
 			borderRadius: {
 				lg: "var(--radius)",
@@ -66,6 +69,9 @@ const config = {
 					'50%': { backgroundPosition: '100% 50%' },
 				},
 			},
+			backgroundImage: () => ({
+        'gradient-to-l': 'linear-gradient(to left, var(--tw-gradient-stops))',
+      })
 	
 		}
 	},
