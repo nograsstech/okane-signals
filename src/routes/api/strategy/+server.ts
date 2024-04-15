@@ -36,7 +36,6 @@ export async function GET({ url }) {
 		if (!strategy.length) {
 			error(404, 'Not Found');
 		}
-		console.log(strategy)
 		return json(strategy);
 	
 	}
@@ -67,8 +66,6 @@ export async function GET({ url }) {
 	if (createdAt) {
 		createdAt.setHours(0, 0, 0, 0); // set the time to 00:00:00
 	}
-
-	console.log(existingBacktestData)
 
 	if (existingBacktestData.length && createdAt && +createdAt === +today) {
 		return json(existingBacktestData);
