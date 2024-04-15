@@ -3,13 +3,7 @@ import GitHub from '@auth/sveltekit/providers/github';
 import Google from '@auth/sveltekit/providers/google';
 import { users } from '@/drizzle/schemas/users';
 
-import {
-	GOOGLE_CLIENT_ID,
-	GOOGLE_CLIENT_SECRET,
-	GITHUB_ID,
-	GITHUB_SECRET,
-	AUTH_SECRET
-} from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import { db } from '@/drizzle/db';
 import { eq } from 'drizzle-orm';
@@ -18,7 +12,7 @@ import type { AdapterUser } from '@auth/core/adapters';
 export const { handle, signIn, signOut } = SvelteKitAuth({
 	adapter: DrizzleAdapter(db),
 	providers: [
-		GitHub({ clientId: GITHUB_ID, clientSecret: GITHUB_SECRET }),
+		GitHub({ clientId: env.GITHUB_ID, clientSecret: env.GITHUB_SECRET }),
 		Google({
 			profile(profile) {
 				const profileShape = {
@@ -30,11 +24,11 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 				};
 				return profileShape;
 			},
-			clientId: GOOGLE_CLIENT_ID,
-			clientSecret: GOOGLE_CLIENT_SECRET
+			clientId: env.GOOGLE_CLIENT_ID,
+			clientSecret: env.GOOGLE_CLIENT_SECRET
 		})
 	],
-	secret: AUTH_SECRET,
+	secret: env.AUTH_SECRET,
 	trustHost: true,
 	session: {
 		strategy: 'database'
