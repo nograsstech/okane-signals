@@ -3,13 +3,21 @@ import type { BacktestStats } from '@/okane-finance-api/generated';
 type BacktestStatPicked = Pick<
 	BacktestStats,
 	| 'ticker'
+	| 'startTime'
+	| 'endTime'
 	| 'averageDrawdownPercentage'
+	| 'maxDrawdownPercentage'
 	| 'duration'
 	| 'returnPercentage'
+	| 'returnAnnualized'
 	| 'buyAndHoldReturn'
 	| 'sharpeRatio'
 	| 'sortinoRatio'
 	| 'calmarRatio'
+	| 'winRate'
+	| 'avgTrade'
+	| 'worstTrade'
+	| 'bestTrade'
 	| 'html'
 >;
 export interface KeyStrategyBacktestStats extends BacktestStatPicked {

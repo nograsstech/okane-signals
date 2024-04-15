@@ -1,6 +1,6 @@
 <!-- MARK: Script -->
 <script lang="ts">
-	import { BodyRow, createTable, DataBodyRow, Render, Subscribe } from 'svelte-headless-table';
+	import { createTable, DataBodyRow, Render, Subscribe } from 'svelte-headless-table';
 	import { addPagination, addSortBy, addTableFilter } from 'svelte-headless-table/plugins';
 	import { readable } from 'svelte/store';
 	import * as Table from '$lib/components/ui/table';
@@ -8,11 +8,25 @@
 	import ArrowUpDown from 'lucide-svelte/icons/arrow-up-down';
 	import { Input } from '$lib/components/ui/input';
 	import type { KeyStrategyBacktestStats } from '@/interfaces/strategy';
-	import { goto } from '$app/navigation';
-	import type { error } from '@sveltejs/kit';
+	import { onMount } from 'svelte';
+	import { mode } from 'mode-watcher';
+	import { cn } from '@/utils';
+	import { fade, fly } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
+	import Skeleton from '../ui/skeleton/skeleton.svelte';
 
 	export let data: KeyStrategyBacktestStats[];
 
+	// States
+	let mounted = false;
+
+	// Theme
+	let selectedTheme = '';
+	mode.subscribe((theme) => {
+		if (theme) selectedTheme = theme;
+	});
+
+	// Table Configurations
 	const table = createTable(readable(data), {
 		page: addPagination(),
 		sort: addSortBy(),
@@ -76,22 +90,48 @@
 		})
 	]);
 
+	// Computed
 	const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
 		table.createViewModel(columns);
 	const { pageSize, pageIndex, pageCount, hasPreviousPage, hasNextPage } = pluginStates.page;
 	const { filterValue } = pluginStates.filter;
 
+	// Methods
 	const handleClick = (row: any) => {
 		row = row as DataBodyRow<KeyStrategyBacktestStats>;
 
-		goto(`/strategy/${row.original.id}`);
+		window.location.pathname = `/strategy/${row.original.id}`;
+		// goto(`/strategy/${row.original.id}`);
 	};
+
+	// Event Handler
+	onMount(() => {
+		mounted = true;
+	});
 </script>
 
-<!-- MARK: Template -->
 <div class="mt-8">
 	<h2 class="text-4xl">Trading Strategies</h2>
-	<div class="flex items-center py-4">
+</div>
+<!-- MARK: Template -->
+{#if !mounted}
+	<Skeleton class="mb-12 h-8 w-64 rounded-full" />
+	<Skeleton class="mb-1 h-12 w-full rounded-full" />
+	<Skeleton class="mb-1 h-12 w-full rounded-full" />
+	<Skeleton class="mb-1 h-12 w-full rounded-full" />
+	<Skeleton class="mb-1 h-12 w-full rounded-full" />
+{:else}
+	<div
+		class="flex items-center py-4"
+		transition:fly={{
+			delay: 0,
+			duration: 600,
+			x: 0,
+			y: 50,
+			opacity: 0,
+			easing: quintOut
+		}}
+	>
 		<Input
 			class="max-w-sm"
 			placeholder="Filter Okane Signals..."
@@ -99,7 +139,13 @@
 			bind:value={$filterValue}
 		/>
 	</div>
-	<div class="rounded-md border">
+	<div
+		class="rounded-md border"
+		transition:fade={{
+			delay: 250,
+			duration: 800
+		}}
+	>
 		<Table.Root {...$tableAttrs}>
 			<Table.Header>
 				{#each $headerRows as headerRow}
@@ -120,18 +166,33 @@
 				{/each}
 			</Table.Header>
 			<Table.Body {...$tableBodyAttrs}>
-				{#each $pageRows as row (row.id)}
+				{#each $pageRows as row, i (row.id)}
 					<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-						<Table.Row {...rowAttrs} on:click={() => handleClick(row)}>
+						<Table.Row {...rowAttrs} class="relative">
 							{#each row.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
-									<Table.Cell {...attrs} class="">
+									<Table.Cell {...attrs} class="h-14">
 										<div class="pl-4">
 											<Render of={cell.render()} />
 										</div>
 									</Table.Cell>
 								</Subscribe>
 							{/each}
+							<div class="sticky right-0 flex h-14 items-center pl-8">
+								<div
+									class={cn(
+										'h-14 w-12 bg-gradient-to-l from-[rgba(2,8,23,1)] to-transparent',
+										selectedTheme === 'dark'
+											? 'bg-gradient-to-l from-[rgba(2,8,23,1)] to-transparent'
+											: 'bg-gradient-to-l from-[rgba(255,255,255,1)] to-transparent'
+									)}
+								></div>
+								<div class=" dark:bg-background flex h-14 items-center bg-white pr-2">
+									<Button variant="secondary" href={`/strategy/${row.original.id}`}
+										>View details</Button
+									>
+								</div>
+							</div>
 						</Table.Row>
 					</Subscribe>
 				{/each}
@@ -155,4 +216,4 @@
 			on:click={() => ($pageIndex = $pageIndex + 1)}>Next</Button
 		>
 	</div>
-</div>
+{/if}
