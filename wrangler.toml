@@ -2,8 +2,3 @@ name = "okane-signals"
 pages_build_output_dir = "./dist"
 compatibility_date = "2023-10-12"
 compatibility_flags = ["nodejs_compat"]
-
-node_compat = true
-
-[vars]
-API_KEY = "1234567asdf"
