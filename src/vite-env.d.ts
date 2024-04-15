@@ -2,7 +2,7 @@
 
 interface ImportMetaEnv {
   VITE_MESSAGE: string
-  VITE_OKANE_FINANCE_API_URL: string
+  OKANE_FINANCE_API_URL: string
 }
 
 interface ImportMeta {
