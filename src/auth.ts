@@ -20,7 +20,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 					name: profile.name,
 					email: profile.email,
 					image: profile.picture,
-					role: profile.role
 				};
 				return profileShape;
 			},
@@ -56,25 +55,28 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 				// return '/unauthorized'
 			}
 		},
-		async session({ session, user }) {
-			const getSessionWithRole = async (user: AdapterUser & { role: string }) => {
-				if (!user.role && user.id) {
-					const updatedUser = await db
-						.update(users)
-						.set({ role: 'user-free' })
-						.where(eq(users.id, user.id))
-						.returning({ role: users.role });
-					session.user = { ...session.user, ...updatedUser[0] };
-					return session;
-				} else {
-					// Manually retrieve the user role from the DB because the stupid adaptor doesn't do it automatically it should.
-					const dbUser = await db.select().from(users).where(eq(users.id, user.id)).limit(1);
-					session.user = { ...session.user, ...dbUser[0] };
-					return session;
-				}
-			};
+		// async session({ session, user }) {
+		// 	const getSessionWithRole = async (user: AdapterUser & { role: string }) => {
+		// 		if (!user.role && user.id) {
+		// 			const updatedUser = await db
+		// 				.update(users)
+		// 				.set({ role: 'user-free' })
+		// 				.where(eq(users.id, user.id))
+		// 				.returning({ role: users.role });
+		// 			session.user = { ...session.user, ...updatedUser[0] };
+		// 			return session;
+		// 		} else {
+		// 			// Manually retrieve the user role from the DB because the stupid adaptor doesn't do it automatically it should.
+		// 			const dbUser = await db.select().from(users).where(eq(users.id, user.id)).limit(1);
+		// 			session.user = { ...session.user, ...dbUser[0] };
+		// 			return session;
+		// 		}
+		// 	};
 
-			return getSessionWithRole(user as AdapterUser & { role: string });
-		}
+		// 	if (session.user.role) return session;
+
+		// 	console.log('RUN', user);
+		// 	return getSessionWithRole(user as AdapterUser & { role: string });
+		// }
 	}
 });
