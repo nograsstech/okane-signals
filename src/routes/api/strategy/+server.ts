@@ -1,9 +1,9 @@
 import { error, json } from '@sveltejs/kit';
 import { okaneClient } from '@/okane-finance-api/oakne-client.js';
 import type { BacktestResponseDTO } from '@/okane-finance-api/generated/index.js';
-import { db } from '@/drizzle/db.js';
 import { backtestStats } from '@/drizzle/schemas/backtestStats';
 import { and, desc, eq, getTableColumns } from 'drizzle-orm';
+import { createDbClient } from '@/drizzle/db.js';
 
 /** @type {import('./$types').RequestHandler} */
 /**
@@ -19,6 +19,8 @@ export async function GET({ url }) {
 	const strategy = url.searchParams.get('strategy') ?? '';
 	const strategyID = url.searchParams.get('id') ?? '';
 	const withHTML = url.searchParams.get('html') ?? '';
+
+	const db = createDbClient();
 
 	if (strategyID) {
 		const { html, ...rest } = getTableColumns(backtestStats);

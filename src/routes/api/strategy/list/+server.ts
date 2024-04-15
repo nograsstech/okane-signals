@@ -1,8 +1,10 @@
-import { db } from '@/drizzle/db.js';
+import { createDbClient } from '@/drizzle/db';
 import { backtestStats } from '@/drizzle/schemas/backtestStats';
 import { json } from '@sveltejs/kit';
 
 export async function GET() {
+	const db = createDbClient();
+	
 	const strategyList = await db
 		.selectDistinct({
 			id: backtestStats.id,

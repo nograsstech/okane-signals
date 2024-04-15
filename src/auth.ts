@@ -5,9 +5,17 @@ import { users } from '@/drizzle/schemas/users';
 
 import { env } from '$env/dynamic/private';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
-import { db } from '@/drizzle/db';
 import { eq } from 'drizzle-orm';
 import type { AdapterUser } from '@auth/core/adapters';
+import * as schema from './lib/drizzle/schema';
+import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/postgres-js';
+
+const connectionString = env.POSTGRES_URI
+
+// Disable prefetch as it is not supported for "Transaction" pool mode
+export const client = postgres(connectionString, { prepare: false })
+export const db = drizzle(client, { schema });
 
 export const { handle, signIn, signOut } = SvelteKitAuth({
 	adapter: DrizzleAdapter(db),
