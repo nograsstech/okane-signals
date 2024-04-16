@@ -1,9 +1,6 @@
 import type { KeyStrategyBacktestStats } from '@/interfaces/strategy.js';
 import { error } from '@sveltejs/kit';
 
-// export const ssr = false
-// export const csr = false;
-
 /** @type {import('./$types').PageLoad} */
 export async function load({ params, fetch, setHeaders }) {
 	const strategyID = params.id;

@@ -15,7 +15,6 @@
 
 import * as runtime from '../runtime';
 import type {
-  BacktestResponseDTO,
   End,
   HTTPValidationError,
   Parameters,
@@ -25,8 +24,6 @@ import type {
   Strategy,
 } from '../models/index';
 import {
-    BacktestResponseDTOFromJSON,
-    BacktestResponseDTOToJSON,
     EndFromJSON,
     EndToJSON,
     HTTPValidationErrorFromJSON,
@@ -71,7 +68,7 @@ export class SignalsApi extends runtime.BaseAPI {
     /**
      * Backtest
      */
-    async backtestSignalsBacktestGetRaw(requestParameters: BacktestSignalsBacktestGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BacktestResponseDTO>> {
+    async backtestSignalsBacktestGetRaw(requestParameters: BacktestSignalsBacktestGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
         if (requestParameters['ticker'] == null) {
             throw new runtime.RequiredError(
                 'ticker',
@@ -125,13 +122,17 @@ export class SignalsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BacktestResponseDTOFromJSON(jsonValue));
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
     }
 
     /**
      * Backtest
      */
-    async backtestSignalsBacktestGet(requestParameters: BacktestSignalsBacktestGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BacktestResponseDTO> {
+    async backtestSignalsBacktestGet(requestParameters: BacktestSignalsBacktestGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.backtestSignalsBacktestGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
