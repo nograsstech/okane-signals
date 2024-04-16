@@ -22,7 +22,7 @@
 	const formattedData = signalsData.signals.data.signals.allSignals.map((signal) => {
 		return {
 			...signal,
-			gmtTime: new Date(signal.gmtTime).toLocaleString()
+			gmtTime: new Date(signal.gmtTime)
 		};
 	}).reverse();
 	// States
