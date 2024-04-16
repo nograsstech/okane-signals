@@ -5,12 +5,15 @@ import { error } from '@sveltejs/kit';
 // export const csr = false;
 
 /** @type {import('./$types').PageLoad} */
-export async function load({ params, fetch }) {
+export async function load({ params, fetch, setHeaders }) {
 	const strategyID = params.id;
 
 	if (strategyID) {
 		const basePath = '/api/strategy?';
 		const params = new URLSearchParams({ id: strategyID });
+		
+		setHeaders({ 'cache-control': 'max-age=20' });
+
 		return {
 			backtestData: fetch(basePath + params).then((res) => res.json()) as Promise<KeyStrategyBacktestStats[]>,
 		};

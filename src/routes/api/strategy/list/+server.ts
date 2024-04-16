@@ -2,7 +2,7 @@ import { db } from '@/drizzle/db.js';
 import { backtestStats } from '@/drizzle/schemas/backtestStats';
 import { json } from '@sveltejs/kit';
 
-export async function GET() {
+export async function GET({ setHeaders }) {
 	const strategyList = await db
 		.selectDistinct({
 			id: backtestStats.id,
@@ -40,6 +40,8 @@ export async function GET() {
 			strategyMap.set(key, item);
 		}
 	}
+
+	setHeaders({ 'cache-control': 'max-age=20' });
 
   // Convert the map to an array
   const uniqueStrategyList = Array.from(strategyMap.values());
