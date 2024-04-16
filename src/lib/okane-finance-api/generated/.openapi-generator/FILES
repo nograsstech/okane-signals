@@ -5,11 +5,14 @@ apis/TickersApi.ts
 apis/index.ts
 index.ts
 models/AlphaVantageNewsResponseDTO.ts
+models/BacktestResponseDTO.ts
+models/BacktestStats.ts
 models/End.ts
 models/HTTPValidationError.ts
 models/Limit.ts
 models/Parameters.ts
 models/Period.ts
+models/ResponseBacktestSignalsBacktestGet.ts
 models/RootResponse.ts
 models/Signal.ts
 models/SignalRequestData.ts
