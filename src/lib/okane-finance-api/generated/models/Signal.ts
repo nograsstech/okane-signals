@@ -21,6 +21,12 @@ import { mapValues } from '../runtime';
 export interface Signal {
     /**
      * 
+     * @type {string}
+     * @memberof Signal
+     */
+    gmtTime: string;
+    /**
+     * 
      * @type {number}
      * @memberof Signal
      */
@@ -61,6 +67,7 @@ export interface Signal {
  * Check if a given object implements the Signal interface.
  */
 export function instanceOfSignal(value: object): boolean {
+    if (!('gmtTime' in value)) return false;
     return true;
 }
 
@@ -74,6 +81,7 @@ export function SignalFromJSONTyped(json: any, ignoreDiscriminator: boolean): Si
     }
     return {
         
+        'gmtTime': json['gmtTime'],
         'open': json['Open'] == null ? undefined : json['Open'],
         'high': json['High'] == null ? undefined : json['High'],
         'low': json['Low'] == null ? undefined : json['Low'],
@@ -89,6 +97,7 @@ export function SignalToJSON(value?: Signal | null): any {
     }
     return {
         
+        'gmtTime': value['gmtTime'],
         'Open': value['open'],
         'High': value['high'],
         'Low': value['low'],
