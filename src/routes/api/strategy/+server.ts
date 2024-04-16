@@ -12,7 +12,7 @@ import { and, desc, eq, getTableColumns } from 'drizzle-orm';
  * @param {URL} options.url - The URL object containing the query parameters.
  * @returns {Promise<Response>} A promise that resolves to the backtest data response.
  */
-export async function GET({ url }) {
+export async function GET({ url, setHeaders }) {
 	const ticker = url.searchParams.get('ticker') ?? '';
 	const period = url.searchParams.get('period') ?? '';
 	const interval = url.searchParams.get('interval') ?? '';
@@ -20,10 +20,15 @@ export async function GET({ url }) {
 	const strategyID = url.searchParams.get('id') ?? '';
 	const withHTML = url.searchParams.get('html') ?? '';
 
+	////////
+	// Fetch for existing backtest data using strategyID, if provided and if exists in the DB
+	////////
+
 	if (strategyID) {
 		const { html, ...rest } = getTableColumns(backtestStats);
 		const selectParam = withHTML ? { html, ...rest } : rest;
 
+		setHeaders({ 'cache-control': 'max-age=20' });
 		
 		const strategy = await db
 			.select(selectParam)
@@ -32,7 +37,6 @@ export async function GET({ url }) {
 				eq(backtestStats.id, Number(strategyID)) // Convert strategyID to number
 			))
 			.limit(1);
-
 		if (!strategy.length) {
 			error(404, 'Not Found');
 		}
@@ -43,6 +47,9 @@ export async function GET({ url }) {
 	if (!ticker || !period || !interval || !strategy) {
 		error(400, 'Bad Request');
 	}
+	////////
+	// If there's no strategyID provided, fetch the backtest data using the ticker, period, interval, and strategy
+	////////
 
 	// Fetch for existing backtest data using ticker, strategy, period, and interval
 	const existingBacktestData = await db
@@ -68,8 +75,13 @@ export async function GET({ url }) {
 	}
 
 	if (existingBacktestData.length && createdAt && +createdAt === +today) {
+		setHeaders({ 'cache-control': 'max-age=20' });
 		return json(existingBacktestData);
 	}
+
+	////////
+	// If there's no existing backtest data, fetch the new backtest data from the Okane Finance API
+	////////
 
 	try {
 		const backtest_data: BacktestResponseDTO = await okaneClient.backtestSignalsBacktestGet({
