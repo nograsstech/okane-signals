@@ -49,18 +49,20 @@
 	>
 		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 			<div class="flex h-16 items-center justify-between">
-				<div class="flex w-48 items-center">
-					<a href="/" class="flex-shrink-0">
-						<img class="h-8 w-auto" src="/images/okane-logo.png" alt="okane signals" />
-					</a>
-				</div>
-				<div class="hidden content-center items-center justify-center lg:flex lg:space-x-8">
-					<Button href="/strategy" variant="ghost">Strategy</Button>
-					<Button href="/editor" variant="ghost">Editor</Button>
+				<div class="flex">
+					<div class="flex w-32 items-center">
+						<a href="/" class="flex-shrink-0">
+							<img class="h-8 w-auto" src="/images/okane-logo.png" alt="okane signals" />
+						</a>
+					</div>
+					<div class="hidden content-center items-center justify-center lg:flex lg:space-x-2">
+						<Button href="/strategy" variant="ghost">Strategy</Button>
+						<Button href="/editor" variant="ghost">Editor</Button>
+					</div>
 				</div>
 				<div class="flex w-48 items-center justify-end gap-4">
 					{#if !disableNavbar}
-						<ThemeToggle />
+						<ThemeToggle  />
 						{#if $page?.data?.session}
 							{#if $page.data.session.user?.image}
 								<DropdownMenu.Root>

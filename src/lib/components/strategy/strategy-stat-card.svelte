@@ -30,6 +30,6 @@
     {:else}
       <div class="text-2xl font-bold">{value}</div>
     {/if}
-		<p class="text-muted-foreground text-xs max-w-24 md:max-w-72 mt-2">{description}</p>
+		<p class="text-muted-foreground text-xs max-w-24 md:max-w-48 mt-2">{description}</p>
 	</Card.Content>
 </Card.Root>

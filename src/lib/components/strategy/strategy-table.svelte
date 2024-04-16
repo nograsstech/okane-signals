@@ -87,16 +87,6 @@
 				},
 				sort: NUMBER_SORTING
 			}
-		}),
-		table.column({
-			accessor: 'sharpeRatio2',
-			header: '',
-			plugins: {
-				filter: {
-					exclude: true
-				},
-				sort: false
-			}
 		})
 	]);
 
@@ -132,7 +122,7 @@
 	<Skeleton class="mb-1 h-12 w-full rounded-full" />
 {:else}
 	<div
-		class="flex items-center py-4"
+		class="relative flex items-center py-4"
 		transition:fly={{
 			delay: 0,
 			duration: 600,
@@ -163,11 +153,11 @@
 						<Table.Row>
 							{#each headerRow.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
-									<Table.Head {...attrs}>
+									<Table.Head {...attrs} class=" p-0">
 										<Button variant="ghost" on:click={props.sort.toggle}>
 											<Render of={cell.render()} />
 											{#if props.sort.order}
-											<ArrowUpDown class={'ml-2 h-4 w-4'} />
+												<ArrowUpDown class={'ml-2 h-4 w-4'} />
 											{/if}
 										</Button>
 									</Table.Head>
@@ -183,28 +173,16 @@
 						<Table.Row {...rowAttrs} class="relative">
 							{#each row.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
-									<Table.Cell {...attrs} class="h-14">
+									<Table.Cell {...attrs} class="h-14 p-0">
 										<div class="pl-4">
 											<Render of={cell.render()} />
 										</div>
 									</Table.Cell>
 								</Subscribe>
 							{/each}
-							<div class="fixed right-[25px] flex h-14 items-center pl-8">
-								<div
-									class={cn(
-										'h-14 w-12 bg-gradient-to-l from-[rgba(2,8,23,1)] to-transparent',
-										selectedTheme === 'dark'
-											? 'bg-gradient-to-l from-[rgba(2,8,23,1)] to-transparent'
-											: 'bg-gradient-to-l from-[rgba(255,255,255,1)] to-transparent'
-									)}
-								></div>
-								<div class=" dark:bg-background flex h-14 items-center bg-white pr-2">
-									<Button variant="secondary" href={`/strategy/${row.original.id}`}
-										>View details</Button
-									>
-								</div>
-							</div>
+							<a data-sveltekit-preload-code="off" href={`/strategy/${row.original.id}`} class="absolute left-0 top-0 h-full w-full"
+								>&nbsp;</a
+							>
 						</Table.Row>
 					</Subscribe>
 				{/each}
