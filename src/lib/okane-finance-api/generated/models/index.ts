@@ -8,7 +8,6 @@ export * from './HTTPValidationError';
 export * from './Limit';
 export * from './Parameters';
 export * from './Period';
-export * from './ResponseBacktestSignalsBacktestGet';
 export * from './RootResponse';
 export * from './Signal';
 export * from './SignalRequestData';
