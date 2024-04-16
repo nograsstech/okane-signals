@@ -146,14 +146,14 @@
 				icon={IntervalIcon}
 			/>
 			<StrategyStatCard
-				field="Sharpe Ratio"
+				field="Sortino Ratio"
 				value={parseFloat(backtestData.sortinoRatio.toString())}
 				description="A higher Sortino ratio indicates better risk-adjusted performance, specifically in terms of downside risk"
 				textColor="neutral"
 				icon={IntervalIcon}
 			/>
 			<StrategyStatCard
-				field="Sharpe Ratio"
+				field="Calmar Ratio"
 				value={parseFloat(backtestData.calmarRatio.toString())}
 				description="Average compounded annual rate of return to its maximum drawdown"
 				textColor="neutral"
@@ -162,28 +162,28 @@
 			<StrategyStatCard
 				field="Win Rate %"
 				value={parseFloat(backtestData.winRate.toString())}
-				description="Percentage of winning trades"
+				description="Percentage of capital"
 				textColor="neutral"
 				icon={IntervalIcon}
 			/>
 			<StrategyStatCard
 				field="Average Trade %"
 				value={parseFloat(backtestData.avgTrade.toString())}
-				description="Percentage of winning trades"
+				description="Percentage of capital"
 				textColor="neutral"
 				icon={IntervalIcon}
 			/>
 			<StrategyStatCard
 				field="Worst Trade %"
 				value={parseFloat(backtestData.worstTrade.toString())}
-				description="Percentage of winning trades"
+				description="Percentage of capital"
 				textColor="neutral"
 				icon={IntervalIcon}
 			/>
 			<StrategyStatCard
 				field="Best Trade %"
 				value={parseFloat(backtestData.bestTrade.toString())}
-				description="Percentage of winning trades"
+				description="Percentage of capital"
 				textColor="neutral"
 				icon={IntervalIcon}
 			/>
