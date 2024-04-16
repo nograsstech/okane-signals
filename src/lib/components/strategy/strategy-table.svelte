@@ -87,6 +87,16 @@
 				},
 				sort: NUMBER_SORTING
 			}
+		}),
+		table.column({
+			accessor: 'sharpeRatio2',
+			header: '',
+			plugins: {
+				filter: {
+					exclude: true
+				},
+				sort: false
+			}
 		})
 	]);
 
@@ -156,7 +166,9 @@
 									<Table.Head {...attrs}>
 										<Button variant="ghost" on:click={props.sort.toggle}>
 											<Render of={cell.render()} />
+											{#if props.sort.order}
 											<ArrowUpDown class={'ml-2 h-4 w-4'} />
+											{/if}
 										</Button>
 									</Table.Head>
 								</Subscribe>
@@ -178,7 +190,7 @@
 									</Table.Cell>
 								</Subscribe>
 							{/each}
-							<div class="sticky right-0 flex h-14 items-center pl-8">
+							<div class="fixed right-[25px] flex h-14 items-center pl-8">
 								<div
 									class={cn(
 										'h-14 w-12 bg-gradient-to-l from-[rgba(2,8,23,1)] to-transparent',
