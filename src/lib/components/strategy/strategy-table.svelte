@@ -180,7 +180,7 @@
 									</Table.Cell>
 								</Subscribe>
 							{/each}
-							<a data-sveltekit-preload-code="off" href={`/strategy/${row.original.id}`} class="absolute left-0 top-0 h-full w-full"
+							<a data-sveltekit-preload-code="off" href={`/strategy/${row.original.id}`} class="absolute left-0 h-14 w-full"
 								>&nbsp;</a
 							>
 						</Table.Row>
