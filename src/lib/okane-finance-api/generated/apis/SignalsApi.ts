@@ -19,6 +19,7 @@ import type {
   HTTPValidationError,
   Parameters,
   Period,
+  ResponseBacktestSignalsBacktestGet,
   SignalResponseDTO,
   Start,
   Strategy,
@@ -32,6 +33,8 @@ import {
     ParametersToJSON,
     PeriodFromJSON,
     PeriodToJSON,
+    ResponseBacktestSignalsBacktestGetFromJSON,
+    ResponseBacktestSignalsBacktestGetToJSON,
     SignalResponseDTOFromJSON,
     SignalResponseDTOToJSON,
     StartFromJSON,
@@ -68,7 +71,7 @@ export class SignalsApi extends runtime.BaseAPI {
     /**
      * Backtest
      */
-    async backtestSignalsBacktestGetRaw(requestParameters: BacktestSignalsBacktestGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+    async backtestSignalsBacktestGetRaw(requestParameters: BacktestSignalsBacktestGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResponseBacktestSignalsBacktestGet>> {
         if (requestParameters['ticker'] == null) {
             throw new runtime.RequiredError(
                 'ticker',
@@ -122,17 +125,13 @@ export class SignalsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
+        return new runtime.JSONApiResponse(response, (jsonValue) => ResponseBacktestSignalsBacktestGetFromJSON(jsonValue));
     }
 
     /**
      * Backtest
      */
-    async backtestSignalsBacktestGet(requestParameters: BacktestSignalsBacktestGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+    async backtestSignalsBacktestGet(requestParameters: BacktestSignalsBacktestGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ResponseBacktestSignalsBacktestGet> {
         const response = await this.backtestSignalsBacktestGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
