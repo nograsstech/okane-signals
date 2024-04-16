@@ -55,7 +55,7 @@
 							<img class="h-8 w-auto" src="/images/okane-logo.png" alt="okane signals" />
 						</a>
 					</div>
-					<div class="hidden content-center items-center justify-center lg:flex lg:space-x-2">
+					<div class="hidden content-center items-center justify-center sm:flex lg:space-x-2">
 						<Button href="/strategy" variant="ghost">Strategy</Button>
 						<Button href="/editor" variant="ghost">Editor</Button>
 					</div>
