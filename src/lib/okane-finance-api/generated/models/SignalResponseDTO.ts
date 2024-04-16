@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { SignalRequestData } from './SignalRequestData';
+import {
+    SignalRequestDataFromJSON,
+    SignalRequestDataFromJSONTyped,
+    SignalRequestDataToJSON,
+} from './SignalRequestData';
+
 /**
  * 
  * @export
@@ -31,6 +38,12 @@ export interface SignalResponseDTO {
      * @memberof SignalResponseDTO
      */
     message: string;
+    /**
+     * 
+     * @type {SignalRequestData}
+     * @memberof SignalResponseDTO
+     */
+    data: SignalRequestData;
 }
 
 /**
@@ -39,6 +52,7 @@ export interface SignalResponseDTO {
 export function instanceOfSignalResponseDTO(value: object): boolean {
     if (!('status' in value)) return false;
     if (!('message' in value)) return false;
+    if (!('data' in value)) return false;
     return true;
 }
 
@@ -54,6 +68,7 @@ export function SignalResponseDTOFromJSONTyped(json: any, ignoreDiscriminator: b
         
         'status': json['status'],
         'message': json['message'],
+        'data': SignalRequestDataFromJSON(json['data']),
     };
 }
 
@@ -65,6 +80,7 @@ export function SignalResponseDTOToJSON(value?: SignalResponseDTO | null): any {
         
         'status': value['status'],
         'message': value['message'],
+        'data': SignalRequestDataToJSON(value['data']),
     };
 }
 

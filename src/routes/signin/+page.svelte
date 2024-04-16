@@ -39,7 +39,7 @@
 					<div class="grid gap-4 mt-4">
 						<SignIn provider="google">
 							<div slot="submitButton">
-								<Button variant="outline" class="relative w-80">
+								<Button variant="outline" type="submit" class="relative w-80">
 									<img
 										src="/images/icons/google.svg"
 										alt="Sign in with Google"
@@ -51,7 +51,7 @@
 						</SignIn>
 						<SignIn provider="github">
 							<div slot="submitButton">
-								<Button variant="outline" class="relative w-80">
+								<Button variant="outline" type="submit" class="relative w-80">
 									<img
 										src="/images/icons/github.svg"
 										alt="Sign in with GitHub"
