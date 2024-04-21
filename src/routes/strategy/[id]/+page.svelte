@@ -20,7 +20,7 @@
 </Button>
 
 {#await data.backtestData}
-	<StrategyStatsLoadingSkeleton />
+<StrategyStatsLoadingSkeleton />
 {:then backtestData}
 	<StrategyStats backtestData={backtestData[0]} />
 {:catch error}

@@ -14,6 +14,7 @@
 	import { fade, fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 	import Skeleton from '../ui/skeleton/skeleton.svelte';
+	import { NUMBER_REGEX } from '$lib/constants/regex';
 
 	export let data: KeyStrategyBacktestStats[];
 
@@ -29,7 +30,9 @@
 	// Table Configurations
 	const table = createTable(readable(data), {
 		page: addPagination(),
-		sort: addSortBy(),
+		sort: addSortBy({
+			initialSortKeys: [{ id: 'winRate', order: 'desc' }]
+		}),
 		filter: addTableFilter({
 			fn: ({ filterValue, value }) => value.toLowerCase().includes(filterValue.toLowerCase())
 		})
@@ -59,6 +62,16 @@
 			header: 'Interval'
 		}),
 		table.column({
+			accessor: 'winRate',
+			header: 'Win Rate %',
+			plugins: {
+				filter: {
+					exclude: true
+				},
+				sort: NUMBER_SORTING
+			}
+		}),
+		table.column({
 			accessor: 'returnPercentage',
 			header: 'Return %',
 			plugins: {
@@ -80,7 +93,7 @@
 		}),
 		table.column({
 			accessor: 'sharpeRatio',
-			header: 'Share Ratio',
+			header: 'Sharpe Ratio',
 			plugins: {
 				filter: {
 					exclude: true
@@ -174,14 +187,31 @@
 							{#each row.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
 									<Table.Cell {...attrs} class="h-14 p-0">
-										<div class="pl-4">
+										<div
+											class={cn(
+												'pl-4',
+												// General Styling
+												NUMBER_REGEX.test(cell.render().toString()) &&
+												parseFloat(cell.render().toString()) > 0 && 'text-positive',
+												NUMBER_REGEX.test(cell.render().toString()) &&
+												parseFloat(cell.render().toString()) < 0 && 'text-negative',
+												// Win rate styling
+												cell.id === 'winRate' && parseFloat(cell.render().toString()) >= 50 && 'text-positive',
+												cell.id === 'winRate' && parseFloat(cell.render().toString()) < 50 && 'text-negative',
+												// Drawdown styling
+												cell.id === 'averageDrawdownPercentage' && parseFloat(cell.render().toString()) >= -10 && 'text-positive',
+												cell.id === 'averageDrawdownPercentage' && parseFloat(cell.render().toString()) < -10 && 'text-negative'
+											)}
+										>
 											<Render of={cell.render()} />
 										</div>
 									</Table.Cell>
 								</Subscribe>
 							{/each}
-							<a data-sveltekit-preload-code="off" href={`/strategy/${row.original.id}`} class="absolute left-0 h-14 w-full"
-								>&nbsp;</a
+							<a
+								data-sveltekit-preload-code="off"
+								href={`/strategy/${row.original.id}`}
+								class="absolute left-0 h-14 w-full">&nbsp;</a
 							>
 						</Table.Row>
 					</Subscribe>

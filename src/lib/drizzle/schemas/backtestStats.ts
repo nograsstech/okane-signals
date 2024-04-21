@@ -1,4 +1,4 @@
-import { pgTable, text, numeric, timestamp, serial } from 'drizzle-orm/pg-core';
+import { pgTable, text, numeric, timestamp, serial, boolean } from 'drizzle-orm/pg-core';
 
 
 export const backtestStats = pgTable('backtest_stats', {
@@ -34,5 +34,7 @@ export const backtestStats = pgTable('backtest_stats', {
 	profitFactor: numeric('profit_factor'),
 	html: text('html'),
 	created_at: timestamp('created_at').defaultNow(),
-	ref_id: text('ref_id')
+	updated_at: timestamp('updated_at').defaultNow(),
+	ref_id: text('ref_id'),
+	notifications_on: boolean('notifications_on').default(false)
 });
