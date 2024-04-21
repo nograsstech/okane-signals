@@ -25,9 +25,9 @@
 		<Card.Header class="flex flex-col items-start justify-between md:flex-row">
 			<div class="w-fit">
 				<Card.Title class="w-fit text-xl"
-					>{backtestData.ticker} | {backtestData.strategy}</Card.Title
+					>{backtestData.ticker} | {backtestData.strategy} <span class="text-xs font-light ml-4 opacity-50">ID: {backtestData.id}</span></Card.Title
 				>
-				<Card.Description class="w-fit">Card Description</Card.Description>
+				<Card.Description class="w-fit">Updated: {new Date(backtestData.updated_at).toUTCString()}</Card.Description>
 			</div>
 			<Button
 				variant="secondary"
@@ -161,7 +161,7 @@
 						icon={IntervalIcon}
 					/>
 					<StrategyStatCard
-						field="Max Drawdown %"
+						field="Average Drawdown %"
 						value={parseFloat(backtestData.averageDrawdownPercentage.toString())}
 						description="Maximum drawdown percentage"
 						textColor={parseFloat(backtestData.averageDrawdownPercentage.toString()) < 0

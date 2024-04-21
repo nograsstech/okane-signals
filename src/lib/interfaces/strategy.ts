@@ -26,4 +26,5 @@ export interface KeyStrategyBacktestStats extends BacktestStatPicked {
 	period: string;
 	interval: string;
 	created_at: Date;
+	updated_at: Date;
 }
