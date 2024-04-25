@@ -28,3 +28,16 @@ export interface KeyStrategyBacktestStats extends BacktestStatPicked {
 	created_at: Date;
 	updated_at: Date;
 }
+
+export interface TradeAction {
+	id: string;
+	crated_at: Date;
+	backtest_id: string;
+	datetime: Date;
+	trade_action: string;
+	entry_price: number;
+	price: number;
+	sl: number;
+	tp: number;
+	size: number;
+}
