@@ -2,41 +2,102 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { KEY_FEATURES } from '$lib/constants/landing';
+	import GridAndDotBackgrounds from '@/components/ui/GridAndDotBackground/GridAndDotBackgrounds.svelte';
+	import Sparkles from '@/components/ui/Sparkles/Sparkles.svelte';
+	import CardBody from '@/components/ui/ThreeDCardEffect/CardBody.svelte';
+	import CardContainer from '@/components/ui/ThreeDCardEffect/CardContainer.svelte';
+	import CardItem from '@/components/ui/ThreeDCardEffect/CardItem.svelte';
 	import PageContainer from '@/components/ui/container/page-container.svelte';
 	import LandingFooter from '@/components/ui/footer/landing-footer.svelte';
+	import { onMount } from 'svelte';
+	import { fade, fly } from 'svelte/transition';
 
+	export let data;
 
-	export let data
+	let ready = false;
+	let isMouseEntered = false;
+  
+	onMount(() => ready = true);
 </script>
 
-<!-- src/routes/+page.svelte -->
-<div class=" overflow-hidden py-24 sm:py-32">
-	<div class="relative mx-auto max-w-7xl px-6 lg:px-8">
-		<div class="mx-auto max-w-2xl lg:text-center">
-			<h2 class="text-base font-semibold leading-7">okane signals</h2>
-			<p class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-				Build Winning Trading Strategies<br /> with Precision
-			</p>
-			<p class="mt-6 text-lg leading-8 opacity-60">
-				Create custom trading strategies tailored to your preferences and risk appetite. Adjust
-				parameters, backtest your strategies, and get trading notifications.
-			</p>
-			<div class="mt-10 flex items-center gap-x-6 lg:justify-center">
-				<Button href="/get-started" variant="default" size="lg">Get started</Button>
-				<Button href="/learn-more" variant="link" size="lg" class="">Learn more</Button>
+<section class="relative h-[1000px] md:h-[1200px]">
+	<div
+		class="-z-1 pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 transform"
+		aria-hidden="true"
+	></div>
+
+	<div class="mx-auto max-w-6xl px-4 sm:px-6">
+		<div class="pb-12 pt-32 md:pb-20 md:pt-40">
+			<div class="pb-12 text-center md:pb-16">
+
+					<h1
+						class="leading-tighter mb-4 text-5xl font-extrabold tracking-tighter md:text-6xl"
+						data-aos="zoom-y-out"
+					>
+						Build <span
+							class="bg-gradient-to-r from-green-500 to-teal-400 bg-clip-text text-transparent"
+							>Winning</span
+						>
+						Trading Strategies
+					</h1>
+					<div class="mx-auto max-w-3xl">
+						<p class="mb-8 text-xl text-gray-600" data-aos="zoom-y-out" data-aos-delay="150">
+							Create custom trading strategies tailored to your preferences and risk appetite. Adjust
+							parameters, backtest your strategies, and get trading notifications.
+						</p>
+						<div
+							class="mx-auto max-w-xs sm:flex sm:max-w-none sm:justify-center"
+							data-aos="zoom-y-out"
+							data-aos-delay="300"
+						>
+							<div class="mt-4 flex items-center gap-x-6 lg:justify-center">
+								<Button href="/get-started" variant="default" size="lg">Get started</Button>
+								<Button href="/learn-more" variant="link" size="lg" class="">Learn more</Button>
+							</div>
+						</div>
+					</div>
+				<div class="h-24 md:h-48"></div>
+				{#if ready}
+					<div class="h-96" in:fly={{ duration: 800, y: 100 }}>
+						<GridAndDotBackgrounds>
+							<CardContainer bind:isMouseEntered className="inter-var" containerClassName=" text-start">
+								<CardBody
+									className="bg-gray-50 relative group/card bg-gradient-to-r from-teal-200 to-teal-500  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black  w-auto lg:w-[800rem] max-w-3xl h-auto rounded-xl p-2 border  "
+								>
+									<CardItem {isMouseEntered} translateZ="100" className="w-full relative">
+										<div class="relative">
+											<img
+												src="/images/landing/strategy.webp"
+												height="528"
+												width="750"
+												class="h-full w-full rounded-xl object-cover group-hover/card:shadow-xl"
+												alt="thumbnail"
+											/>
+											<div
+												class="absolute -right-40 top-32 scale-[0.4] rounded-md shadow-xl lg:-right-96 lg:top-12"
+											>
+												<img
+													src="/images/landing/backtest.webp"
+													height="292"
+													width="454"
+													class="scale-5 h-full w-full rounded-xl object-cover group-hover/card:shadow-2xl"
+													alt="thumbnail"
+												/>
+											</div>
+										</div>
+									</CardItem>
+								</CardBody>
+							</CardContainer>
+						</GridAndDotBackgrounds>
+					</div>
+				{:else}
+					<div class="h-96"/>
+				{/if}
+
 			</div>
 		</div>
 	</div>
-	<div
-		class="absolute inset-x-0 top-1/2 -z-10 -translate-y-1/2 transform-gpu overflow-hidden blur-2xl sm:inset-x-0 md:inset-x-auto md:inset-y-auto md:w-full"
-		aria-hidden="true"
-	>
-		<div
-			class="animate-gradient relative bottom-24 left-1/2 -z-10 aspect-[1155/678] w-[36rem] max-w-none rotate-[30deg] rounded-full bg-gradient-to-br from-[#ff6b6b] via-[#ff8a8a] to-[#ff6b6b] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]"
-			style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%);"
-		/>
-	</div>
-</div>
+</section>
 
 <div class="relative overflow-hidden py-24 sm:py-32">
 	<PageContainer>
@@ -53,7 +114,7 @@
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae, nulla vel quisquam
 						earum accusantium.
 					</p>
-					<dl class="mt-10 max-w-xl space-y-8 text-base leading-7  lg:max-w-none">
+					<dl class="mt-10 max-w-xl space-y-8 text-base leading-7 lg:max-w-none">
 						{#each KEY_FEATURES as feature}
 							<div class="flex gap-4">
 								<svelte:component this={feature.icon} class="inline-block h-10 w-10" />
@@ -71,7 +132,7 @@
 					</dl>
 				</div>
 			</div>
-			<Card.Root class="mt-40 pt-6 h-fit">
+			<Card.Root class="mt-40 h-fit pt-6">
 				<Card.Content class="h-fit">
 					<img
 						src="/images/initial-idea.svg"
