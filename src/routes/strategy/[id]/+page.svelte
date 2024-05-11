@@ -12,6 +12,8 @@
 	import SignalsTable from '@/components/strategy/signals-table.svelte';
 	import TableLoadingSkeleton from '@/components/strategy/table-loading-skeleton.svelte';
 	import TradeActionsTable from '@/components/strategy/trade-actions-table.svelte';
+	import TradingviewIframe from '@/components/iframes/tradingview-iframe.svelte';
+	import TradingviewAnalysisWidget from '@/components/iframes/tradingview-analysis-widget.svelte';
 
 	// Data
 	export let data;
@@ -30,7 +32,7 @@
 	<p>error loading backtest stats: {error.message}</p>
 {/await}
 
-<Tabs.Root value="account" class="w-full">
+<Tabs.Root value="account" class="w-full mt-8">
 	<Tabs.List>
 		<Tabs.Trigger value="account">Trade Actions</Tabs.Trigger>
 		<Tabs.Trigger value="password">Signals</Tabs.Trigger>
@@ -60,3 +62,6 @@
 		{/await}
 	</Tabs.Content>
 </Tabs.Root>
+
+<TradingviewIframe app='stock' url='https://th.tradingview.com/symbols/BTCUSD/' />
+<TradingviewAnalysisWidget />
