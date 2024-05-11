@@ -53,18 +53,21 @@
     "@rollup/plugin-json": "^6.1.0",
     "@supabase/supabase-js": "^2.42.0",
     "@sveltejs/adapter-cloudflare": "^4.1.0",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "@xyflow/svelte": "^0.0.38",
     "bits-ui": "^0.21.3",
-    "clsx": "^2.1.0",
+    "clsx": "^2.1.1",
     "cmdk-sv": "^0.0.15",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.30.8",
     "lodash": "^4.17.21",
     "lucide-svelte": "^0.353.0",
+    "mini-svg-data-uri": "^1.4.4",
     "mode-watcher": "^0.2.2",
     "postgres": "^3.4.4",
     "svelte-add": "latest",
-    "tailwind-merge": "^2.2.1",
+    "svelte-motion": "^0.12.2",
+    "tailwind-merge": "^2.3.0",
     "tailwind-variants": "^0.2.0"
   }
 }
