@@ -8,6 +8,7 @@
 	import { Badge } from '$lib/components/ui/badge';
 	import ArrowUpIcon from 'lucide-svelte/icons/arrow-up-from-dot';
 	import ArrowDownIcon from 'lucide-svelte/icons/arrow-down-to-dot';
+	import DotIcon from 'lucide-svelte/icons/dot';
 	import { Input } from '$lib/components/ui/input';
 	import type { KeyStrategyBacktestStats, TradeAction } from '@/interfaces/strategy';
 	import { onMount } from 'svelte';
@@ -25,7 +26,9 @@
 				...action,
 				gmtTime: new Date(action.datetime)
 			};
-		})
+		}).sort((a, b) => {
+			return b.gmtTime.getTime() - a.gmtTime.getTime();
+		});
 	// States
 	let mounted = false;
 
@@ -46,12 +49,12 @@
 
 	const columns = table.createColumns([
 		table.column({
-			accessor: 'gmtTime',
-			header: 'Time'
-		}),
-		table.column({
 			accessor: 'trade_action',
 			header: 'Trade Action'
+		}),
+		table.column({
+			accessor: 'gmtTime',
+			header: 'Time'
 		}),
 		table.column({
 			accessor: 'entry_price',
@@ -175,15 +178,19 @@
 											<div class="lg:text-md py-2 pl-2 text-xs lg:py-0">
 												<div>{new Date(cell.render().toString()).toLocaleString()}</div>
 											</div>
-										{:else if cell.column.id === 'totalSignal'}
+										{:else if cell.column.id === 'trade_action'}
 											<div class="pl-2">
-												{#if cell.render() === '2'}
+												{#if cell.render() === 'buy'}
 													<Badge class="flex w-fit gap-2 bg-positive py-1 pr-4"
 														><ArrowUpIcon class="h-4 w-4" /><span>Buy</span></Badge
 													>
-												{:else if cell.render() === '1'}
+												{:else if cell.render() === 'sell'}
 													<Badge class="flex w-fit gap-2 bg-negative py-1 pr-4"
 														><ArrowDownIcon class="h-4 w-4" /><span>Sell</span></Badge
+													>
+												{:else if cell.render() === 'close'}
+													<Badge class="flex w-fit gap-2 py-1 pr-4"
+														><DotIcon class="h-4 w-4" /><span>Close</span></Badge
 													>
 												{/if}
 											</div>
