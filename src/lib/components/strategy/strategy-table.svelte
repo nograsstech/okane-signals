@@ -1,7 +1,12 @@
 <!-- MARK: Script -->
 <script lang="ts">
 	import { createTable, DataBodyRow, Render, Subscribe } from 'svelte-headless-table';
-	import { addPagination, addSortBy, addTableFilter } from 'svelte-headless-table/plugins';
+	import {
+		addPagination,
+		addSortBy,
+		addTableFilter,
+		type SortKey
+	} from 'svelte-headless-table/plugins';
 	import { readable } from 'svelte/store';
 	import * as Table from '$lib/components/ui/table';
 	import { Button } from '$lib/components/ui/button';
@@ -15,8 +20,13 @@
 	import { quintOut } from 'svelte/easing';
 	import Skeleton from '../ui/skeleton/skeleton.svelte';
 	import { NUMBER_REGEX } from '$lib/constants/regex';
+	import { notypecheck } from '@/utils/notypecheck';
+	import { browser } from '$app/environment';
 
 	export let data: KeyStrategyBacktestStats[];
+	export let initialSortKeys: SortKey[] = [];
+	export let initialPageIndex: number = 0;
+
 
 	// States
 	let mounted = false;
@@ -29,9 +39,12 @@
 
 	// Table Configurations
 	const table = createTable(readable(data), {
-		page: addPagination(),
+		page: addPagination({
+			initialPageSize: 3,
+			initialPageIndex: initialPageIndex ? initialPageIndex : 0,
+		}),
 		sort: addSortBy({
-			initialSortKeys: [{ id: 'winRate', order: 'desc' }]
+			initialSortKeys: initialSortKeys.length ? initialSortKeys : [{ id: 'winRate', order: 'desc' }]
 		}),
 		filter: addTableFilter({
 			fn: ({ filterValue, value }) => value.toLowerCase().includes(filterValue.toLowerCase())
@@ -108,19 +121,24 @@
 		table.createViewModel(columns);
 	const { pageSize, pageIndex, pageCount, hasPreviousPage, hasNextPage } = pluginStates.page;
 	const { filterValue } = pluginStates.filter;
+	const { sortKeys } = pluginStates.sort;
 
 	// Methods
 	const handleClick = (row: any) => {
 		row = row as DataBodyRow<KeyStrategyBacktestStats>;
 
 		window.location.pathname = `/strategy/${row.original.id}`;
-		// goto(`/strategy/${row.original.id}`);
 	};
 
 	// Event Handler
 	onMount(() => {
 		mounted = true;
 	});
+
+	$: if (browser) {
+		window.localStorage.setItem('sortkeys', JSON.stringify($sortKeys));
+		window.sessionStorage.setItem('initialStrategyPageIndex', JSON.stringify($pageIndex));
+	}
 </script>
 
 <div class="mt-8">
@@ -192,15 +210,25 @@
 												'pl-4',
 												// General Styling
 												NUMBER_REGEX.test(cell.render().toString()) &&
-												parseFloat(cell.render().toString()) > 0 && 'text-positive',
+													parseFloat(cell.render().toString()) > 0 &&
+													'text-positive',
 												NUMBER_REGEX.test(cell.render().toString()) &&
-												parseFloat(cell.render().toString()) < 0 && 'text-negative',
+													parseFloat(cell.render().toString()) < 0 &&
+													'text-negative',
 												// Win rate styling
-												cell.id === 'winRate' && parseFloat(cell.render().toString()) >= 50 && 'text-positive',
-												cell.id === 'winRate' && parseFloat(cell.render().toString()) < 50 && 'text-negative',
+												cell.id === 'winRate' &&
+													parseFloat(cell.render().toString()) >= 50 &&
+													'text-positive',
+												cell.id === 'winRate' &&
+													parseFloat(cell.render().toString()) < 50 &&
+													'text-negative',
 												// Drawdown styling
-												cell.id === 'averageDrawdownPercentage' && parseFloat(cell.render().toString()) >= -10 && 'text-positive',
-												cell.id === 'averageDrawdownPercentage' && parseFloat(cell.render().toString()) < -10 && 'text-negative'
+												cell.id === 'averageDrawdownPercentage' &&
+													parseFloat(cell.render().toString()) >= -10 &&
+													'text-positive',
+												cell.id === 'averageDrawdownPercentage' &&
+													parseFloat(cell.render().toString()) < -10 &&
+													'text-negative'
 											)}
 										>
 											<Render of={cell.render()} />
@@ -210,7 +238,7 @@
 							{/each}
 							<a
 								data-sveltekit-preload-code="off"
-								href={`/strategy/${row.original.id}`}
+								href={`/strategy/${notypecheck(row).original.id}`}
 								class="absolute left-0 h-14 w-full">&nbsp;</a
 							>
 						</Table.Row>
