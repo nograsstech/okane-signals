@@ -22,11 +22,26 @@
 	import { NUMBER_REGEX } from '$lib/constants/regex';
 	import { notypecheck } from '@/utils/notypecheck';
 	import { browser } from '$app/environment';
+	import { redirect } from '@sveltejs/kit';
+	import { Router } from 'lucide-svelte';
+	import { goto } from '$app/navigation';
 
 	export let data: KeyStrategyBacktestStats[];
 	export let initialSortKeys: SortKey[] = [];
 	export let initialPageIndex: number = 0;
 
+	console.log(data)
+
+	data = data.map((strategy, index) => {
+		strategy['✨'] = '';
+		if (strategy.sharpeRatio > 1.5 && strategy.winRate >= 50) strategy['✨'] += '✨ ';
+		if (strategy.sharpeRatio > 1.5) strategy['✨'] += '↑SR ';
+		if (strategy.winRate >= 50) strategy['✨'] += '↑WR ';
+		
+		if (strategy.notificationsOn) strategy['🔔'] = '🔔';
+		else strategy['🔔'] = '';
+		return strategy;
+	});
 
 	// States
 	let mounted = false;
@@ -40,8 +55,8 @@
 	// Table Configurations
 	const table = createTable(readable(data), {
 		page: addPagination({
-			initialPageSize: 3,
-			initialPageIndex: initialPageIndex ? initialPageIndex : 0,
+			initialPageSize: 10,
+			initialPageIndex: initialPageIndex ? initialPageIndex : 0
 		}),
 		sort: addSortBy({
 			initialSortKeys: initialSortKeys.length ? initialSortKeys : [{ id: 'winRate', order: 'desc' }]
@@ -58,6 +73,14 @@
 	};
 
 	const columns = table.createColumns([
+		table.column({
+			accessor: '🔔',
+			header: '🔔',
+		}),
+		table.column({
+			accessor: '✨',
+			header: '✨ Top Performer',
+		}),
 		table.column({
 			accessor: 'strategy',
 			header: 'Strategy'
@@ -125,7 +148,7 @@
 
 	// Methods
 	const handleClick = (row: any) => {
-		row = row as DataBodyRow<KeyStrategyBacktestStats>;
+		row = row as DataBodyRow<KeyStrategyBacktestStats & { '✨': any }>;
 
 		window.location.pathname = `/strategy/${row.original.id}`;
 	};
@@ -201,13 +224,15 @@
 			<Table.Body {...$tableBodyAttrs}>
 				{#each $pageRows as row, i (row.id)}
 					<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-						<Table.Row {...rowAttrs} class="relative">
+						<Table.Row {...rowAttrs} class="relative" on:click={() => goto(`/strategy/${notypecheck(row).original.id}`)}>
 							{#each row.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs>
 									<Table.Cell {...attrs} class="h-14 p-0">
-										<div
+										<a
+											data-sveltekit-preload-code="off"
+											href={`/strategy/${notypecheck(row).original.id}`}
 											class={cn(
-												'pl-4',
+												'pl-4 ',
 												// General Styling
 												NUMBER_REGEX.test(cell.render().toString()) &&
 													parseFloat(cell.render().toString()) > 0 &&
@@ -232,7 +257,7 @@
 											)}
 										>
 											<Render of={cell.render()} />
-										</div>
+										</a>
 									</Table.Cell>
 								</Subscribe>
 							{/each}
@@ -261,7 +286,7 @@
 			variant="outline"
 			size="sm"
 			disabled={!$hasNextPage}
-			on:click={() => ($pageIndex = $pageIndex + 1)}>Next</Button
+			on:click={() => ($pageIndex = parseInt($pageIndex.toString()) + 1)}>Next</Button
 		>
 	</div>
 {/if}

@@ -15,6 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
+  BacktestProcessUuid,
   BacktestResponseDTO,
   End,
   HTTPValidationError,
@@ -23,8 +24,11 @@ import type {
   SignalResponseDTO,
   Start,
   Strategy,
+  StrategyId,
 } from '../models/index';
 import {
+    BacktestProcessUuidFromJSON,
+    BacktestProcessUuidToJSON,
     BacktestResponseDTOFromJSON,
     BacktestResponseDTOToJSON,
     EndFromJSON,
@@ -41,6 +45,8 @@ import {
     StartToJSON,
     StrategyFromJSON,
     StrategyToJSON,
+    StrategyIdFromJSON,
+    StrategyIdToJSON,
 } from '../models/index';
 
 export interface BacktestSignalsBacktestGetRequest {
@@ -51,6 +57,8 @@ export interface BacktestSignalsBacktestGetRequest {
     parameters?: Parameters;
     start?: Start;
     end?: End;
+    strategyId?: StrategyId;
+    backtestProcessUuid?: BacktestProcessUuid;
 }
 
 export interface BacktestSignalsBacktestSyncGetRequest {
@@ -61,6 +69,8 @@ export interface BacktestSignalsBacktestSyncGetRequest {
     parameters?: Parameters;
     start?: Start;
     end?: End;
+    strategyId?: StrategyId;
+    backtestProcessUuid?: BacktestProcessUuid;
 }
 
 export interface GetSignalsSignalsGetRequest {
@@ -71,6 +81,8 @@ export interface GetSignalsSignalsGetRequest {
     parameters?: Parameters;
     start?: Start;
     end?: End;
+    strategyId?: StrategyId;
+    backtestProcessUuid?: BacktestProcessUuid;
 }
 
 /**
@@ -124,6 +136,14 @@ export class SignalsApi extends runtime.BaseAPI {
 
         if (requestParameters['end'] != null) {
             queryParameters['end'] = requestParameters['end'];
+        }
+
+        if (requestParameters['strategyId'] != null) {
+            queryParameters['strategy_id'] = requestParameters['strategyId'];
+        }
+
+        if (requestParameters['backtestProcessUuid'] != null) {
+            queryParameters['backtest_process_uuid'] = requestParameters['backtestProcessUuid'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -198,6 +218,14 @@ export class SignalsApi extends runtime.BaseAPI {
             queryParameters['end'] = requestParameters['end'];
         }
 
+        if (requestParameters['strategyId'] != null) {
+            queryParameters['strategy_id'] = requestParameters['strategyId'];
+        }
+
+        if (requestParameters['backtestProcessUuid'] != null) {
+            queryParameters['backtest_process_uuid'] = requestParameters['backtestProcessUuid'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
@@ -266,6 +294,14 @@ export class SignalsApi extends runtime.BaseAPI {
             queryParameters['end'] = requestParameters['end'];
         }
 
+        if (requestParameters['strategyId'] != null) {
+            queryParameters['strategy_id'] = requestParameters['strategyId'];
+        }
+
+        if (requestParameters['backtestProcessUuid'] != null) {
+            queryParameters['backtest_process_uuid'] = requestParameters['backtestProcessUuid'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
@@ -286,6 +322,36 @@ export class SignalsApi extends runtime.BaseAPI {
      */
     async getSignalsSignalsGet(requestParameters: GetSignalsSignalsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SignalResponseDTO> {
         const response = await this.getSignalsSignalsGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Strategy Notification
+     */
+    async strategyNotificationSignalsStrategyNotificationJobPostRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/signals/strategy-notification-job`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Strategy Notification
+     */
+    async strategyNotificationSignalsStrategyNotificationJobPost(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.strategyNotificationSignalsStrategyNotificationJobPostRaw(initOverrides);
         return await response.value();
     }
 

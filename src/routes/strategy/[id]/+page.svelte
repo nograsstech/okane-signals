@@ -14,6 +14,10 @@
 	import TradeActionsTable from '@/components/strategy/trade-actions-table.svelte';
 	import TradingviewIframe from '@/components/iframes/tradingview-iframe.svelte';
 	import TradingviewAnalysisWidget from '@/components/iframes/tradingview-analysis-widget.svelte';
+	import { TradingViewSymbolMapper } from '@/utils/tradingview-mapper.js';
+
+	// Add type annotation for TradingViewSymbolMapper
+	const symbolMapper: { [key: string]: string } = TradingViewSymbolMapper;
 
 	// Data
 	export let data;
@@ -32,7 +36,7 @@
 	<p>error loading backtest stats: {error.message}</p>
 {/await}
 
-<Tabs.Root value="account" class="w-full mt-8">
+<Tabs.Root value="account" class="mt-8 w-full">
 	<Tabs.List>
 		<Tabs.Trigger value="account">Trade Actions</Tabs.Trigger>
 		<Tabs.Trigger value="password">Signals</Tabs.Trigger>
@@ -63,5 +67,11 @@
 	</Tabs.Content>
 </Tabs.Root>
 
-<TradingviewIframe app='stock' url='https://th.tradingview.com/symbols/BTCUSD/' />
-<TradingviewAnalysisWidget />
+{#await data.backtestData}
+	Loading...
+{:then backtestData}
+	<TradingviewAnalysisWidget symbol={symbolMapper[backtestData[0].ticker]} />
+	<TradingviewIframe app="stock" />
+{:catch error}
+	<p>error loading backtest stats: {error.message}</p>
+{/await}
