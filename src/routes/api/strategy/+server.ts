@@ -74,8 +74,6 @@ export async function GET({ url, setHeaders }) {
 		createdAt.setHours(0, 0, 0, 0); // set the time to 00:00:00
 	}
 
-	console.log("💀", existingBacktestData)
-
 	if (existingBacktestData.length && createdAt && +createdAt === +today) {
 		setHeaders({ 'cache-control': 'max-age=20' });
 		return json(existingBacktestData);
