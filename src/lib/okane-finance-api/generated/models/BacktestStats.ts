@@ -24,6 +24,12 @@ export interface BacktestStats {
      * @type {any}
      * @memberof BacktestStats
      */
+    notificationsOn: boolean | null;
+    /**
+     * 
+     * @type {any}
+     * @memberof BacktestStats
+     */
     ticker: any | null;
     /**
      * 
@@ -181,6 +187,18 @@ export interface BacktestStats {
      * @memberof BacktestStats
      */
     html: any | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof BacktestStats
+     */
+    tpslRatio: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof BacktestStats
+     */
+    slCoef: number;
 }
 
 /**
@@ -214,6 +232,8 @@ export function instanceOfBacktestStats(value: object): boolean {
     if (!('averageTradeDuration' in value)) return false;
     if (!('profitFactor' in value)) return false;
     if (!('html' in value)) return false;
+    if (!('tpslRatio' in value)) return false;
+    if (!('slCoef' in value)) return false;
     return true;
 }
 
@@ -254,6 +274,8 @@ export function BacktestStatsFromJSONTyped(json: any, ignoreDiscriminator: boole
         'averageTradeDuration': json['average_trade_duration'],
         'profitFactor': json['profit_factor'],
         'html': json['html'],
+        'tpslRatio': json['tpslRatio'],
+        'slCoef': json['sl_coef'],
     };
 }
 
@@ -290,6 +312,8 @@ export function BacktestStatsToJSON(value?: BacktestStats | null): any {
         'average_trade_duration': value['averageTradeDuration'],
         'profit_factor': value['profitFactor'],
         'html': value['html'],
+        'tpslRatio': value['tpslRatio'],
+        'sl_coef': value['slCoef'],
     };
 }
 

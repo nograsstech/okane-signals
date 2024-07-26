@@ -12,6 +12,7 @@
 	import type { KeyStrategyBacktestStats } from '@/interfaces/strategy';
 	import { fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
+	import Badge from '../ui/badge/badge.svelte';
 
 	// Props
 	export let backtestData: KeyStrategyBacktestStats;
@@ -25,9 +26,12 @@
 		<Card.Header class="flex flex-col items-start justify-between md:flex-row">
 			<div class="w-fit">
 				<Card.Title class="w-fit text-xl"
-					>{backtestData.ticker} | {backtestData.strategy} <span class="text-xs font-light ml-4 opacity-50">ID: {backtestData.id}</span></Card.Title
+					>{backtestData.ticker} | {backtestData.strategy}
+					<span class="ml-4 text-xs font-light opacity-50">ID: {backtestData.id}</span></Card.Title
 				>
-				<Card.Description class="w-fit">Updated: {new Date(backtestData.updated_at).toUTCString()}</Card.Description>
+				<Card.Description class="w-fit"
+					>Updated: {new Date(backtestData.updated_at).toUTCString().replace("GMT", "")}</Card.Description
+				>
 			</div>
 			<Button
 				variant="secondary"
@@ -40,6 +44,14 @@
 		</Card.Header>
 
 		<Card.Content>
+			<div class="mb-4 flex">
+				{#if parseFloat(backtestData.sharpeRatio.toString()) > 1.5}
+					<Badge variant="secondary" class="mr-2">High Sharpe Ratio</Badge>
+				{/if}
+				{#if parseFloat(backtestData.winRate.toString()) > 0.5}
+					<Badge variant="secondary" class="mr-2">High Win Rate</Badge>
+				{/if}
+			</div>
 			<div
 				class="flex flex-wrap gap-4"
 				transition:fly={{
@@ -63,36 +75,42 @@
 					description="The interval in which the price data is pulled"
 					icon={IntervalIcon}
 				/>
+				<StrategyStatCard
+					field="tpsl_ratio"
+					value={backtestData.tpsl_ratio}
+					description="The interval in which the price data is pulled"
+					icon={IntervalIcon}
+				/>
 			</div>
 
-			<div class="flex mt-4 gap-4">
+			<div class="mt-4 flex gap-4">
 				{#if !collapsibleOpen}
-				<StrategyStatCard
-					field="Return %"
-					value={parseFloat(backtestData.returnPercentage.toString())}
-					description="Return percentage within this trading period"
-					textColor={parseFloat(backtestData.returnPercentage.toString()) < 0
-						? 'negative'
-						: 'positive'}
-					icon={IntervalIcon}
-				/>
-				<StrategyStatCard
-					field="Max Drawdown %"
-					value={parseFloat(backtestData.maxDrawdownPercentage.toString())}
-					description="Maximum drawdown percentage"
-					textColor={parseFloat(backtestData.maxDrawdownPercentage.toString()) < 0
-						? 'negative'
-						: 'positive'}
-					icon={IntervalIcon}
-				/>
-				<StrategyStatCard
-					field="Win Rate %"
-					value={parseFloat(backtestData.winRate.toString())}
-					description="Percentage of capital"
-					textColor="neutral"
-					icon={IntervalIcon}
-				/>
-			{/if}
+					<StrategyStatCard
+						field="Return %"
+						value={parseFloat(backtestData.returnPercentage.toString())}
+						description="Return percentage within this trading period"
+						textColor={parseFloat(backtestData.returnPercentage.toString()) < 0
+							? 'negative'
+							: 'positive'}
+						icon={IntervalIcon}
+					/>
+					<StrategyStatCard
+						field="Max Drawdown %"
+						value={parseFloat(backtestData.maxDrawdownPercentage.toString())}
+						description="Maximum drawdown percentage"
+						textColor={parseFloat(backtestData.maxDrawdownPercentage.toString()) < 0
+							? 'negative'
+							: 'positive'}
+						icon={IntervalIcon}
+					/>
+					<StrategyStatCard
+						field="Win Rate %"
+						value={parseFloat(backtestData.winRate.toString())}
+						description="Percentage of capital"
+						textColor="neutral"
+						icon={IntervalIcon}
+					/>
+				{/if}
 			</div>
 
 			<hr class="mx-[-24px] mt-6" />
@@ -236,9 +254,13 @@
 			</Collapsible.Content>
 			<Collapsible.Trigger class="mt-4 w-full">
 				{#if collapsibleOpen}
-					<Button variant="link" class="w-full"><ArrowUpIcon class="w-4 h-4" />Hide Detailed Stats</Button>
+					<Button variant="link" class="w-full"
+						><ArrowUpIcon class="h-4 w-4" />Hide Detailed Stats</Button
+					>
 				{:else}
-					<Button variant="link" class="w-full"><ArrowDownIcon class="w-4 h-4" />Show Detailed Stats</Button>
+					<Button variant="link" class="w-full"
+						><ArrowDownIcon class="h-4 w-4" />Show Detailed Stats</Button
+					>
 				{/if}
 			</Collapsible.Trigger>
 		</Card.Content>

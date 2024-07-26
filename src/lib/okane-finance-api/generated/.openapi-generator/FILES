@@ -5,6 +5,7 @@ apis/TickersApi.ts
 apis/index.ts
 index.ts
 models/AlphaVantageNewsResponseDTO.ts
+models/BacktestProcessUuid.ts
 models/BacktestResponseDTO.ts
 models/BacktestStats.ts
 models/End.ts
@@ -20,6 +21,7 @@ models/SignalsDict.ts
 models/Sort.ts
 models/Start.ts
 models/Strategy.ts
+models/StrategyId.ts
 models/TickerResponseDTO.ts
 models/Tickers.ts
 models/ValidationError.ts

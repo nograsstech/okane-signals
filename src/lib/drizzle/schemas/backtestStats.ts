@@ -36,5 +36,7 @@ export const backtestStats = pgTable('backtest_stats', {
 	created_at: timestamp('created_at').defaultNow(),
 	updated_at: timestamp('updated_at').defaultNow(),
 	ref_id: text('ref_id'),
-	notifications_on: boolean('notifications_on').default(false)
+	notificationsOn: boolean('notifications_on').default(false),
+	tpsl_ratio: numeric('tpsl_ratio'),
+	sl_coef: numeric('sl_coef'),
 });

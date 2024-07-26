@@ -19,6 +19,9 @@ type BacktestStatPicked = Pick<
 	| 'worstTrade'
 	| 'bestTrade'
 	| 'html'
+	| 'tpslRatio'
+	| 'slCoef'
+	| 'notificationsOn'
 >;
 export interface KeyStrategyBacktestStats extends BacktestStatPicked {
 	id: string;
@@ -27,6 +30,11 @@ export interface KeyStrategyBacktestStats extends BacktestStatPicked {
 	interval: string;
 	created_at: Date;
 	updated_at: Date;
+	tpsl_ratio: number;
+	slCoef: number;
+	'✨': string;
+	'🔔': string;
+	'notificationsOn': boolean;
 }
 
 export interface TradeAction {

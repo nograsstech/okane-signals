@@ -24,6 +24,7 @@ export async function GET({ setHeaders }) {
 			winRate: backtestStats.winRate,
 			avgTrade: backtestStats.avgTrade,
 			worstTrade: backtestStats.worstTrade,
+			notificationsOn: backtestStats.notificationsOn,
 			bestTrade: backtestStats.calmarRatio,
 			created_at: backtestStats.created_at
 		})

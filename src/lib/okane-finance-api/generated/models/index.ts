@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export * from './AlphaVantageNewsResponseDTO';
+export * from './BacktestProcessUuid';
 export * from './BacktestResponseDTO';
 export * from './BacktestStats';
 export * from './End';
@@ -16,6 +17,7 @@ export * from './SignalsDict';
 export * from './Sort';
 export * from './Start';
 export * from './Strategy';
+export * from './StrategyId';
 export * from './TickerResponseDTO';
 export * from './Tickers';
 export * from './ValidationError';

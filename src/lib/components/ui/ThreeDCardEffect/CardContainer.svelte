@@ -41,6 +41,8 @@
 			className
 		)}
 		style="transform-style: preserve-3d;"
+		role="region"
+		aria-label="3D Card Effect"
 	>
 		<slot />
 	</div>

@@ -2,7 +2,6 @@
 	import { afterUpdate, onDestroy, onMount } from 'svelte';
 
 	export let app;
-	export let url;
 
 	onMount(() => {
 		console.log(`Mounted ${app}`);
@@ -41,6 +40,7 @@
 
 <!-- TradingView Widget END -->
 
+<!-- svelte-ignore css-unused-selector -->
 <style>
 	iframe {
 		width: 100%;
