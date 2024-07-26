@@ -22,15 +22,11 @@
 	import { NUMBER_REGEX } from '$lib/constants/regex';
 	import { notypecheck } from '@/utils/notypecheck';
 	import { browser } from '$app/environment';
-	import { redirect } from '@sveltejs/kit';
-	import { Router } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 
 	export let data: KeyStrategyBacktestStats[];
 	export let initialSortKeys: SortKey[] = [];
 	export let initialPageIndex: number = 0;
-
-	console.log(data)
 
 	data = data.map((strategy, index) => {
 		strategy['✨'] = '';
@@ -286,7 +282,7 @@
 			variant="outline"
 			size="sm"
 			disabled={!$hasNextPage}
-			on:click={() => ($pageIndex = parseInt($pageIndex.toString()) + 1)}>Next</Button
+			on:click={() => ($pageIndex = $pageIndex + 1)}>Next</Button
 		>
 	</div>
 {/if}

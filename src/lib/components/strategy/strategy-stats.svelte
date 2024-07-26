@@ -30,7 +30,7 @@
 					<span class="ml-4 text-xs font-light opacity-50">ID: {backtestData.id}</span></Card.Title
 				>
 				<Card.Description class="w-fit"
-					>Updated: {new Date(backtestData.updated_at).toUTCString().replace("GMT", "")}</Card.Description
+					>Updated: {new Date(backtestData.updated_at).toLocaleString()}</Card.Description
 				>
 			</div>
 			<Button
