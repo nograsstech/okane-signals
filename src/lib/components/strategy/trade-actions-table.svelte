@@ -18,7 +18,11 @@
 	import Skeleton from '../ui/skeleton/skeleton.svelte';
 	import type { SignalResponseDTO } from '@/okane-finance-api/generated';
 
-	export let tradeActionsData: TradeAction[];
+	interface Props {
+		tradeActionsData: TradeAction[];
+	}
+
+	let { tradeActionsData }: Props = $props();
 
 	const formattedData = tradeActionsData
 		.map((action) => {
@@ -30,7 +34,7 @@
 			return b.gmtTime.getTime() - a.gmtTime.getTime();
 		});
 	// States
-	let mounted = false;
+	let mounted = $state(false);
 
 	// Theme
 	let selectedTheme = '';
@@ -157,11 +161,13 @@
 					<Subscribe rowAttrs={headerRow.attrs()}>
 						<Table.Row>
 							{#each headerRow.cells as cell (cell.id)}
-								<Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
-									<Table.Head {...attrs} class="pl-2">
-										<Render of={cell.render()} />
-									</Table.Head>
-								</Subscribe>
+								<Subscribe attrs={cell.attrs()}  props={cell.props()} >
+									{#snippet children({ attrs, props })}
+																		<Table.Head {...attrs} class="pl-2">
+											<Render of={cell.render()} />
+										</Table.Head>
+																										{/snippet}
+																</Subscribe>
 							{/each}
 						</Table.Row>
 					</Subscribe>
@@ -169,45 +175,49 @@
 			</Table.Header>
 			<Table.Body {...$tableBodyAttrs}>
 				{#each $pageRows as row, i (row.id)}
-					<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-						<Table.Row {...rowAttrs} class="relative">
-							{#each row.cells as cell (cell.id)}
-								<Subscribe attrs={cell.attrs()} let:attrs>
-									<Table.Cell {...attrs} class="h-14 p-0">
-										{#if cell.column.id === 'gmtTime'}
-											<div class="lg:text-md py-2 pl-2 text-xs lg:py-0">
-												<div>{new Date(cell.render().toString()).toLocaleString()}</div>
-											</div>
-										{:else if cell.column.id === 'trade_action'}
-											<div class="pl-2">
-												{#if cell.render() === 'buy'}
-													<Badge class="flex w-fit gap-2 bg-positive py-1 pr-4"
-														><ArrowUpIcon class="h-4 w-4" /><span>Buy</span></Badge
-													>
-												{:else if cell.render() === 'sell'}
-													<Badge class="flex w-fit gap-2 bg-negative py-1 pr-4"
-														><ArrowDownIcon class="h-4 w-4" /><span>Sell</span></Badge
-													>
-												{:else if cell.render() === 'close'}
-													<Badge class="flex w-fit gap-2 py-1 pr-4"
-														><DotIcon class="h-4 w-4" /><span>Close</span></Badge
-													>
-												{/if}
-											</div>
-										{:else}
-											<div class="pl-2">
-												{#if cell.render() !== "null"}
-													 <Render of={cell.render()} />
+					<Subscribe rowAttrs={row.attrs()} >
+						{#snippet children({ rowAttrs })}
+												<Table.Row {...rowAttrs} class="relative">
+								{#each row.cells as cell (cell.id)}
+									<Subscribe attrs={cell.attrs()} >
+										{#snippet children({ attrs })}
+																		<Table.Cell {...attrs} class="h-14 p-0">
+												{#if cell.column.id === 'gmtTime'}
+													<div class="lg:text-md py-2 pl-2 text-xs lg:py-0">
+														<div>{new Date(cell.render().toString()).toLocaleString()}</div>
+													</div>
+												{:else if cell.column.id === 'trade_action'}
+													<div class="pl-2">
+														{#if cell.render() === 'buy'}
+															<Badge class="flex w-fit gap-2 bg-positive py-1 pr-4"
+																><ArrowUpIcon class="h-4 w-4" /><span>Buy</span></Badge
+															>
+														{:else if cell.render() === 'sell'}
+															<Badge class="flex w-fit gap-2 bg-negative py-1 pr-4"
+																><ArrowDownIcon class="h-4 w-4" /><span>Sell</span></Badge
+															>
+														{:else if cell.render() === 'close'}
+															<Badge class="flex w-fit gap-2 py-1 pr-4"
+																><DotIcon class="h-4 w-4" /><span>Close</span></Badge
+															>
+														{/if}
+													</div>
 												{:else}
-													<span class="text-gray-500">N/A</span>
+													<div class="pl-2">
+														{#if cell.render() !== "null"}
+															 <Render of={cell.render()} />
+														{:else}
+															<span class="text-gray-500">N/A</span>
+														{/if}
+													</div>
 												{/if}
-											</div>
-										{/if}
-									</Table.Cell>
-								</Subscribe>
-							{/each}
-						</Table.Row>
-					</Subscribe>
+											</Table.Cell>
+																											{/snippet}
+																</Subscribe>
+								{/each}
+							</Table.Row>
+																	{/snippet}
+										</Subscribe>
 				{/each}
 			</Table.Body>
 		</Table.Root>

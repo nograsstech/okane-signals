@@ -3,11 +3,21 @@
 	
 	import type { ComponentType } from 'svelte';
 
-	export let field: string;
-	export let value: string | number;
-	export let description: string;
-  export let icon: ComponentType | undefined = undefined;
-  export let textColor: "positive" | "negative" | "neutral" = "neutral"
+	interface Props {
+		field: string;
+		value: string | number;
+		description: string;
+		icon?: ComponentType | undefined;
+		textColor?: "positive" | "negative" | "neutral";
+	}
+
+	let {
+		field,
+		value,
+		description,
+		icon = undefined,
+		textColor = "neutral"
+	}: Props = $props();
 </script>
 
 <Card.Root
@@ -17,7 +27,8 @@
 	<Card.Header class="flex flex-row items-center justify-between space-y-0 p-3 pb-0">
 		<Card.Title class="text-sm font-medium">{field}</Card.Title>
     {#if icon}
-      <svelte:component this={icon} class="text-muted-foreground h-4 w-4 ml-1" />
+      {@const SvelteComponent = icon}
+      <SvelteComponent class="text-muted-foreground h-4 w-4 ml-1" />
     {/if}
 	</Card.Header>
 	<Card.Content class="p-3">

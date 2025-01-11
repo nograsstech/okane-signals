@@ -1,19 +1,20 @@
-import type { KeyStrategyBacktestStats } from '@/interfaces/strategy.js';
-import { error } from '@sveltejs/kit';
+import { redirect, type RequestHandler } from '@sveltejs/kit';
 import pako from 'pako';
 
-// export const ssr = false
-export const csr = false;
+export const GET: RequestHandler = async ({ params, fetch, locals }) => {
+	const session = await locals.auth();
+	if (!session) {
+		throw redirect(303, '/signin');
+	}
 
-/** @type {import('./$types').PageLoad} */
-export async function load({ params, fetch }) {
 	const strategyID = params.id;
 
 	if (strategyID) {
 		const basePath = '/api/strategy?';
 		const params = new URLSearchParams({ id: strategyID, html: 'true' });
 		const strategyList = await fetch(basePath + params);
-		const data: KeyStrategyBacktestStats[] = await strategyList.json();
+		const data = await strategyList.json();
+
 		try {
 			// Example compressed data (base64 encoded, from Python)
 			const compressedBase64 = data[0].html;
@@ -23,13 +24,16 @@ export async function load({ params, fetch }) {
 
 			// Decompress the data using pako
 			const decompressedData = pako.inflate(compressedData, { to: 'string' });
-			return {
-				backtestHTML: decompressedData
-			};
+
+			// Return the HTML content directly
+			return new Response(decompressedData, {
+				headers: { 'Content-Type': 'text/html' }
+			});
 		} catch (error) {
 			console.error('Decompression failed:', error);
+			return new Response('Decompression failed', { status: 500 });
 		}
 	}
 
-	error(404, 'Not found');
-}
+	return new Response('Not found', { status: 404 });
+};

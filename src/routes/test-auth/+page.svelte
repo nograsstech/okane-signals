@@ -21,22 +21,30 @@
       {JSON.stringify($page.data.session, null, 2)}
     </pre>
     <SignOut>
-      <div slot="submitButton" class="buttonPrimary">Sign out</div>
+      {#snippet submitButton()}
+            <div  class="buttonPrimary">Sign out</div>
+          {/snippet}
     </SignOut>
   {:else}
     <span class="notSignedInText">You are not signed in</span>
     <SignIn>
-      <div slot="submitButton" class="buttonPrimary">Sign in</div>
+      {#snippet submitButton()}
+            <div  class="buttonPrimary">Sign in</div>
+          {/snippet}
     </SignIn>
     <SignIn provider="github">
-      <div slot="submitButton" class="bg-blue-900">
-        GitHub Sign In
-      </div>
+      {#snippet submitButton()}
+            <div  class="bg-blue-900">
+          GitHub Sign In
+        </div>
+          {/snippet}
     </SignIn>
     <SignIn provider="google">
-      <div slot="submitButton" class="bg-red-900">
-        Google Sign In
-      </div>
+      {#snippet submitButton()}
+            <div  class="bg-red-900">
+          Google Sign In
+        </div>
+          {/snippet}
     </SignIn>
   {/if}
 </div>
