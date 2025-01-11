@@ -12,10 +12,10 @@
 	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 
-	export let data;
+	let { data } = $props();
 
-	let ready = false;
-	let isMouseEntered = false;
+	let ready = $state(false);
+	let isMouseEntered = $state(false);
   
 	onMount(() => ready = true);
 </script>
@@ -91,7 +91,7 @@
 						</GridAndDotBackgrounds>
 					</div>
 				{:else}
-					<div class="h-96"/>
+					<div class="h-96"></div>
 				{/if}
 
 			</div>
@@ -117,7 +117,7 @@
 					<dl class="mt-10 max-w-xl space-y-8 text-base leading-7 lg:max-w-none">
 						{#each KEY_FEATURES as feature}
 							<div class="flex gap-4">
-								<svelte:component this={feature.icon} class="inline-block h-10 w-10" />
+								<feature.icon class="inline-block h-10 w-10" />
 								<div class="relative">
 									<dt class="inline font-semibold opacity-80">
 										{feature.title}

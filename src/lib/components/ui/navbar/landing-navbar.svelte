@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import * as Sheet from '$lib/components/ui/sheet';
 	import { onMount } from 'svelte';
 	import Button from '../button/button.svelte';
@@ -10,13 +12,19 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { SignOut } from "@auth/sveltekit/components"
 
-	export let className = '';
+	interface Props {
+		className?: string;
+	}
+
+	let { className = '' }: Props = $props();
 
 	// States
-	let scrolled = false;
+	let scrolled = $state(false);
 
-	let open = false;
-	$: if ($navigating) open = false;
+	let open = $state(false);
+	run(() => {
+		if ($navigating) open = false;
+	});
 
 	// Constants
 	const scrolledStyle = 'shadow-sm bg-opacity-80 backdrop-blur-xl';
@@ -80,7 +88,9 @@
 											<DropdownMenu.Item>Preferences</DropdownMenu.Item>
 											<DropdownMenu.Separator />
 											<SignOut>
-												<DropdownMenu.Item slot="submitButton" class="text-red-900 w-[200px]">Sign Out</DropdownMenu.Item>
+												{#snippet submitButton()}
+																								<DropdownMenu.Item  class="text-red-900 w-[200px]">Sign Out</DropdownMenu.Item>
+																							{/snippet}
 											</SignOut>
 										</DropdownMenu.Group>
 									</DropdownMenu.Content>

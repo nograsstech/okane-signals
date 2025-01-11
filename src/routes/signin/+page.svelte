@@ -7,7 +7,7 @@
 	import { onMount } from 'svelte';
 	import * as Card from '$lib/components/ui/card';
 
-	let visible = false;
+	let visible = $state(false);
 	
 	// on mount, set visibel to true
 	onMount(() => {
@@ -38,28 +38,32 @@
 					</div>
 					<div class="grid gap-4 mt-4">
 						<SignIn provider="google">
-							<div slot="submitButton">
-								<Button variant="outline" type="submit" class="relative w-80">
-									<img
-										src="/images/icons/google.svg"
-										alt="Sign in with Google"
-										class="absolute left-2 h-5 w-5"
-									/>
-									<span>Sign in with Google</span>
-								</Button>
-							</div>
+							{#snippet submitButton()}
+														<div >
+									<Button variant="outline" type="submit" class="relative w-80">
+										<img
+											src="/images/icons/google.svg"
+											alt="Sign in with Google"
+											class="absolute left-2 h-5 w-5"
+										/>
+										<span>Sign in with Google</span>
+									</Button>
+								</div>
+													{/snippet}
 						</SignIn>
 						<SignIn provider="github">
-							<div slot="submitButton">
-								<Button variant="outline" type="submit" class="relative w-80">
-									<img
-										src="/images/icons/github.svg"
-										alt="Sign in with GitHub"
-										class="absolute left-2 h-5 w-5 rounded-xl bg-white"
-									/>
-									<span>Sign in with GitHub</span>
-								</Button>
-							</div>
+							{#snippet submitButton()}
+														<div >
+									<Button variant="outline" type="submit" class="relative w-80">
+										<img
+											src="/images/icons/github.svg"
+											alt="Sign in with GitHub"
+											class="absolute left-2 h-5 w-5 rounded-xl bg-white"
+										/>
+										<span>Sign in with GitHub</span>
+									</Button>
+								</div>
+													{/snippet}
 						</SignIn>
 					</div>
 				</Card.Root>

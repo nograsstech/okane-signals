@@ -1,5 +1,7 @@
 <!-- MARK: Script -->
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { createTable, DataBodyRow, Render, Subscribe } from 'svelte-headless-table';
 	import {
 		addPagination,
@@ -24,9 +26,13 @@
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 
-	export let data: KeyStrategyBacktestStats[];
-	export let initialSortKeys: SortKey[] = [];
-	export let initialPageIndex: number = 0;
+	interface Props {
+		data: KeyStrategyBacktestStats[];
+		initialSortKeys?: SortKey[];
+		initialPageIndex?: number;
+	}
+
+	let { data = $bindable(), initialSortKeys = [], initialPageIndex = 0 }: Props = $props();
 
 	data = data.map((strategy, index) => {
 		strategy['✨'] = '';
@@ -40,7 +46,7 @@
 	});
 
 	// States
-	let mounted = false;
+	let mounted = $state(false);
 
 	// Theme
 	let selectedTheme = '';
@@ -154,10 +160,12 @@
 		mounted = true;
 	});
 
-	$: if (browser) {
-		window.localStorage.setItem('sortkeys', JSON.stringify($sortKeys));
-		window.sessionStorage.setItem('initialStrategyPageIndex', JSON.stringify($pageIndex));
-	}
+	run(() => {
+		if (browser) {
+			window.localStorage.setItem('sortkeys', JSON.stringify($sortKeys));
+			window.sessionStorage.setItem('initialStrategyPageIndex', JSON.stringify($pageIndex));
+		}
+	});
 </script>
 
 <div class="mt-8">
@@ -202,16 +210,18 @@
 					<Subscribe rowAttrs={headerRow.attrs()}>
 						<Table.Row>
 							{#each headerRow.cells as cell (cell.id)}
-								<Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
-									<Table.Head {...attrs} class=" p-0">
-										<Button variant="ghost" on:click={props.sort.toggle}>
-											<Render of={cell.render()} />
-											{#if props.sort.order}
-												<ArrowUpDown class={'ml-2 h-4 w-4'} />
-											{/if}
-										</Button>
-									</Table.Head>
-								</Subscribe>
+								<Subscribe attrs={cell.attrs()}  props={cell.props()} >
+									{#snippet children({ attrs, props })}
+																		<Table.Head {...attrs} class=" p-0">
+											<Button variant="ghost" on:click={props.sort.toggle}>
+												<Render of={cell.render()} />
+												{#if props.sort.order}
+													<ArrowUpDown class={'ml-2 h-4 w-4'} />
+												{/if}
+											</Button>
+										</Table.Head>
+																										{/snippet}
+																</Subscribe>
 							{/each}
 						</Table.Row>
 					</Subscribe>
@@ -219,51 +229,55 @@
 			</Table.Header>
 			<Table.Body {...$tableBodyAttrs}>
 				{#each $pageRows as row, i (row.id)}
-					<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-						<Table.Row {...rowAttrs} class="relative" on:click={() => goto(`/strategy/${notypecheck(row).original.id}`)}>
-							{#each row.cells as cell (cell.id)}
-								<Subscribe attrs={cell.attrs()} let:attrs>
-									<Table.Cell {...attrs} class="h-14 p-0">
-										<a
-											data-sveltekit-preload-code="off"
-											href={`/strategy/${notypecheck(row).original.id}`}
-											class={cn(
-												'pl-4 ',
-												// General Styling
-												NUMBER_REGEX.test(cell.render().toString()) &&
-													parseFloat(cell.render().toString()) > 0 &&
-													'text-positive',
-												NUMBER_REGEX.test(cell.render().toString()) &&
-													parseFloat(cell.render().toString()) < 0 &&
-													'text-negative',
-												// Win rate styling
-												cell.id === 'winRate' &&
-													parseFloat(cell.render().toString()) >= 50 &&
-													'text-positive',
-												cell.id === 'winRate' &&
-													parseFloat(cell.render().toString()) < 50 &&
-													'text-negative',
-												// Drawdown styling
-												cell.id === 'averageDrawdownPercentage' &&
-													parseFloat(cell.render().toString()) >= -10 &&
-													'text-positive',
-												cell.id === 'averageDrawdownPercentage' &&
-													parseFloat(cell.render().toString()) < -10 &&
-													'text-negative'
-											)}
-										>
-											<Render of={cell.render()} />
-										</a>
-									</Table.Cell>
-								</Subscribe>
-							{/each}
-							<a
-								data-sveltekit-preload-code="off"
-								href={`/strategy/${notypecheck(row).original.id}`}
-								class="absolute left-0 h-14 w-full">&nbsp;</a
-							>
-						</Table.Row>
-					</Subscribe>
+					<Subscribe rowAttrs={row.attrs()} >
+						{#snippet children({ rowAttrs })}
+												<Table.Row {...rowAttrs} class="relative" on:click={() => goto(`/strategy/${notypecheck(row).original.id}`)}>
+								{#each row.cells as cell (cell.id)}
+									<Subscribe attrs={cell.attrs()} >
+										{#snippet children({ attrs })}
+																		<Table.Cell {...attrs} class="h-14 p-0">
+												<a
+													data-sveltekit-preload-code="off"
+													href={`/strategy/${notypecheck(row).original.id}`}
+													class={cn(
+														'pl-4 ',
+														// General Styling
+														NUMBER_REGEX.test(cell.render().toString()) &&
+															parseFloat(cell.render().toString()) > 0 &&
+															'text-positive',
+														NUMBER_REGEX.test(cell.render().toString()) &&
+															parseFloat(cell.render().toString()) < 0 &&
+															'text-negative',
+														// Win rate styling
+														cell.id === 'winRate' &&
+															parseFloat(cell.render().toString()) >= 50 &&
+															'text-positive',
+														cell.id === 'winRate' &&
+															parseFloat(cell.render().toString()) < 50 &&
+															'text-negative',
+														// Drawdown styling
+														cell.id === 'averageDrawdownPercentage' &&
+															parseFloat(cell.render().toString()) >= -10 &&
+															'text-positive',
+														cell.id === 'averageDrawdownPercentage' &&
+															parseFloat(cell.render().toString()) < -10 &&
+															'text-negative'
+													)}
+												>
+													<Render of={cell.render()} />
+												</a>
+											</Table.Cell>
+																											{/snippet}
+																</Subscribe>
+								{/each}
+								<a
+									data-sveltekit-preload-code="off"
+									href={`/strategy/${notypecheck(row).original.id}`}
+									class="absolute left-0 h-14 w-full">&nbsp;</a
+								>
+							</Table.Row>
+																	{/snippet}
+										</Subscribe>
 				{/each}
 			</Table.Body>
 		</Table.Root>

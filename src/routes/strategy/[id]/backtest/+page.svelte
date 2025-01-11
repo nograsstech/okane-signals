@@ -7,7 +7,7 @@
 	import { onMount } from 'svelte';
 	import Skeleton from '@/components/ui/skeleton/skeleton.svelte';
 
-	export let data;
+	let { data } = $props();
 	let htmlContent = data.backtestHTML;
 </script>
 

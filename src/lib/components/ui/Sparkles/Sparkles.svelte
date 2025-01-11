@@ -3,12 +3,23 @@
 	import { Motion } from 'svelte-motion';
 	let randomMove = () => Math.random() * 4 - 2;
 
-	export let minSize: number = 0.6;
-	export let maxSize: number = 1.5;
-	export let speed: number = 3;
-	export let particleColor: string = '#ffffff';
-	export let particleDensity: number | undefined = 200;
-	export let className: string | undefined = undefined;
+	interface Props {
+		minSize?: number;
+		maxSize?: number;
+		speed?: number;
+		particleColor?: string;
+		particleDensity?: number | undefined;
+		className?: string | undefined;
+	}
+
+	let {
+		minSize = 0.6,
+		maxSize = 1.5,
+		speed = 3,
+		particleColor = '#ffffff',
+		particleDensity = 200,
+		className = undefined
+	}: Props = $props();
 
 	function getRandomValue() {
 		return minSize + Math.random() * (maxSize - minSize);
@@ -19,7 +30,7 @@
 	<div class="absolute inset-0">
 		{#each [...Array(particleDensity)] as _, i (`star-${i}`)}
 			<Motion
-				let:motion
+				
 				animate={{
 					top: `calc(${Math.random() * 100}% + ${randomMove()}px)`,
 					left: `calc(${Math.random() * 100}% + ${randomMove()}px)`,
@@ -32,12 +43,14 @@
 					ease: 'linear'
 				}}
 			>
-				<span
-					use:motion
-					class="inline-block"
-					style={`position: absolute; width: ${getRandomValue()}px; height: ${getRandomValue()}px; background-color: ${particleColor}; border-radius: 50%; top: ${Math.random() * 100}%; left: ${Math.random() * 100}%;`}
-				></span>
-			</Motion>
+				{#snippet children({ motion })}
+								<span
+						use:motion
+						class="inline-block"
+						style={`position: absolute; width: ${getRandomValue()}px; height: ${getRandomValue()}px; background-color: ${particleColor}; border-radius: 50%; top: ${Math.random() * 100}%; left: ${Math.random() * 100}%;`}
+					></span>
+											{/snippet}
+						</Motion>
 		{/each}
 	</div>
 </div>
