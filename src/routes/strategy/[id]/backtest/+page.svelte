@@ -8,10 +8,12 @@
 	import Skeleton from '@/components/ui/skeleton/skeleton.svelte';
 
 	export let data;
-	let htmlContent = data.backtestData[0].html;
+	let htmlContent = data.backtestHTML;
 </script>
 
-{@html htmlContent}
+<div class="fixed left-0 top-0 h-screen w-screen pt-20">
+	{@html htmlContent}
+</div>
 
 <div>
 	<script>
