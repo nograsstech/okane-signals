@@ -19,7 +19,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 					id: profile.sub,
 					name: profile.name,
 					email: profile.email,
-					image: profile.picture,
+					image: profile.picture
 				};
 				return profileShape;
 			},
@@ -34,6 +34,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 	},
 	callbacks: {
 		async signIn({ user }) {
+			console.log('HERE', user);
 			// Adds `role` field for role-based access control because the stupid adaptor doesn't do it automatically it should.
 			const _user = user as AdapterUser & { role: string };
 
@@ -54,7 +55,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 				// Or you can return a URL to redirect to:
 				// return '/unauthorized'
 			}
-		},
+		}
 		// async session({ session, user }) {
 		// 	const getSessionWithRole = async (user: AdapterUser & { role: string }) => {
 		// 		if (!user.role && user.id) {
