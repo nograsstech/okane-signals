@@ -23,7 +23,6 @@ export async function load({ params, fetch }) {
 
 			// Decompress the data using pako
 			const decompressedData = pako.inflate(compressedData, { to: 'string' });
-			console.log('Decompressed data:', decompressedData);
 			return {
 				backtestHTML: decompressedData
 			};
