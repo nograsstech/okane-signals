@@ -19,8 +19,13 @@
 	// Add type annotation for TradingViewSymbolMapper
 	const symbolMapper: { [key: string]: string } = TradingViewSymbolMapper;
 
-	// Data
-	export let data;
+	
+	interface Props {
+		// Data
+		data: any;
+	}
+
+	let { data }: Props = $props();
 </script>
 
 <Button href="/strategy" variant="link" class="my-4 px-0">

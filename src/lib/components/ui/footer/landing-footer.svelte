@@ -2,7 +2,11 @@
 	type Props = {
 		date: number;
 	};
-	export let date: number;
+	interface Props {
+		date: number;
+	}
+
+	let { date }: Props = $props();
 </script>
 
 <footer class="">

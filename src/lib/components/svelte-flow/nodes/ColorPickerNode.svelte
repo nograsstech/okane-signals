@@ -5,8 +5,12 @@
 	import * as Sheet from '$lib/components/ui/sheet';
 	import Button from '../../ui/button/button.svelte';
 
-	export let data: { color: Writable<string> };
-	export let id: $$Props['id'];
+	interface Props {
+		data: { color: Writable<string> };
+		id: $$Props['id'];
+	}
+
+	let { data, id }: Props = $props();
 
 	type $$Props = NodeProps & { data: { color: Writable<string> } };
 	type InputChangeEvent = Event & {
@@ -30,7 +34,7 @@
 	<Handle type="source" position={Position.Left} />
 	<div class="h-fit w-fit flex flex-col rounded-sm border border-black bg-slate-200 p-2">
 		color: <strong>{$color}</strong>
-		<input class="nodrag" type="color" on:input={handleInput} value={$color} />
+		<input class="nodrag" type="color" oninput={handleInput} value={$color} />
 
 		<Sheet.Trigger class="w-fit h-fit">
 			<Button variant="ghost" class="mt-2">

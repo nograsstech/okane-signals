@@ -17,7 +17,11 @@
 	import Skeleton from '../ui/skeleton/skeleton.svelte';
 	import type { SignalResponseDTO } from '@/okane-finance-api/generated';
 
-	export let signalsData: { signals: SignalResponseDTO };
+	interface Props {
+		signalsData: { signals: SignalResponseDTO };
+	}
+
+	let { signalsData }: Props = $props();
 
 	const formattedData = signalsData.signals.data.signals.allSignals.map((signal) => {
 		return {
@@ -26,7 +30,7 @@
 		};
 	}).reverse();
 	// States
-	let mounted = false;
+	let mounted = $state(false);
 
 	// Theme
 	let selectedTheme = '';
@@ -163,11 +167,13 @@
 					<Subscribe rowAttrs={headerRow.attrs()}>
 						<Table.Row>
 							{#each headerRow.cells as cell (cell.id)}
-								<Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
-									<Table.Head {...attrs} class="pl-2">
-										<Render of={cell.render()} />
-									</Table.Head>
-								</Subscribe>
+								<Subscribe attrs={cell.attrs()}  props={cell.props()} >
+									{#snippet children({ attrs, props })}
+																		<Table.Head {...attrs} class="pl-2">
+											<Render of={cell.render()} />
+										</Table.Head>
+																										{/snippet}
+																</Subscribe>
 							{/each}
 						</Table.Row>
 					</Subscribe>
@@ -175,33 +181,37 @@
 			</Table.Header>
 			<Table.Body {...$tableBodyAttrs}>
 				{#each $pageRows as row, i (row.id)}
-					<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-						<Table.Row {...rowAttrs} class="relative">
-							{#each row.cells as cell (cell.id)}
-								<Subscribe attrs={cell.attrs()} let:attrs>
-									<Table.Cell {...attrs} class="h-14 p-0">
-										{#if cell.column.id === 'gmtTime'}
-											<div class="pl-2 text-xs py-2 lg:text-md lg:py-0">
-												<div>{new Date(cell.render().toString()).toLocaleString()}</div>
-											</div>
-										{:else if cell.column.id === 'totalSignal'}
-											<div class="pl-2">
-												{#if cell.render() === "2"}
-													<Badge class="flex gap-2 w-fit pr-4 py-1 bg-positive"><ArrowUpIcon class="h-4 w-4"/><span>Buy</span></Badge>
-												{:else if cell.render() === "1"}
-												<Badge class="flex gap-2 w-fit pr-4 py-1 bg-negative"><ArrowDownIcon class="h-4 w-4"/><span>Sell</span></Badge>
+					<Subscribe rowAttrs={row.attrs()} >
+						{#snippet children({ rowAttrs })}
+												<Table.Row {...rowAttrs} class="relative">
+								{#each row.cells as cell (cell.id)}
+									<Subscribe attrs={cell.attrs()} >
+										{#snippet children({ attrs })}
+																		<Table.Cell {...attrs} class="h-14 p-0">
+												{#if cell.column.id === 'gmtTime'}
+													<div class="pl-2 text-xs py-2 lg:text-md lg:py-0">
+														<div>{new Date(cell.render().toString()).toLocaleString()}</div>
+													</div>
+												{:else if cell.column.id === 'totalSignal'}
+													<div class="pl-2">
+														{#if cell.render() === "2"}
+															<Badge class="flex gap-2 w-fit pr-4 py-1 bg-positive"><ArrowUpIcon class="h-4 w-4"/><span>Buy</span></Badge>
+														{:else if cell.render() === "1"}
+														<Badge class="flex gap-2 w-fit pr-4 py-1 bg-negative"><ArrowDownIcon class="h-4 w-4"/><span>Sell</span></Badge>
+														{/if}
+													</div>
+												{:else}
+													<div class="pl-2">
+														<Render of={cell.render()} />
+													</div>
 												{/if}
-											</div>
-										{:else}
-											<div class="pl-2">
-												<Render of={cell.render()} />
-											</div>
-										{/if}
-									</Table.Cell>
-								</Subscribe>
-							{/each}
-						</Table.Row>
-					</Subscribe>
+											</Table.Cell>
+																											{/snippet}
+																</Subscribe>
+								{/each}
+							</Table.Row>
+																	{/snippet}
+										</Subscribe>
 				{/each}
 			</Table.Body>
 		</Table.Root>

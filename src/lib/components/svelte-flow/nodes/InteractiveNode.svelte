@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { stopPropagation } from 'svelte/legacy';
+
 	import { Handle, Position, type NodeProps, type Node } from '@xyflow/svelte';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import * as ContextMenu from '$lib/components/ui/context-menu';
@@ -8,31 +10,50 @@
 
 	// Supress unknown props warnings
 	type $$Props = NodeProps;
-	export let id: $$Props['id'];
 	id;
-	export let data: $$Props['data'];
 	data as { label: string };
-	export let dragHandle: $$Props['dragHandle'] = undefined;
 	dragHandle;
-	export let type: $$Props['type'] = undefined;
 	type;
-	export let selected: $$Props['selected'] = undefined;
 	selected;
-	export let isConnectable: $$Props['isConnectable'] = true;
 	isConnectable;
-	export let zIndex: $$Props['zIndex'] = 0;
 	zIndex;
-	export let width: $$Props['width'] = undefined;
 	width;
-	export let height: $$Props['height'] = undefined;
 	height;
-	export let dragging: $$Props['dragging'];
 	dragging;
-	export let targetPosition: $$Props['targetPosition'] = undefined;
 	targetPosition;
-	export let sourcePosition: $$Props['sourcePosition'] = undefined;
+	interface Props {
+		id: $$Props['id'];
+		data: $$Props['data'];
+		dragHandle?: $$Props['dragHandle'];
+		type?: $$Props['type'];
+		selected?: $$Props['selected'];
+		isConnectable?: $$Props['isConnectable'];
+		zIndex?: $$Props['zIndex'];
+		width?: $$Props['width'];
+		height?: $$Props['height'];
+		dragging: $$Props['dragging'];
+		targetPosition?: $$Props['targetPosition'];
+		sourcePosition?: $$Props['sourcePosition'];
+		children?: import('svelte').Snippet;
+	}
+
+	let {
+		id,
+		data,
+		dragHandle = undefined,
+		type = undefined,
+		selected = undefined,
+		isConnectable = true,
+		zIndex = 0,
+		width = undefined,
+		height = undefined,
+		dragging,
+		targetPosition = undefined,
+		sourcePosition = undefined,
+		children
+	}: Props = $props();
 	sourcePosition;
-	let buttonElement: HTMLButtonElement;
+	let buttonElement: HTMLButtonElement = $state();
 
 	function setNodeContext() {
 		selectedContext.set('node');
@@ -58,11 +79,11 @@
 >
 	<button
 		bind:this={buttonElement}
-		on:contextmenu|stopPropagation={setNodeContext}
-		on:click={setNodeContext}
+		oncontextmenu={stopPropagation(setNodeContext)}
+		onclick={setNodeContext}
 	>
 		<ContextMenu.Trigger>
-			<slot />
+			{@render children?.()}
 		</ContextMenu.Trigger>
 	</button>
 </div>

@@ -21,7 +21,7 @@
   }
 </script>
 
-<!-- svelte-ignore css-unused-selector -->
+<!-- svelte-ignore css_unused_selector -->
 <style>
   iframe {
     width: 100%;

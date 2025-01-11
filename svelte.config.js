@@ -23,6 +23,11 @@ const config = {
 		alias: {
 			"@/*": "./src/lib/*",
 		}
+	},
+	compilerOptions: {
+		compatibility: {
+			componentApi: 4
+		}
 	}
 };
 

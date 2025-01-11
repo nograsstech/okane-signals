@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {
 		SvelteFlow,
 		Background,
@@ -32,8 +34,8 @@
 	};
 
 	// States
-	let pageX = 0;
-	let pageY = 0;
+	let pageX = $state(0);
+	let pageY = $state(0);
 
 	const nodeData = useNodesData($nodes?.map((node) => node.id));
 	const edgesData = useEdges();
@@ -48,13 +50,13 @@
 		}, pageX, pageY);
 	}
 
-	$: {
+	run(() => {
 		debounce(() => {
 			console.log($nodeData, $edgesData);
 			window.localStorage.setItem('editor-nodes', JSON.stringify($nodes));
 			window.localStorage.setItem('editor-edges', JSON.stringify($edges));
 		}, 300);
-	}
+	});
 
 	function handleDeleteNode() {
 		deleteNode($nodeContext.id, $nodes);
@@ -65,11 +67,11 @@
 	}
 </script>
 
-<svelte:window on:mousemove={(e) => ({ pageX, pageY } = e)} />
+<svelte:window onmousemove={(e) => ({ pageX, pageY } = e)} />
 <ContextMenu.Root>
 	<Sheet.Root>
 		<!-- SvelteFlow Editor Area -->
-		<div role="button" tabindex={0} on:keyup={null} on:contextmenu={clickButton}>
+		<div role="button" tabindex={0} onkeyup={null} oncontextmenu={clickButton}>
 			<ContextMenu.Trigger>
 				<ContextMenu.Root>
 					<main class="h-screen pt-16 text-black">
@@ -95,7 +97,7 @@
 			<ContextMenu.Content>
 				{#each OkaneNodeOptions as option}
 					<ContextMenu.Item on:click={() => handleAddNode(option.nodeType)}>
-						<svelte:component this={option.icon} class="h-4 w-4 mr-3" />
+						<option.icon class="h-4 w-4 mr-3" />
 						{option.label}</ContextMenu.Item
 					>
 				{/each}

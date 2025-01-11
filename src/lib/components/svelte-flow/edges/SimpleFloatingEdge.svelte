@@ -1,21 +1,27 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
   import { getBezierPath, useNodes, type Node, type EdgeProps } from '@xyflow/svelte';
   import { getEdgeParams } from './utils';
 
   type $$Props = EdgeProps;
 
-  export let source: $$Props['source'];
-  export let target: $$Props['target'];
-  export let id: $$Props['id'];
+  interface Props {
+    source: $$Props['source'];
+    target: $$Props['target'];
+    id: $$Props['id'];
+  }
+
+  let { source, target, id }: Props = $props();
 
   const nodes = useNodes();
 
-  let sourceNode: Node | undefined;
-  let targetNode: Node | undefined;
+  let sourceNode: Node | undefined = $state();
+  let targetNode: Node | undefined = $state();
 
-  let edgePath: string | undefined;
+  let edgePath: string | undefined = $state();
 
-  $: {
+  run(() => {
     $nodes.forEach((node) => {
       if (node.id === source) sourceNode = node;
       if (node.id === target) targetNode = node;
@@ -33,7 +39,7 @@
     } else {
       edgePath = undefined;
     }
-  }
+  });
 </script>
 
 <path class="svelte-flow__edge-path" {id} d={edgePath} />

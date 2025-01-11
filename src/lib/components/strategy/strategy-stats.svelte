@@ -14,11 +14,16 @@
 	import { quintOut } from 'svelte/easing';
 	import Badge from '../ui/badge/badge.svelte';
 
-	// Props
-	export let backtestData: KeyStrategyBacktestStats;
+	
+	interface Props {
+		// Props
+		backtestData: KeyStrategyBacktestStats;
+	}
+
+	let { backtestData }: Props = $props();
 
 	// States
-	let collapsibleOpen = false;
+	let collapsibleOpen = $state(false);
 </script>
 
 <Collapsible.Root bind:open={collapsibleOpen}>
