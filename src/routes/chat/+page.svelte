@@ -7,7 +7,7 @@
 	import Button from '@/components/ui/button/button.svelte';
 	// @ts-ignore
 	import { marked } from 'marked';
-	import { env } from '$env/dynamic/private';
+	import { env } from '$env/dynamic/public';
 
 	// States
 	let messages: string[] = [];
@@ -39,7 +39,7 @@
 		}
 
 		// Call the /chat endpoint to get the initial chat history
-		fetch(`${env.OKANE_FINANCE_API_URL}/ai/chat?thread_id=${threadId}`)
+		fetch(`${env.PUBLIC_OKANE_FINANCE_API_URL}/ai/chat?thread_id=${threadId}`)
 			.then((response) => response.json())
 			.then((data) => {
 				console.log('Initial chat history:', data);
@@ -62,7 +62,7 @@
 
 	const getChatResponse = (inputValue: string) => {
 		loading = true;
-		fetch(`${env.OKANE_FINANCE_API_URL}/ai/chatbot-with-tool`, {
+		fetch(`${env.PUBLIC_OKANE_FINANCE_API_URL}/ai/chatbot-with-tool`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
