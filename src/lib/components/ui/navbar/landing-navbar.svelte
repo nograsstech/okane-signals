@@ -11,6 +11,8 @@
 	import { navigating } from '$app/stores';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { SignOut } from "@auth/sveltekit/components"
+	import { Brain, Bot, Pencil } from 'lucide-svelte';
+
 
 	interface Props {
 		className?: string;
@@ -64,8 +66,12 @@
 						</a>
 					</div>
 					<div class="hidden content-center items-center justify-center sm:flex lg:space-x-2">
-						<Button href="/strategy" variant="ghost">Strategy</Button>
-						<Button href="/editor" variant="ghost">Editor</Button>
+						<Button href="/strategy" variant="ghost" class="flex gap-1">
+							<Brain size={16} /> Strategy</Button>
+						<Button href="/chat" variant="ghost" class="flex gap-1">
+							<Bot size={16}/> Okane AI Agent</Button>
+						<Button href="/editor" variant="ghost" class="flex gap-1">
+							<Pencil size={16}/> Editor</Button>
 					</div>
 				</div>
 				<div class="flex w-48 items-center justify-end gap-4">
