@@ -42,6 +42,15 @@ export interface ArchiveTickerNewsNewsGetRequest {
     sort?: Sort;
 }
 
+export interface ArchiveTickerNewsNewsYfinanceGetRequest {
+    ticker: string;
+    limit?: number;
+}
+
+export interface GetNewsNewsPeriodicSentimentGetRequest {
+    ticker: string;
+}
+
 /**
  * 
  */
@@ -134,6 +143,88 @@ export class NewsApi extends runtime.BaseAPI {
      */
     async archiveTickerNewsNewsGet(requestParameters: ArchiveTickerNewsNewsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AlphaVantageNewsResponseDTO> {
         const response = await this.archiveTickerNewsNewsGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Archive Ticker News
+     */
+    async archiveTickerNewsNewsYfinanceGetRaw(requestParameters: ArchiveTickerNewsNewsYfinanceGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters['ticker'] == null) {
+            throw new runtime.RequiredError(
+                'ticker',
+                'Required parameter "ticker" was null or undefined when calling archiveTickerNewsNewsYfinanceGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['ticker'] != null) {
+            queryParameters['ticker'] = requestParameters['ticker'];
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/news/yfinance`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Archive Ticker News
+     */
+    async archiveTickerNewsNewsYfinanceGet(requestParameters: ArchiveTickerNewsNewsYfinanceGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.archiveTickerNewsNewsYfinanceGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get News
+     */
+    async getNewsNewsPeriodicSentimentGetRaw(requestParameters: GetNewsNewsPeriodicSentimentGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: any; }>> {
+        if (requestParameters['ticker'] == null) {
+            throw new runtime.RequiredError(
+                'ticker',
+                'Required parameter "ticker" was null or undefined when calling getNewsNewsPeriodicSentimentGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['ticker'] != null) {
+            queryParameters['ticker'] = requestParameters['ticker'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/news/periodic-sentiment`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * Get News
+     */
+    async getNewsNewsPeriodicSentimentGet(requestParameters: GetNewsNewsPeriodicSentimentGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: any; }> {
+        const response = await this.getNewsNewsPeriodicSentimentGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

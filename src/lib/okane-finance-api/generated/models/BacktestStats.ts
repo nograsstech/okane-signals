@@ -24,12 +24,6 @@ export interface BacktestStats {
      * @type {any}
      * @memberof BacktestStats
      */
-    notificationsOn: boolean | null;
-    /**
-     * 
-     * @type {any}
-     * @memberof BacktestStats
-     */
     ticker: any | null;
     /**
      * 

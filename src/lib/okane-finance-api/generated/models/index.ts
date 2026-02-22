@@ -7,6 +7,7 @@ export * from './BacktestStats';
 export * from './End';
 export * from './HTTPValidationError';
 export * from './Limit';
+export * from './MessageRequest';
 export * from './Parameters';
 export * from './Period';
 export * from './RootResponse';

@@ -61,7 +61,7 @@ export interface BacktestSignalsBacktestGetRequest {
     backtestProcessUuid?: BacktestProcessUuid;
 }
 
-export interface BacktestSignalsBacktestSyncGetRequest {
+export interface BacktestSyncSignalsBacktestSyncGetRequest {
     ticker: string;
     interval: string;
     period?: Period;
@@ -148,6 +148,9 @@ export class SignalsApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
         const response = await this.request({
             path: `/signals/backtest`,
             method: 'GET',
@@ -171,20 +174,20 @@ export class SignalsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Backtest
+     * Backtest Sync
      */
-    async backtestSignalsBacktestSyncGetRaw(requestParameters: BacktestSignalsBacktestSyncGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BacktestResponseDTO>> {
+    async backtestSyncSignalsBacktestSyncGetRaw(requestParameters: BacktestSyncSignalsBacktestSyncGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BacktestResponseDTO>> {
         if (requestParameters['ticker'] == null) {
             throw new runtime.RequiredError(
                 'ticker',
-                'Required parameter "ticker" was null or undefined when calling backtestSignalsBacktestSyncGet().'
+                'Required parameter "ticker" was null or undefined when calling backtestSyncSignalsBacktestSyncGet().'
             );
         }
 
         if (requestParameters['interval'] == null) {
             throw new runtime.RequiredError(
                 'interval',
-                'Required parameter "interval" was null or undefined when calling backtestSignalsBacktestSyncGet().'
+                'Required parameter "interval" was null or undefined when calling backtestSyncSignalsBacktestSyncGet().'
             );
         }
 
@@ -228,6 +231,9 @@ export class SignalsApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
         const response = await this.request({
             path: `/signals/backtest/sync`,
             method: 'GET',
@@ -239,10 +245,10 @@ export class SignalsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Backtest
+     * Backtest Sync
      */
-    async backtestSignalsBacktestSyncGet(requestParameters: BacktestSignalsBacktestSyncGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BacktestResponseDTO> {
-        const response = await this.backtestSignalsBacktestSyncGetRaw(requestParameters, initOverrides);
+    async backtestSyncSignalsBacktestSyncGet(requestParameters: BacktestSyncSignalsBacktestSyncGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BacktestResponseDTO> {
+        const response = await this.backtestSyncSignalsBacktestSyncGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -333,6 +339,9 @@ export class SignalsApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
         const response = await this.request({
             path: `/signals/strategy-notification-job`,
             method: 'POST',
